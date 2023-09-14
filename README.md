@@ -1,2 +1,2 @@
 # FoCSTools
-Helping FoCS students visualize key concepts
+Website for FoCS students
