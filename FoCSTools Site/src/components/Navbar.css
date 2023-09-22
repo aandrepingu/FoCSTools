@@ -10,3 +10,9 @@
   grid-template-rows: 1fr;
   grid-template-columns: 1fr 1fr 1fr;
 }
+
+.logo {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}

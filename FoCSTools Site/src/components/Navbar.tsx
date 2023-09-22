@@ -4,8 +4,8 @@ export default function Navbar() {
   return (
     <>
       <div className="navbar">
-        <div className="flex" style={{ paddingLeft: "20px" }}>
-          LOGO
+        <div style={{ width: "30px", height: "30px" }}>
+          <img src="logo.svg" className="logo" />
         </div>
         <div className="flex" style={{ justifyContent: "center" }}>
           <button>1</button>
