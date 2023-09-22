@@ -6,7 +6,7 @@
   min-width: 100%;
   height: 40px;
   align-items: center;
-  background-color: #213547;
+  background-color: #e3700c;
   grid-template-rows: 1fr;
   grid-template-columns: 1fr 1fr 1fr;
 }

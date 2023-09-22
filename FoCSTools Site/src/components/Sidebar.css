@@ -1,0 +1,10 @@
+.sidebar {
+    position: absolute;
+    display: grid;
+    top: 65px;
+    left: 25px;
+    min-width: 20%;
+    height: 750px;
+    align-items: normal;
+    background-color: #797575;
+  }
