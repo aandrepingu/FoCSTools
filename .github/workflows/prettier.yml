@@ -1,0 +1,30 @@
+name: Check Prettier
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Use node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: install prettier
+        run: npm install prettier@^2.8.3
+
+      - name: prettier check
+        run: npx prettier --check "**/*.{js,ts,tsx}"
