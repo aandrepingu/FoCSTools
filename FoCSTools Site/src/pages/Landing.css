@@ -1,0 +1,10 @@
+.landinglogo {
+  width: 50vw;
+  height: 50vw;
+  padding: 0px;
+  object-fit: contain;
+}
+
+body {
+  background-color: #213547;
+}
