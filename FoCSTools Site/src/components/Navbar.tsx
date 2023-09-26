@@ -4,8 +4,8 @@ export default function Navbar() {
   return (
     <>
       <div className="navbar">
-        <div className="flex" style={{ paddingLeft: "40px",paddingTop: "20px" }}>
-                  
+        <div className="flex" style={{ paddingLeft: "20px" }}>
+          LOGO
         </div>
         <div className="flex" style={{ justifyContent: "center" }}>
           <button>1</button>
@@ -14,16 +14,11 @@ export default function Navbar() {
         </div>
         <div
           className="flex"
-          style={{ justifyContent: "flex-end", paddingRight: "40px" }}
+          style={{ justifyContent: "flex-end", paddingRight: "20px" }}
         >
           save
-        </div>
-        <div className="" style={{ justifyContent: "center" }}>
-          helloatesting rn
-          
         </div>
       </div>
     </>
   );
-
 }
