@@ -1,42 +1,26 @@
 import "./App.css";
 import Navbar from "./components/Navbar";
-
-export default function App() {
-  return (
-    <>
-      <Navbar />
-    </>
-  );
-}
-/* 
-import './App.css';
-import NavBar from './components/Navbar';
-import Home from './pages/Home'
+import Test from "./pages/Test";
 import { useState, useEffect } from 'react';
 
-function App() {
+export default function App() {
   const paths = {
-    "/placeholder": <Home />,
+    "/placeholder": <Test />,
   };
 
-  let [component, setComponent] = useState(<Home />);
+  let [component, setComponent] = useState(<Test />);
 
   useEffect(() => {
     const path = window.location.pathname;
     if (path in paths) {
       setComponent(paths[path]);
     } else {
-      setComponent(<Home />);
+      setComponent(<Test />);
     }
   }, []);
   return (
     <>
-      <NavBar />
-      {component}
+      <Navbar />
     </>
-
   );
 }
-
-export default App
-*/
