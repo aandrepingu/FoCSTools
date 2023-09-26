@@ -1,11 +1,15 @@
 import "./App.css";
 import Navbar from "./components/Navbar";
 import Test from "./pages/Test";
+import DFA from "./pages/DFA";
+import TuringMachine from "./pages/TuringMachine";
 import { useState, useEffect } from 'react';
 
 export default function App() {
   const paths : {[id : string] : JSX.Element } = {
-    "/placeholder" : <Test />
+    "/placeholder" : <Test />,
+    "/DFA" : <DFA />,
+    "/TuringMachine" : <TuringMachine />
   };
 
   const [component, setComponent] = useState<JSX.Element>(<Test />);
