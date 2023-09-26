@@ -4,14 +4,14 @@ import Test from "./pages/Test";
 import { useState, useEffect } from 'react';
 
 export default function App() {
-  const paths = {
-    "/placeholder": <Test />,
+  const paths : {[id : string] : JSX.Element } = {
+    "/placeholder" : <Test />
   };
 
-  let [component, setComponent] = useState(<Test />);
+  const [component, setComponent] = useState<JSX.Element>(<Test />);
 
   useEffect(() => {
-    const path = window.location.pathname;
+    const path : string = window.location.pathname;
     if (path in paths) {
       setComponent(paths[path]);
     } else {
@@ -21,6 +21,7 @@ export default function App() {
   return (
     <>
       <Navbar />
+      {component}
     </>
   );
 }
