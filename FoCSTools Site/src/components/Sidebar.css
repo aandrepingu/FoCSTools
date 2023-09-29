@@ -1,10 +1,32 @@
 .sidebar {
-    position: absolute;
-    display: grid;
-    top: 65px;
-    left: 25px;
-    min-width: 20%;
-    height: 750px;
-    align-items: normal;
-    background-color: #797575;
-  }
+  display: grid;
+  min-width: 25%;
+  height: 100%;
+  align-items: normal;
+  background-color: #797575;
+}
+
+.sidebar_Button {
+  position: relative;
+  /*border: 5px;*/
+  height: 70%;
+  width: 20%;
+  margin: 2%;
+}
+
+.sidebar_Minimize_Button {
+  position: absolute;
+  background-color: #d6d6d694;
+  /*border: 5px;*/
+  height: 200px;
+  width: 100px;
+  top: 55px;
+}
+
+.flexBox {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  left: 0;
+  top: 10%;
+}
