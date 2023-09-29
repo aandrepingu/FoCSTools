@@ -17,6 +17,7 @@ export default function App() {
   };
 
   const [component, setComponent] = useState<JSX.Element>(<Landing />);
+  const [graphType, setGraphType] = useState<GraphType>("DFA");
 
   useEffect(() => {
     const path: string = window.location.pathname;
@@ -28,7 +29,7 @@ export default function App() {
   }, []);
   return (
     <>
-      <Navbar />
+      <Navbar graphType={graphType} setGraphType={setGraphType} />
       {component}
     </>
   );
