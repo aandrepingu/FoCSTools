@@ -47,9 +47,6 @@ export default function Navbar({
         >
           save
         </div>
-        <div className="" style={{ justifyContent: "center" }}>
-          helloatesting rn
-        </div>
       </div>
     </>
   );
