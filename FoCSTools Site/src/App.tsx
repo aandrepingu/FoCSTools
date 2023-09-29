@@ -10,7 +10,7 @@ export type GraphType = "DFA" | "CFG" | "TU";
 
 export default function App() {
   const paths: { [id: string]: JSX.Element } = {
-    "/placeholder": <Test />,
+    "/Test": <Test />,
     "/DFA": <DFA />,
     "/TuringMachine": <TuringMachine />,
     "/Landing": <Landing />,

@@ -3,12 +3,20 @@
   height: 50vw;
   object-fit: contain;
   padding-top: 2.5vh;
+  transform: scale(1, 1);
+  transition: 0.1s;
+  border-radius: 50%;
+
+  &:hover {
+    transform: scale(1.01, 1.01);
+  }
 }
 .landing {
-  min-width: 100vw;
-  min-height: 100vh;
-  top: 0px;
-  left: 0px;
-  background-color: #213547;
   position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  align-items: center;
+  background-color: #224666;
 }
