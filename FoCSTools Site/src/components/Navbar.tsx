@@ -11,11 +11,8 @@ export default function Navbar({
   return (
     <>
       <div className="navbar">
-        <div
-          className="flex"
-          style={{ paddingLeft: "40px", paddingTop: "20px" }}
-        ></div>
-        <div className="flex" style={{ justifyContent: "space-between" }}>
+        <img src="logo.svg" className="logo" style={{ paddingLeft: "5px" }} />
+        <div className="flex" style={{ justifyContent: "center" }}>
           <button
             className={graphType === "DFA" ? "button-selected" : undefined}
             onClick={() => {
