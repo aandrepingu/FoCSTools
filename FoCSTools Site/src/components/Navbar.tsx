@@ -4,7 +4,10 @@ export default function Navbar() {
   return (
     <>
       <div className="navbar">
-        <img src="logo.svg" className="logo" style={{ paddingLeft: "5px" }} />
+        <div
+          className="flex"
+          style={{ paddingLeft: "40px", paddingTop: "20px" }}
+        ></div>
         <div className="flex" style={{ justifyContent: "center" }}>
           <button>1</button>
           <button>2</button>
@@ -12,9 +15,12 @@ export default function Navbar() {
         </div>
         <div
           className="flex"
-          style={{ justifyContent: "flex-end", paddingRight: "20px" }}
+          style={{ justifyContent: "flex-end", paddingRight: "40px" }}
         >
           save
+        </div>
+        <div className="" style={{ justifyContent: "center" }}>
+          helloatesting rn
         </div>
       </div>
     </>

@@ -6,6 +6,8 @@ import Landing from "./pages/Landing";
 import TuringMachine from "./pages/TuringMachine";
 import { useState, useEffect } from "react";
 
+export type GraphType = "DFA" | "CFG" | "TU";
+
 export default function App() {
   const paths: { [id: string]: JSX.Element } = {
     "/placeholder": <Test />,
