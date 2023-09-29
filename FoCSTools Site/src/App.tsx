@@ -1,13 +1,12 @@
 import "./App.css";
 import Navbar from "./components/Navbar";
-<<<<<<< HEAD
-=======
 import Test from "./pages/Test";
 import DFA from "./pages/DFA";
 import TuringMachine from "./pages/TuringMachine";
 import { useState, useEffect } from "react";
 
->>>>>>> d1b1bb648b65bafc3548fe4b6118e36e46dd12bc
+export type GraphType = "DFA" | "CFG" | "TU";
+
 export default function App() {
   const paths: { [id: string]: JSX.Element } = {
     "/placeholder": <Test />,
@@ -16,6 +15,7 @@ export default function App() {
   };
 
   const [component, setComponent] = useState<JSX.Element>(<Test />);
+  // const [graphType, setGraphType] = useState<GraphType>("DFA");
 
   useEffect(() => {
     const path: string = window.location.pathname;
@@ -28,11 +28,7 @@ export default function App() {
   return (
     <>
       <Navbar />
-<<<<<<< HEAD
-      <div> hello</div>
-=======
       {component}
->>>>>>> d1b1bb648b65bafc3548fe4b6118e36e46dd12bc
     </>
   );
 }
