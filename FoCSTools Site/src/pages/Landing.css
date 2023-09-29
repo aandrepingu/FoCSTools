@@ -1,10 +1,14 @@
 .landinglogo {
   width: 50vw;
   height: 50vw;
-  padding: 0px;
   object-fit: contain;
+  padding-top: 2.5vh;
 }
-
-body {
+.landing {
+  min-width: 100vw;
+  min-height: 100vh;
+  top: 0px;
+  left: 0px;
   background-color: #213547;
+  position: absolute;
 }
