@@ -3,12 +3,8 @@ import "./Sidebar.css";
 
 export default function Sidebar() {
   const [show, setShow] = useState(true);
-  function myfunction() {
-    console.log("CLICKED");
-  }
   function handleClick() {
     setShow(!show);
-    myfunction();
   }
   return (
     <>
