@@ -12,7 +12,7 @@ export default function Navbar({
     <>
       <div className="navbar">
         <img src="logo.svg" className="logo" style={{ paddingLeft: "5px" }} />
-        <div className="flex" style={{ justifyContent: "center" }}>
+        <div className="flex" style={{ justifyContent: "center", gap: "20px" }}>
           <button
             className={graphType === "DFA" ? "button-selected" : undefined}
             onClick={() => {
