@@ -1,6 +1,10 @@
 import "./Landing.css";
 
-export default function Landing() {
+export default function Landing({
+  setComponent,
+}: {
+  setComponent: () => void;
+}) {
   return (
     <>
       <div className="landing">
@@ -9,6 +13,7 @@ export default function Landing() {
           className="landinglogo"
           onClick={() => {
             window.location.href = "/Test";
+            setComponent();
           }}
         />
       </div>
