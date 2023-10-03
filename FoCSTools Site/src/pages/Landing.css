@@ -1,16 +1,19 @@
 .landinglogo {
-  width: 50vw;
-  height: 50vw;
+  width: 30vw;
+  height: 30vw;
   object-fit: contain;
-  padding-top: 2.5vh;
+  margin-top: 20vh;
   transform: scale(1, 1);
   transition: 0.1s;
   border-radius: 50%;
 
   &:hover {
-    transform: scale(1.01, 1.01);
+    transform: scale(1.1, 1.1);
+    border-width: 100px;
+    border-color: #73a4d0;
   }
 }
+
 .landing {
   position: absolute;
   top: 0;
