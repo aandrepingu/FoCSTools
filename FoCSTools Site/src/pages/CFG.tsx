@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./CFG.css";
 
 export default function CFG() {
     const [count, setCount] = useState<number>(0);
@@ -12,7 +13,8 @@ export default function CFG() {
 
     function onRemove() {
       setCount(count-1);
-      const newText = [...text, ''];
+      const newText = [...text];
+      newText.pop()
       setText(newText);
     }
 
@@ -34,10 +36,12 @@ export default function CFG() {
           />
         ))}
         <div>
-          <button onClick={onAdd}>Add Production</button>
-          <button onClick={onRemove}>Remove Production</button>
+          <button className = "production_button" onClick={onAdd}>Add Production</button>
+          <button className = "production_button" onClick={onRemove}>Remove Production</button>
         </div>
-        <h1>{ text[1] }</h1>
+        <h1>
+          { text }
+        </h1>
       </>
     );
   }
