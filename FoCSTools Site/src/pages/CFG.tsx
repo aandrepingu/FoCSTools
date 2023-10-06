@@ -12,7 +12,9 @@ export default function CFG() {
     }
 
     function onRemove() {
-      setCount(count-1);
+      if(count > 0){
+        setCount(count-1);
+      }
       const newText = [...text];
       newText.pop()
       setText(newText);
