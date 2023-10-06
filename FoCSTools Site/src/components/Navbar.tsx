@@ -1,39 +1,26 @@
 import "./Navbar.css";
-import { GraphType } from "src/App";
 
-export default function Navbar({
-  graphType,
-  setGraphType,
-}: {
-  graphType: GraphType;
-  setGraphType: (graphType: GraphType) => void;
-}) {
+export default function Navbar() {
   return (
     <>
       <div className="navbar">
         <img src="logo.svg" className="logo" style={{ paddingLeft: "5px" }} />
         <div className="flex" style={{ justifyContent: "center", gap: "20px" }}>
           <button
-            className={graphType === "DFA" ? "button-selected" : undefined}
-            onClick={() => {
-              setGraphType("DFA");
-            }}
+            className="DFA"
+            onClick={()=>{}}
           >
             DFA
           </button>
           <button
-            className={graphType === "CFG" ? "button-selected" : undefined}
-            onClick={() => {
-              setGraphType("CFG");
-            }}
+            className="CFG"
+            onClick={() => {}}
           >
             CFG
           </button>
           <button
-            className={graphType === "TU" ? "button-selected" : undefined}
-            onClick={() => {
-              setGraphType("TU");
-            }}
+            className="TU"
+            onClick={() => {}}
           >
             Turing
           </button>

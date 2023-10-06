@@ -6,11 +6,12 @@ import DFA from "./pages/DFA";
 import Landing from "./pages/Landing";
 import TuringMachine from "./pages/TuringMachine";
 import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-export type GraphType = "DFA" | "CFG" | "TU";
+//export type GraphType = "DFA" | "CFG" | "TU";
 
 export default function App() {
-  const [path, setPath] = useState("/Landing");
+  /*const [path, setPath] = useState("/Landing");
   const [graphType, setGraphType] = useState<GraphType>("DFA");
 
   const paths: { [id: string]: JSX.Element } = {
@@ -27,15 +28,13 @@ export default function App() {
     } else {
       setPath("/Landing");
     }
-  }, []);
+  }, []);*/
 
   return (
     <div>
-      <div>
-        <Navbar graphType={graphType} setGraphType={setGraphType} />
-        {paths[path]}
-      </div>
-      <div>{path !== "/Landing" && <Sidebar />}</div>
+      <Navbar/>
+      <Test/>
+      <Sidebar/>
     </div>
   );
 }
