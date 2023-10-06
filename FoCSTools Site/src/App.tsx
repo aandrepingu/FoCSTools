@@ -19,8 +19,7 @@ export default function App() {
     "/DFA": <DFA />,
     "/TuringMachine": <TuringMachine />,
     "/Landing": <Landing setComponent={() => setPath("/Test")} />,
-  };
-
+  }
   useEffect(() => {
     const windowPath: string = window.location.pathname;
     if (windowPath in paths) {
@@ -28,13 +27,26 @@ export default function App() {
     } else {
       setPath("/Landing");
     }
-  }, []);*/
+  }, []);
+  */
+  const [path, setPath] = useState("/Landing");
+  const state: {[id: string]: JSX.Element} = {
+    "/Test": <Test />,
+    "/Landing": <Landing setComponent={() => setPath("/Test")} />
+  }
+  useEffect(() => {
+    const windowPath: string = window.location.pathname;
+    if(windowPath in state){
+      setPath(windowPath);
+    } else { 
+      setPath("/Landing");
+    }
+  }, []);
 
   return (
     <div>
       <Navbar/>
-      <Test/>
-      <Sidebar/>
+      {state[path]}
     </div>
   );
 }
