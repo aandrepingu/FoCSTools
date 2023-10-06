@@ -5,26 +5,32 @@ export default function CFG() {
   const [count, setCount] = useState<number>(0);
   const [text, setText] = useState<string[]>([]);
 
-  function onAdd() {
-    setCount(count + 1);
-    const newText = [...text, ""];
-    setText(newText);
-  }
-
-  function onRemove() {
-    if (count > 0) {
-      setCount(count - 1);
+    function onAdd() {
+      setCount(count+1);
+      const newText = [...text, ''];
+      setText(newText);
     }
-    const newText = [...text];
-    newText.pop();
-    setText(newText);
-  }
 
-  const onWrite = (index: number, value: string) => {
-    const newText = [...text];
-    newText[index] = value;
-    setText(newText);
-  };
+    function onRemove() {
+      if(count > 1){
+        setCount(count-1);
+      }
+      const newText = [...text];
+      newText.pop()
+      setText(newText);
+    }
+
+    function clear(){
+      const newText = [''];
+      setText(newText);
+      setCount(1);
+    }
+
+    const onWrite = (index: number, value: string) => {
+        const newText = [...text];
+        newText[index] = value;
+        setText(newText);
+    }
 
   return (
     <>
@@ -33,6 +39,7 @@ export default function CFG() {
         <div className="CFG_Button_Div">
           <button onClick={onAdd}>Add</button>
           <button onClick={onRemove}>Remove</button>
+          <button onClick={clear}>Clear</button>
         </div>
         <div>
           {Array.from({ length: count }).map((_, index) => (
