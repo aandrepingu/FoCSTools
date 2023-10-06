@@ -1,3 +1,30 @@
 .production_button {
-    margin:2%
+  margin: 2%;
+  height: 50px;
+  width: 50px;
+  text-align: center;
+  text-size-adjust: auto;
+}
+
+.CFG_FlexBox_Div {
+  top: 10%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  left: 0;
+  margin: 3.5%;
+}
+
+.CFG_Text_Div {
+  padding-top: 20px;
+}
+
+.CFG_Button_Div {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+}
+
+body {
+  flex-direction: column;
 }

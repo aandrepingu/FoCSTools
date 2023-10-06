@@ -37,7 +37,7 @@ export default function App() {
         <Navbar graphType={graphType} setGraphType={setGraphType} />
         {paths[path]}
       </div>
-      <div>{path !== "/Landing" && <Sidebar />}</div>
+      {/* <div>{path !== "/Landing" && <Sidebar />}</div> */}
     </div>
   );
 }
