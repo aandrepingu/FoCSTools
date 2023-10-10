@@ -69,7 +69,6 @@ export default function CFG() {
               value={text[index]}
               onChange={(e) => handleChange(index, e)}
               onKeyDown={(e) => handleKeyPress(e)}
-              // onChange={(e) => onWrite(index, e.target.value)}
               onClick={() => onTextClick(index)}
             />
           ))}
