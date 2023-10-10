@@ -1,6 +1,15 @@
 //import Navbar from "../components/Navbar";
 import { NodeType } from "src/App";
+import Node from "../components/Node";
 
-export default function Test({ nodes }: { nodes: { [id: string]: NodeType } }) {
-  return <>{nodes.forEach((node) => {})}</>;
+type ID = string;
+
+export default function Test({ nodes }: { nodes: Map<ID, NodeType> }) {
+  return (
+    <>
+      {nodes.forEach((node) => {
+        return <Node node={node} />;
+      })}
+    </>
+  );
 }

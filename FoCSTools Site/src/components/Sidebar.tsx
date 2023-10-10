@@ -1,7 +1,14 @@
 import { useState } from "react";
 import "./Sidebar.css";
 
-export default function Sidebar() {
+export default function Sidebar({
+  dispatch,
+}: {
+  dispatch: React.Dispatch<{
+    type: string;
+    payload?: string | undefined;
+  }>;
+}) {
   const [show, setShow] = useState(true);
   function handleClick() {
     setShow(!show);
@@ -12,7 +19,12 @@ export default function Sidebar() {
         {show && (
           <div className="sidebar" style={{ paddingLeft: "0px" }}>
             <div style={{ paddingTop: "4px" }}>
-              <button className="sidebar_Button">1</button>
+              <button
+                className="sidebar_Button"
+                onClick={() => dispatch({ type: "add_node" })}
+              >
+                1
+              </button>
               <button className="sidebar_Button">2</button>
               <button className="sidebar_Button">3</button>
               <button className="sidebar_Button">4</button>

@@ -46,10 +46,10 @@ const nodeReducer = (
       return state;
     }
     newState.get(action.payload)?.incoming.forEach((id) => {
-      if (!newState.has(id)) {
-        return;
-      }
       const node = newState.get(id);
+      if (!node) {
+        return state;
+      }
       if (node?.outgoing[0] === action.payload) {
         node.outgoing[0] = null;
       }
@@ -68,7 +68,7 @@ export default function App() {
   const [graphType, setGraphType] = useState<GraphType>("DFA");
   const [nodeState, dispatch] = useReducer(
     nodeReducer,
-    {} as { [id: ID]: NodeType }
+    new Map<ID, NodeType>()
   );
 
   const paths: { [id: string]: JSX.Element } = {
@@ -93,7 +93,7 @@ export default function App() {
         <Navbar graphType={graphType} setGraphType={setGraphType} />
         {paths[path]}
       </div>
-      <div>{path !== "/Landing" && <Sidebar />}</div>
+      <div>{path !== "/Landing" && <Sidebar dispatch={dispatch} />}</div>
     </div>
   );
 }
