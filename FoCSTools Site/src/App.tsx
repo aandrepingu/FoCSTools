@@ -1,14 +1,14 @@
 import "./App.css";
 import Navbar from "./components/Navbar";
-import Sidebar from "./components/Sidebar";
-import Test from "./pages/Test";
+import Home from "./pages/Home";
 import DFA from "./pages/DFA";
 import Landing from "./pages/Landing";
 import TuringMachine from "./pages/TuringMachine";
+import CFG from "./pages/CFG";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useState, useEffect, useReducer } from "react";
 import { v4 as uuid } from "uuid";
 
-export type GraphType = "DFA" | "CFG" | "TU";
 
 type ID = string;
 
@@ -74,12 +74,6 @@ export default function App() {
     new Map<ID, NodeType>()
   );
 
-  const paths: { [id: string]: JSX.Element } = {
-    "/Test": <Test nodes={nodeState} />,
-    "/DFA": <DFA />,
-    "/TuringMachine": <TuringMachine />,
-    "/Landing": <Landing setComponent={() => setPath("/Test")} />,
-  };
 
   useEffect(() => {
     const windowPath: string = window.location.pathname;
@@ -92,11 +86,16 @@ export default function App() {
 
   return (
     <div>
-      <div>
-        <Navbar graphType={graphType} setGraphType={setGraphType} />
-        {paths[path]}
-      </div>
-      <div>{path !== "/Landing" && <Sidebar dispatch={dispatch} />}</div>
+      <BrowserRouter>
+        <Navbar/>
+        <Routes>
+          <Route path="/" Component={Landing}/>
+          <Route path="/Home" Component={Home} />
+          <Route path="/DFA" Component={DFA} />
+          <Route path="/CFG" Component={CFG} />
+          <Route path="/TuringMachine" Component={TuringMachine} />
+      </Routes>
+      </BrowserRouter>
     </div>
   );
 }
