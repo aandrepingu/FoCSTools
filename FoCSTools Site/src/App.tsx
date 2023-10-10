@@ -5,9 +5,9 @@ import Test from "./pages/Test";
 import DFA from "./pages/DFA";
 import Landing from "./pages/Landing";
 import TuringMachine from "./pages/TuringMachine";
+import CFG from "./pages/CFG"
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 //export type GraphType = "DFA" | "CFG" | "TU";
 
 export default function App() {
@@ -29,10 +29,10 @@ export default function App() {
     }
   }, []);
   */
-  const [path, setPath] = useState("/Landing");
+  /*const [path, setPath] = useState("/Landing");
   const state: {[id: string]: JSX.Element} = {
     "/Test": <Test />,
-    "/Landing": <Landing setComponent={() => setPath("/Test")} />
+    "/Landing": <Landing/>
   }
   useEffect(() => {
     const windowPath: string = window.location.pathname;
@@ -41,12 +41,20 @@ export default function App() {
     } else { 
       setPath("/Landing");
     }
-  }, []);
+  }, []);*/
 
   return (
     <div>
-      <Navbar/>
-      {state[path]}
+      <BrowserRouter>
+        <Navbar/>
+        <Routes>
+          <Route path="/" Component={Landing}/>
+          <Route path="/Test" Component={Test} />
+          <Route path="/DFA" Component={DFA} />
+          <Route path="/CFG" Component={CFG} />
+          <Route path="/TuringMachine" Component={TuringMachine} />
+      </Routes>
+      </BrowserRouter>
     </div>
   );
 }
