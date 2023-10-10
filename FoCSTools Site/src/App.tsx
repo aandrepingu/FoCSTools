@@ -1,7 +1,7 @@
 import "./App.css";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
-import Test from "./pages/Test";
+import Home from "./pages/Home";
 import DFA from "./pages/DFA";
 import Landing from "./pages/Landing";
 import TuringMachine from "./pages/TuringMachine";
@@ -49,7 +49,7 @@ export default function App() {
         <Navbar/>
         <Routes>
           <Route path="/" Component={Landing}/>
-          <Route path="/Test" Component={Test} />
+          <Route path="/Home" Component={Home} />
           <Route path="/DFA" Component={DFA} />
           <Route path="/CFG" Component={CFG} />
           <Route path="/TuringMachine" Component={TuringMachine} />

@@ -8,7 +8,7 @@ export default function Landing() {
           src="logo.svg"
           className="landinglogo"
           onClick={() => {
-            window.location.href = "/Test";
+            window.location.href = "/Home";
           }}
         />
       </div>

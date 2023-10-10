@@ -4,7 +4,9 @@ export default function Navbar() {
   return (
     <>
       <div className="navbar">
-        <img src="logo.svg" className="logo" style={{ paddingLeft: "5px" }} />
+        <img src="logo.svg" className="logo" style={{ paddingLeft: "5px" }} onClick={() => {
+            window.location.href = "/Home";
+          }}/>
         <div className="flex" style={{ justifyContent: "center", gap: "20px" }}>
             <button
               className="DFA"
