@@ -26,7 +26,7 @@
 }
 
 .CFG_Rules {
-  display: flexbox;
+  display: flex;
   flex-direction: column;
   max-height: 65vh;
   overflow: scroll;
