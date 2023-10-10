@@ -25,7 +25,7 @@ export interface NodeType {
 
 const nodeReducer = (
   state: Map<ID, NodeType>,
-  action: NodeAction
+  action: { type: string; payload?: ID }
 ): Map<ID, NodeType> => {
   if (action.type === "add_node") {
     const uniqueID = uuid();
@@ -46,6 +46,9 @@ const nodeReducer = (
       return state;
     }
     newState.get(action.payload)?.incoming.forEach((id) => {
+      if (!newState.has(id)) {
+        return;
+      }
       const node = newState.get(id);
       if (node?.outgoing[0] === action.payload) {
         node.outgoing[0] = null;
