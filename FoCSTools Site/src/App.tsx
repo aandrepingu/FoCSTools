@@ -6,7 +6,7 @@ import DFA from "./pages/DFA";
 import Landing from "./pages/Landing";
 import TuringMachine from "./pages/TuringMachine";
 import { useState, useEffect, useReducer } from "react";
-import { uuid } from "uuidv4";
+import { v4 as uuid } from "uuid";
 
 export type GraphType = "DFA" | "CFG" | "TU";
 
