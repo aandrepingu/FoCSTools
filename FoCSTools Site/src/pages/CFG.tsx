@@ -41,7 +41,7 @@ export default function CFG() {
           <button onClick={onRemove}>Remove</button>
           <button onClick={clear}>Clear</button>
         </div>
-        <div>
+        <div className="CFG_Rules">
           {Array.from({ length: count }).map((_, index) => (
             <input
               key={index}

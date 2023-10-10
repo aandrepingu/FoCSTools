@@ -25,6 +25,12 @@
   flex-direction: row;
 }
 
+.CFG_Rules {
+  display: flexbox;
+  flex-direction: column;
+  max-height: 65vh;
+  overflow: scroll;
+}
 body {
   flex-direction: column;
 }
