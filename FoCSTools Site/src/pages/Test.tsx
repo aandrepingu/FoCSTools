@@ -1,7 +1,13 @@
 //import Navbar from "../components/Navbar";
+import Node from "../components/Node";
+import { NodeType } from "src/App";
 
-export default function Test() {
+export default function Test({ nodes }: { nodes: NodeType[] }) {
   return (
-    <>{/*<div style={{ height: "50%", width: "50%" }}>This is a Test</div>*/}</>
+    <>
+      {nodes.map((node, ind) => {
+        <Node {...node} />;
+      })}
+    </>
   );
 }
