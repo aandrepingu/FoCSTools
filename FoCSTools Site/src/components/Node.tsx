@@ -1,5 +1,5 @@
 import Draggable from "react-draggable";
-import { NodeType } from "src/App";
+import { NodeType } from "src/pages/DFA";
 import "./Node.css";
 import { useState } from "react";
 
