@@ -28,6 +28,7 @@ const nodeReducer = (
   action: { type: string; payload?: ID }
 ): Map<ID, NodeType> => {
   if (action.type === "add_node") {
+    console.log("adding_node");
     const uniqueID = uuid();
     const newNode: NodeType = {
       id: uniqueID,
@@ -36,6 +37,7 @@ const nodeReducer = (
     };
     const newState = new Map(state);
     newState.set(uniqueID, newNode);
+    console.log(newState);
     return newState;
   } else if (action.type === "remove_node") {
     if (!action.payload) {
@@ -45,6 +47,7 @@ const nodeReducer = (
     if (!newState.has(action.payload)) {
       return state;
     }
+
     newState.get(action.payload)?.incoming.forEach((id) => {
       const node = newState.get(id);
       if (!node) {

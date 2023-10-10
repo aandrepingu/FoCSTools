@@ -7,9 +7,9 @@ type ID = string;
 export default function Test({ nodes }: { nodes: Map<ID, NodeType> }) {
   return (
     <>
-      {nodes.forEach((node) => {
-        return <Node node={node} />;
-      })}
+      {Array.from(nodes.values()).map((node) => (
+        <Node node={node} />
+      ))}
     </>
   );
 }

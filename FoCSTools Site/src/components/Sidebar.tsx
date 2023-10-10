@@ -21,7 +21,10 @@ export default function Sidebar({
             <div style={{ paddingTop: "4px" }}>
               <button
                 className="sidebar_Button"
-                onClick={() => dispatch({ type: "add_node" })}
+                onClick={() => {
+                  dispatch({ type: "add_node" });
+                  console.log("add_node");
+                }}
               >
                 1
               </button>
