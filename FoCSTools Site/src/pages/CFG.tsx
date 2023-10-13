@@ -1,7 +1,6 @@
 import { useState } from "react";
 import "./CFG.css";
 
-
 export default function CFG() {
   const [count, setCount] = useState<number>(0);
   const [lang, setLang] = useState<string>("");
@@ -22,8 +21,8 @@ export default function CFG() {
   }
 
   // Remove from grammar array
-    // Remove from back
-    // If a box is clicked, remove that one
+  // Remove from back
+  // If a box is clicked, remove that one
   function onRemove() {
     if (count > 0) {
       setCount(count - 1);
@@ -33,12 +32,12 @@ export default function CFG() {
   }
 
   const produceString = (stringSoFar: string, production: string) => {
-    if (production.indexOf(lang) === -1) {
+    if (stringSoFar.indexOf(lang) === -1) {
       // Terminal String
-      return production;
+      return stringSoFar;
     } else {
       // Replace lang with stringSoFar
-      return production.replace(new RegExp(lang, 'g'), stringSoFar);
+      return stringSoFar.replace(new RegExp(lang, "g"), production);
     }
   };
 
@@ -50,7 +49,7 @@ export default function CFG() {
 
     renderValues.push(<h2>Strings from the languaoge {lang}</h2>);
 
-    if(lang === "" || text.length < 1){
+    if (lang === "" || text.length < 1) {
       return;
     }
 
@@ -79,25 +78,78 @@ export default function CFG() {
     }
     */
 
-    const generateStrings = (stringSoFar: string, visited: Set<string>): void => {
+    const generateStrings = (
+      stringSoFar: string,
+      visited: Set<string>
+    ): void => {
       if (renderValues.length >= 10) {
         return;
       }
 
       for (const production of text) {
         const newString = produceString(stringSoFar, production);
-        
+
         if (!visited.has(newString)) {
-          visited.add(newString);
           // Output terminal strings
-          if(newString.indexOf(lang) === -1)
+          if (newString.indexOf(lang) === -1) {
             renderValues.push(<h4>{newString}</h4>);
+            visited.add(newString);
+          }
           generateStrings(newString, visited);
         }
       }
     };
 
-    generateStrings("", new Set());
+    generateStrings(lang, new Set());
+
+    return renderValues;
+  };
+
+  const renderOutputsTest = () => {
+    const renderValues: JSX.Element[] = [];
+    var max_size = 4;
+    //const result: string[] = [];
+    //const queue: { symbol: string, stringSoFar: string }[] = [];
+
+    renderValues.push(<h2>Strings from the language {lang}</h2>);
+
+    if (lang === "" || text.length < 1) {
+      return;
+    }
+
+    const generateStringsTest = (
+      stringSoFar: string,
+      visited: Set<string>
+    ): void => {
+      //Base case:
+      if (stringSoFar.length > max_size) {
+        return;
+      }
+
+      if (stringSoFar.length <= max_size && stringSoFar.indexOf(lang) === -1) {
+        if (!visited.has(stringSoFar)) {
+          visited.add(stringSoFar);
+          renderValues.push(<h4>{stringSoFar}</h4>);
+          return;
+        }
+      }
+
+      for (let i = 0; i < stringSoFar.length; i++) {
+        if (stringSoFar[i] === lang) {
+          //Loop through product rules
+          for (const production of text) {
+            //Apply rule
+            //newString.replace(new RegExp(lang, "g"), production);
+            const newString =
+              stringSoFar.slice(0, i) + production + stringSoFar.slice(i + 1);
+            //recurse with rule
+            generateStringsTest(newString, visited);
+          }
+        }
+      }
+    };
+
+    generateStringsTest(lang, new Set());
 
     return renderValues;
   };
@@ -115,27 +167,30 @@ export default function CFG() {
     const newText = [...text];
     newText[index] = value;
     setText(newText);
-  }
+  };
 
   // Handle special keypresses "|" and "Backspace" to add and remove
-  const handleKeyPress=(e: React.KeyboardEvent<HTMLInputElement>)=>{
-    const value=e.currentTarget.value;
-    if(e.key==='|') onAdd();
-    else if(e.key==='Backspace'&& !value)onRemove();
-  }
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
+    if (e.key === "|") onAdd();
+    else if (e.key === "Backspace" && !value) onRemove();
+  };
 
   // Edit a text box
-  const handleChange=(index: number, e:React.FormEvent<HTMLInputElement>)=>{
-    const value=e.currentTarget.value;
-    if(value[value.length-1]==='|')return
-    onWrite(index,value)
-  }
+  const handleChange = (
+    index: number,
+    e: React.FormEvent<HTMLInputElement>
+  ) => {
+    const value = e.currentTarget.value;
+    if (value[value.length - 1] === "|") return;
+    onWrite(index, value);
+  };
 
   // Handle the name of the language being generated
-  const handleLang=(e:React.FormEvent<HTMLInputElement>)=>{
-    const value=e.currentTarget.value;
-    setLang(value)
-  }
+  const handleLang = (e: React.FormEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
+    setLang(value);
+  };
   return (
     <>
       <h2 className="CFG_Text_Div">Create a Context Free Grammar</h2>
@@ -144,11 +199,7 @@ export default function CFG() {
           <button onClick={onAdd}>Add</button>
           <button onClick={onRemove}>Remove</button>
           <button onClick={clear}>Clear</button>
-          <input
-            type="text"
-            value={lang}
-            onChange={(e) => handleLang(e)}
-          />
+          <input type="text" value={lang} onChange={(e) => handleLang(e)} />
         </div>
         <div className="CFG_Rules">
           {Array.from({ length: count }).map((_, index) => (
@@ -166,9 +217,7 @@ export default function CFG() {
         <h1>{currentTextIndex}</h1>
         <h1>{lang}</h1>
       </div>
-      <div className="outputBox">
-        {renderOutputs()}
-      </div>
+      <div className="outputBox">{renderOutputsTest()}</div>
     </>
   );
 }
