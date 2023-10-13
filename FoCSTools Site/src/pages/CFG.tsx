@@ -32,12 +32,73 @@ export default function CFG() {
     }
   }
 
+  const produceString = (stringSoFar: string, production: string) => {
+    if (production.indexOf(lang) === -1) {
+      // Terminal String
+      return production;
+    } else {
+      // Replace lang with stringSoFar
+      return production.replace(new RegExp(lang, 'g'), stringSoFar);
+    }
+  };
+
   // Output grammars in a div
   const renderOutputs = () => {
-    const renderValues: JSX.Element[] = []
-    for(let i = 0; i < text.length; i++){
-      renderValues.push(<p key={i}>{ text[i] }</p>);
+    const renderValues: JSX.Element[] = [];
+    //const result: string[] = [];
+    //const queue: { symbol: string, stringSoFar: string }[] = [];
+
+    renderValues.push(<h2>Strings from the languaoge {lang}</h2>);
+
+    if(lang === "" || text.length < 1){
+      return;
     }
+
+    //queue.push({symbol: text[0], stringSoFar: "" });
+
+    /*
+    while (queue.length > 0 && result.length < 10) {
+      const { symbol, stringSoFar } = queue.shift()!;
+  
+      if (!text.includes(symbol)) {
+        result.push(stringSoFar);
+        console.log("Added to result");
+      } else {
+        for (const production of text) {
+          const newString = stringSoFar + production;
+          queue.push({ symbol: production, stringSoFar: newString });
+          console.log("Added to Queue");
+        }
+      }
+    }
+
+    const subset = result.slice(0,10);
+
+    for(const str of subset){
+      renderValues.push(<h4>{ str }</h4>);
+    }
+    */
+
+    const generateStrings = (stringSoFar: string, visited: Set<string>): void => {
+      if (renderValues.length >= 10) {
+        return;
+      }
+
+      for (const production of text) {
+        const newString = produceString(stringSoFar, production);
+        
+        if (!visited.has(newString)) {
+          visited.add(newString);
+          // Output terminal strings
+          if(newString.indexOf(lang) === -1)
+            renderValues.push(<h4>{newString}</h4>);
+          generateStrings(newString, visited);
+        }
+      }
+    };
+
+    generateStrings("", new Set());
+
     return renderValues;
   };
 
@@ -95,6 +156,7 @@ export default function CFG() {
               key={index}
               type="text"
               value={text[index]}
+              placeholder="ε"
               onChange={(e) => handleChange(index, e)}
               onKeyDown={(e) => handleKeyPress(e)}
               onClick={() => onTextClick(index)}
