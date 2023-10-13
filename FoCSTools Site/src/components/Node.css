@@ -36,6 +36,10 @@
   background-color: #05057f;
   min-width: 100px;
   min-height: 250px;
+  position: absolute;
+  left: -100px;
+  top: -75px;
   color: white;
   border-radius: 8px;
+  transition: ease-in-out 0.5s;
 }
