@@ -6,9 +6,36 @@
   z-index: 2;
   left: 50%;
   bottom: 50%;
-  position: absolute;
   background-color: brown;
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: move; /* fallback if grab cursor is unsupported */
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+.node:active {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
+
+.edit {
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  z-index: 2;
+  background-color: lightcoral;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.editBox {
+  background-color: #05057f;
+  min-width: 100px;
+  min-height: 250px;
+  color: white;
+  border-radius: 8px;
 }
