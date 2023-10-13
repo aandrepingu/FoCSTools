@@ -1,8 +1,8 @@
 import Node from "../components/Node";
 import { useReducer } from "react";
 import { v4 as uuid } from "uuid";
-import Navbar from "src/components/Navbar";
-import Sidebar from "src/components/Sidebar";
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
 
 type ID = string;
 
