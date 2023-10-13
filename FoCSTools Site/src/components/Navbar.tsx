@@ -1,28 +1,27 @@
 import "./Navbar.css";
-import { BrowserRouter as Router, Route, Link, BrowserRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 export default function Navbar() {
   return (
     <>
       <div className="navbar">
-        <img src="logo.svg" className="logo" style={{ paddingLeft: "5px" }} onClick={() => {
+        <img
+          src="logo.svg"
+          className="logo"
+          style={{ paddingLeft: "5px" }}
+          onClick={() => {
             window.location.href = "/Home";
-          }}/>
+          }}
+        />
         <div className="flex" style={{ justifyContent: "center", gap: "20px" }}>
-            <button
-              className="DFA"
-            >
-              <Link to="/DFA">DFA</Link>
-            </button>
-            <button
-              className="CFG"
-            >
-              <Link to="/CFG">CFG</Link>
-            </button>
-            <button
-              className="TU"
-            >
-              <Link to="/TuringMachine">Turing</Link>
-            </button>
+          <Link to="/DFA">
+            <button className="DFA">DFA</button>
+          </Link>
+          <Link to="/CFG">
+            <button className="CFG">CFG</button>
+          </Link>
+          <Link to="/TuringMachine">
+            <button className="TU">Turing</button>
+          </Link>
         </div>
         <div
           className="flex"
