@@ -3,14 +3,23 @@
   height: 30vw;
   object-fit: contain;
   margin-top: 20vh;
-  transform: scale(1, 1);
-  transition: 0.1s;
   border-radius: 50%;
-
+  animation: zoom-in-zoom-out 2s ease infinite;
   &:hover {
     transform: scale(1.1, 1.1);
-    border-width: 100px;
-    border-color: #73a4d0;
+    box-shadow: 0 0 10px 5px rgba(143, 182, 218, 0.5);
+  }
+}
+
+@keyframes zoom-in-zoom-out {
+  0% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(1.1, 1.1);
+  }
+  100% {
+    transform: scale(1, 1);
   }
 }
 
