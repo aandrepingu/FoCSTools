@@ -36,14 +36,7 @@ export default function CFG() {
 
   const productionError = (production: string): Boolean => {
     //Check if no digits
-    var numLang = 0;
-    for (let i = 0; i < production.length; i++) {
-      if (production[i] === lang) {
-        numLang++;
-      }
-    }
-
-    if (numLang === production.length && production.length != 0) {
+    if (production === lang) {
       return false;
     }
 
