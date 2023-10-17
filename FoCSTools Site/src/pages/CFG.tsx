@@ -7,6 +7,7 @@ export default function CFG() {
   const [text, setText] = useState<string[]>([]);
   const [CFGOutArray, setCFGOutArray] = useState<Set<string>>(new Set());
   const [currentTextIndex, setCurrentTextIndex] = useState<number>(count - 1);
+  const [maxLength, setMaxLength] = useState<number>(1);
   const [generated, setGenerated] = useState(false);
 
   // Get index of clicked text box
@@ -50,10 +51,9 @@ export default function CFG() {
   };
 
   // Output grammars in a div
-  const renderOutputsTest = () => {
+  const renderOutputs = () => {
     //const renderValues: JSX.Element[] = [];
     const CFGStringArray: Set<string> = new Set();
-    var max_size = 4;
     //const result: string[] = [];
     //const queue: { symbol: string, stringSoFar: string }[] = [];
 
@@ -63,16 +63,16 @@ export default function CFG() {
       return;
     }
 
-    const generateStringsTest = (
+    const generateStrings = (
       stringSoFar: string,
       visited: Set<string>
     ): void => {
       //Base case:
-      if (stringSoFar.length > max_size) {
+      if (stringSoFar.length > maxLength) {
         return;
       }
 
-      if (stringSoFar.length <= max_size && stringSoFar.indexOf(lang) === -1) {
+      if (stringSoFar.length <= maxLength && stringSoFar.indexOf(lang) === -1) {
         if (!visited.has(stringSoFar)) {
           visited.add(stringSoFar);
           CFGStringArray.add(stringSoFar);
@@ -91,15 +91,14 @@ export default function CFG() {
               const newString =
                 stringSoFar.slice(0, i) + production + stringSoFar.slice(i + 1);
               //recurse with rule
-              generateStringsTest(newString, visited);
+              generateStrings(newString, visited);
             }
           }
         }
       }
     };
 
-    generateStringsTest(lang, new Set());
-
+    generateStrings(lang, new Set());
     setCFGOutArray(CFGStringArray);
   };
 
@@ -113,7 +112,7 @@ export default function CFG() {
   }
 
   function generate() {
-    renderOutputsTest();
+    renderOutputs();
     setGenerated(true);
   }
 
@@ -155,9 +154,9 @@ export default function CFG() {
           <button onClick={onRemove}>Remove</button>
           <button onClick={clear}>Clear</button>
           <button onClick={generate}>Generate</button>
-          <input type="text" value={lang} onChange={(e) => handleLang(e)} />
         </div>
         <div className="CFG_Rules">
+          <input type="text" value={lang} onChange={(e) => handleLang(e)} />
           {Array.from({ length: count }).map((_, index) => (
             <input
               key={index}
@@ -170,6 +169,17 @@ export default function CFG() {
             />
           ))}
         </div>
+      </div>
+      <div className="slider">
+        <input
+          type="range"
+          min="1"
+          max="20"
+          step="1"
+          value={maxLength}
+          onChange={(e) => setMaxLength(Number(e.currentTarget.value))}
+        />
+        <div>Max string length: {maxLength}</div>
       </div>
       {generated && (
         <div className="outputBox">
