@@ -6,6 +6,7 @@ export default function CFG() {
   const [lang, setLang] = useState<string>("");
   const [text, setText] = useState<string[]>([]);
   const [currentTextIndex, setCurrentTextIndex] = useState<number>(count - 1);
+  const [generated, setGenerated] = useState(false);
 
   // Get index of clicked text box
   function onTextClick(index: number) {
@@ -160,6 +161,12 @@ export default function CFG() {
     setText(newText);
     setCount(0);
     setCurrentTextIndex(-1);
+    setGenerated(false);
+  }
+
+  function generate() {
+    renderOutputsTest();
+    setGenerated(true);
   }
 
   // Edit the value in the array
@@ -199,6 +206,7 @@ export default function CFG() {
           <button onClick={onAdd}>Add</button>
           <button onClick={onRemove}>Remove</button>
           <button onClick={clear}>Clear</button>
+          <button onClick={generate}>Generate</button>
           <input type="text" value={lang} onChange={(e) => handleLang(e)} />
         </div>
         <div className="CFG_Rules">
@@ -217,7 +225,7 @@ export default function CFG() {
         <h1>{currentTextIndex}</h1>
         <h1>{lang}</h1>
       </div>
-      <div className="outputBox">{renderOutputsTest()}</div>
+      {generated && <div className="outputBox">{renderOutputsTest()}</div>}
     </>
   );
 }
