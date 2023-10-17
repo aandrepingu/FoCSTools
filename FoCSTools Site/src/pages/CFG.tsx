@@ -6,6 +6,7 @@ export default function CFG() {
   const [lang, setLang] = useState<string>("");
   const [text, setText] = useState<string[]>([]);
   const [currentTextIndex, setCurrentTextIndex] = useState<number>(count - 1);
+  const [maxLength, setMaxLength] = useState<number>(1);
 
   // Get index of clicked text box
   function onTextClick(index: number) {
@@ -31,83 +32,8 @@ export default function CFG() {
     }
   }
 
-  const produceString = (stringSoFar: string, production: string) => {
-    if (stringSoFar.indexOf(lang) === -1) {
-      // Terminal String
-      return stringSoFar;
-    } else {
-      // Replace lang with stringSoFar
-      return stringSoFar.replace(new RegExp(lang, "g"), production);
-    }
-  };
-
-  // Output grammars in a div
-  const renderOutputs = () => {
-    const renderValues: JSX.Element[] = [];
-    //const result: string[] = [];
-    //const queue: { symbol: string, stringSoFar: string }[] = [];
-
-    renderValues.push(<h2>Strings from the languaoge {lang}</h2>);
-
-    if (lang === "" || text.length < 1) {
-      return;
-    }
-
-    //queue.push({symbol: text[0], stringSoFar: "" });
-
-    /*
-    while (queue.length > 0 && result.length < 10) {
-      const { symbol, stringSoFar } = queue.shift()!;
-  
-      if (!text.includes(symbol)) {
-        result.push(stringSoFar);
-        console.log("Added to result");
-      } else {
-        for (const production of text) {
-          const newString = stringSoFar + production;
-          queue.push({ symbol: production, stringSoFar: newString });
-          console.log("Added to Queue");
-        }
-      }
-    }
-
-    const subset = result.slice(0,10);
-
-    for(const str of subset){
-      renderValues.push(<h4>{ str }</h4>);
-    }
-    */
-
-    const generateStrings = (
-      stringSoFar: string,
-      visited: Set<string>
-    ): void => {
-      if (renderValues.length >= 10) {
-        return;
-      }
-
-      for (const production of text) {
-        const newString = produceString(stringSoFar, production);
-
-        if (!visited.has(newString)) {
-          // Output terminal strings
-          if (newString.indexOf(lang) === -1) {
-            renderValues.push(<h4>{newString}</h4>);
-            visited.add(newString);
-          }
-          generateStrings(newString, visited);
-        }
-      }
-    };
-
-    generateStrings(lang, new Set());
-
-    return renderValues;
-  };
-
   const renderOutputsTest = () => {
     const renderValues: JSX.Element[] = [];
-    var max_size = 4;
     //const result: string[] = [];
     //const queue: { symbol: string, stringSoFar: string }[] = [];
 
@@ -122,11 +48,11 @@ export default function CFG() {
       visited: Set<string>
     ): void => {
       //Base case:
-      if (stringSoFar.length > max_size) {
+      if (stringSoFar.length > maxLength) {
         return;
       }
 
-      if (stringSoFar.length <= max_size && stringSoFar.indexOf(lang) === -1) {
+      if (stringSoFar.length <= maxLength && stringSoFar.indexOf(lang) === -1) {
         if (!visited.has(stringSoFar)) {
           visited.add(stringSoFar);
           renderValues.push(<h4>{stringSoFar}</h4>);
@@ -216,6 +142,19 @@ export default function CFG() {
         </div>
         <h1>{currentTextIndex}</h1>
         <h1>{lang}</h1>
+      </div>
+      <div className="slider">
+        <input 
+          type="range" 
+          min="1"
+          max="20"
+          step="1"
+          value={maxLength} 
+          onChange={(e) => setMaxLength(Number(e.currentTarget.value))}
+        />
+        <div>
+          Max string length: {maxLength}
+        </div>
       </div>
       <div className="outputBox">{renderOutputsTest()}</div>
     </>
