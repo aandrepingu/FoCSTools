@@ -5,6 +5,7 @@ export default function CFG() {
   const [count, setCount] = useState<number>(0);
   const [lang, setLang] = useState<string>("");
   const [text, setText] = useState<string[]>([]);
+  const [CFGOutArray, setCFGOutArray] = useState<Set<string>>(new Set());
   const [currentTextIndex, setCurrentTextIndex] = useState<number>(count - 1);
   const [generated, setGenerated] = useState(false);
 
@@ -32,90 +33,31 @@ export default function CFG() {
     }
   }
 
-  const produceString = (stringSoFar: string, production: string) => {
-    if (stringSoFar.indexOf(lang) === -1) {
-      // Terminal String
-      return stringSoFar;
-    } else {
-      // Replace lang with stringSoFar
-      return stringSoFar.replace(new RegExp(lang, "g"), production);
+  const productionError = (production: string): Boolean => {
+    //Check if no digits
+    var numLang = 0;
+    for (let i = 0; i < production.length; i++) {
+      if (production[i] === lang) {
+        numLang++;
+      }
     }
+
+    if (numLang === production.length && production.length != 0) {
+      return false;
+    }
+
+    return true;
   };
 
   // Output grammars in a div
-  const renderOutputs = () => {
-    const renderValues: JSX.Element[] = [];
-    //const result: string[] = [];
-    //const queue: { symbol: string, stringSoFar: string }[] = [];
-
-    renderValues.push(<h2>Strings from the language {lang}</h2>);
-
-    if (lang === "" || text.length < 1) {
-      return;
-    }
-
-    //queue.push({symbol: text[0], stringSoFar: "" });
-
-    /*
-    while (queue.length > 0 && result.length < 10) {
-      const { symbol, stringSoFar } = queue.shift()!;
-  
-      if (!text.includes(symbol)) {
-        result.push(stringSoFar);
-        console.log("Added to result");
-      } else {
-        for (const production of text) {
-          const newString = stringSoFar + production;
-          queue.push({ symbol: production, stringSoFar: newString });
-          console.log("Added to Queue");
-        }
-      }
-    }
-
-    const subset = result.slice(0,10);
-
-    for(const str of subset){
-      renderValues.push(<h4>{ str }</h4>);
-    }
-    */
-
-    const generateStrings = (
-      stringSoFar: string,
-      visited: Set<string>
-    ): void => {
-      if (renderValues.length >= 10) {
-        return;
-      }
-
-      for (const production of text) {
-        const newString = produceString(stringSoFar, production);
-
-        if (!visited.has(newString)) {
-          // Output terminal strings
-          if (newString.indexOf(lang) === -1) {
-            renderValues.push(<h4>{newString}</h4>);
-            visited.add(newString);
-<<<<<<< Updated upstream
-          }
-=======
->>>>>>> Stashed changes
-          generateStrings(newString, visited);
-        }
-      }
-    };
-
-    generateStrings(lang, new Set());
-
-    return renderValues;
-  };
-
   const renderOutputsTest = () => {
-    const renderValues: JSX.Element[] = [];
+    //const renderValues: JSX.Element[] = [];
+    const CFGStringArray: Set<string> = new Set();
     var max_size = 4;
     //const result: string[] = [];
     //const queue: { symbol: string, stringSoFar: string }[] = [];
 
-    renderValues.push(<h2>Strings from the language {lang}</h2>);
+    CFGStringArray.add(`Strings from the language ${lang}`);
 
     if (lang === "" || text.length < 1) {
       return;
@@ -133,7 +75,7 @@ export default function CFG() {
       if (stringSoFar.length <= max_size && stringSoFar.indexOf(lang) === -1) {
         if (!visited.has(stringSoFar)) {
           visited.add(stringSoFar);
-          renderValues.push(<h4>{stringSoFar}</h4>);
+          CFGStringArray.add(stringSoFar);
           return;
         }
       }
@@ -144,10 +86,13 @@ export default function CFG() {
           for (const production of text) {
             //Apply rule
             //newString.replace(new RegExp(lang, "g"), production);
-            const newString =
-              stringSoFar.slice(0, i) + production + stringSoFar.slice(i + 1);
-            //recurse with rule
-            generateStringsTest(newString, visited);
+            var isValid = productionError(production);
+            if (isValid) {
+              const newString =
+                stringSoFar.slice(0, i) + production + stringSoFar.slice(i + 1);
+              //recurse with rule
+              generateStringsTest(newString, visited);
+            }
           }
         }
       }
@@ -155,7 +100,7 @@ export default function CFG() {
 
     generateStringsTest(lang, new Set());
 
-    return renderValues;
+    setCFGOutArray(CFGStringArray);
   };
 
   // Clear all text boxes and array
@@ -225,10 +170,14 @@ export default function CFG() {
             />
           ))}
         </div>
-        <h1>{currentTextIndex}</h1>
-        <h1>{lang}</h1>
       </div>
-      {generated && <div className="outputBox">{renderOutputsTest()}</div>}
+      {generated && (
+        <div className="outputBox">
+          {Array.from(CFGOutArray).map((s, ind) => {
+            return <h2 key={ind}>{s}</h2>;
+          })}
+        </div>
+      )}
     </>
   );
 }
