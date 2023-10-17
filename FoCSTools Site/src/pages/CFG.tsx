@@ -48,7 +48,7 @@ export default function CFG() {
     //const result: string[] = [];
     //const queue: { symbol: string, stringSoFar: string }[] = [];
 
-    renderValues.push(<h2>Strings from the languaoge {lang}</h2>);
+    renderValues.push(<h2>Strings from the language {lang}</h2>);
 
     if (lang === "" || text.length < 1) {
       return;
@@ -95,7 +95,10 @@ export default function CFG() {
           if (newString.indexOf(lang) === -1) {
             renderValues.push(<h4>{newString}</h4>);
             visited.add(newString);
+<<<<<<< Updated upstream
           }
+=======
+>>>>>>> Stashed changes
           generateStrings(newString, visited);
         }
       }
