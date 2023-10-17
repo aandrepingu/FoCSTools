@@ -156,7 +156,7 @@ export default function CFG() {
           <button onClick={generate}>Generate</button>
         </div>
         <div className="CFG_Rules">
-          <input type="text" value={lang} onChange={(e) => handleLang(e)} />
+          <input type="text" placeholder="Variable" value={lang} onChange={(e) => handleLang(e)} />
           {Array.from({ length: count }).map((_, index) => (
             <input
               key={index}
