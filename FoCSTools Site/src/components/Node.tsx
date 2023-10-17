@@ -3,7 +3,16 @@ import { NodeType } from "src/pages/DFA";
 import "./Node.css";
 import { useState } from "react";
 
-export default function Node({ node }: { node: NodeType }) {
+export default function Node({
+  node,
+  dispatch,
+}: {
+  node: NodeType;
+  dispatch: React.Dispatch<{
+    type: string;
+    payload?: string | undefined;
+  }>;
+}) {
   const [name, setName] = useState("name");
   const [isEditing, setIsEditing] = useState(false);
   const [beforeUnderscore, setBeforeUnderscore] = useState(name);
@@ -43,7 +52,14 @@ export default function Node({ node }: { node: NodeType }) {
                 <button className={"editButton"}>Change 0</button>
                 <button className={"editButton"}>Change 1</button>
                 <br />
-                <button className={"editButton"}>Delete</button>
+                <button
+                  className={"editButton"}
+                  onClick={() =>
+                    dispatch({ type: "remove_node", payload: node.id })
+                  }
+                >
+                  Delete
+                </button>
               </div>
             </div>
           )}

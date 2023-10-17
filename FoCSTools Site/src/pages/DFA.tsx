@@ -22,7 +22,6 @@ const nodeReducer = (
   action: { type: string; payload?: ID }
 ): Map<ID, NodeType> => {
   if (action.type === "add_node") {
-    console.log("adding_node");
     const uniqueID = uuid();
     const newNode: NodeType = {
       id: uniqueID,
@@ -71,7 +70,7 @@ export default function DFA() {
       <Navbar />
       <Sidebar dispatch={dispatch} />
       {Array.from(nodeState.values()).map((node) => (
-        <Node node={node} />
+        <Node node={node} dispatch={dispatch} />
       ))}
     </>
   );

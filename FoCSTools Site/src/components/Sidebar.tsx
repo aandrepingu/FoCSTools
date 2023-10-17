@@ -23,7 +23,6 @@ export default function Sidebar({
                 className="sidebar_Button"
                 onClick={() => {
                   dispatch({ type: "add_node" });
-                  console.log("add_node");
                 }}
               >
                 1
