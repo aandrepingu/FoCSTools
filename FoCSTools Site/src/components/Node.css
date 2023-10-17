@@ -43,3 +43,8 @@
   border-radius: 8px;
   transition: ease-in-out 0.5s;
 }
+.editButton{
+  padding-left: 0px;
+  padding-right: 0px;
+  font-size: 10px;
+}
