@@ -24,7 +24,9 @@
 }
 
 .CFG_Text_Div {
-  padding-top: 20px;
+  padding-top: 10px;
+  width: 400px;
+  background-color: rgb(60, 60, 225);
 }
 
 .CFG_Button_Div {
@@ -39,6 +41,7 @@
   max-height: 65vh;
   overflow: scroll;
 }
+
 body {
   flex-direction: column;
 }
