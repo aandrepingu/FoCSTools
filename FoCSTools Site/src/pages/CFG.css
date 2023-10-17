@@ -19,6 +19,10 @@
   background-color: green;
 }
 
+.slider {
+  background-color: rgb(64, 63, 63);
+}
+
 .CFG_Text_Div {
   padding-top: 20px;
 }

@@ -6,6 +6,7 @@ export default function CFG() {
   const [lang, setLang] = useState<string>("");
   const [text, setText] = useState<string[]>([]);
   const [currentTextIndex, setCurrentTextIndex] = useState<number>(count - 1);
+  const [maxLength, setMaxLength] = useState<number>(1);
   const [generated, setGenerated] = useState(false);
 
   // Get index of clicked text box
@@ -35,7 +36,6 @@ export default function CFG() {
   // Output grammars in a div
   const renderOutputs = () => {
     const CFGStringArray: Set<string> = new Set();
-    var max_size = 4;
     //const result: string[] = [];
     //const queue: { symbol: string, stringSoFar: string }[] = [];
 
@@ -51,11 +51,11 @@ export default function CFG() {
       visited: Set<string>
     ): void => {
       //Base case:
-      if (stringSoFar.length > max_size) {
+      if (stringSoFar.length > maxLength) {
         return;
       }
 
-      if (stringSoFar.length <= max_size && stringSoFar.indexOf(lang) === -1) {
+      if (stringSoFar.length <= maxLength && stringSoFar.indexOf(lang) === -1) {
         if (!visited.has(stringSoFar)) {
           visited.add(stringSoFar);
           CFGStringArray.add(stringSoFar);
@@ -152,6 +152,19 @@ export default function CFG() {
         </div>
         <h1>{currentTextIndex}</h1>
         <h1>{lang}</h1>
+      </div>
+      <div className="slider">
+        <input 
+          type="range" 
+          min="1"
+          max="20"
+          step="1"
+          value={maxLength} 
+          onChange={(e) => setMaxLength(Number(e.currentTarget.value))}
+        />
+        <div>
+          Max string length: {maxLength}
+        </div>
       </div>
       {generated && <div className="outputBox">{renderOutputs()}</div>}
     </>
