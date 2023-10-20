@@ -9,6 +9,7 @@ export default function CFG() {
   const [currentTextIndex, setCurrentTextIndex] = useState<number>(count - 1);
   const [maxLength, setMaxLength] = useState<number>(1);
   const [generated, setGenerated] = useState(false);
+  const [randomize, setRandomize] = useState(false);
 
   // Get index of clicked text box
   function onTextClick(index: number) {
@@ -171,6 +172,12 @@ export default function CFG() {
         </div>
       </div>
       <div className="slider">
+        <input type="checkbox" onChange={(e) => {
+             setRandomize(Boolean(e.target.value));
+          }} />
+        <div>
+          Randomize Outputs?
+        </div>
         <input
           type="range"
           min="1"
