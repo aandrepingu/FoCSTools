@@ -6,19 +6,25 @@ import { useState } from "react";
 export default function Node({
   node,
   dispatch,
+  changing,
+  setChanging0,
+  setChanging1,
 }: {
   node: NodeType;
   dispatch: React.Dispatch<{
     type: string;
     payload?: string | undefined;
   }>;
+  changing: boolean;
+  setChanging0: React.Dispatch<React.SetStateAction<boolean>>;
+  setChanging1: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [name, setName] = useState("name");
   const [isEditing, setIsEditing] = useState(false);
   const [beforeUnderscore, setBeforeUnderscore] = useState(name);
   const [afterUnderscore, setAfterUnderscore] = useState("");
 
-  function SplitName(word: string) {
+  function splitName(word: string) {
     const nameSplit = word.split("_");
     if (nameSplit.length === 2) {
       setBeforeUnderscore(nameSplit[0]);
@@ -41,7 +47,7 @@ export default function Node({
                 value={name}
                 onChange={(e) => {
                   setName(e.target.value);
-                  SplitName(e.target.value);
+                  splitName(e.target.value);
                 }}
                 style={{ width: "100px" }}
               />
@@ -49,8 +55,22 @@ export default function Node({
               Edit:
               <br />
               <div className={"editButtons"}>
-                <button className={"editButton"}>Change 0</button>
-                <button className={"editButton"}>Change 1</button>
+                <button
+                  className={"editButton"}
+                  onClick={() => {
+                    setChanging0(true);
+                  }}
+                >
+                  Change 0
+                </button>
+                <button
+                  className={"editButton"}
+                  onClick={() => {
+                    setChanging1(true);
+                  }}
+                >
+                  Change 1
+                </button>
                 <br />
                 <button
                   className={"editButton"}
