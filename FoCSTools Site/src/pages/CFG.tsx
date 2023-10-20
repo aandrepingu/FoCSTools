@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./CFG.css";
 
 export default function CFG() {
@@ -13,7 +13,9 @@ export default function CFG() {
   const [generated, setGenerated] = useState(false);
   const [randomize, setRandomize] = useState(false);
 
-  //useEffect(() => {}, [CFGOutArray]);
+  const shuffle = (array: string[]) => { 
+    return array.sort(() => Math.random() - 0.5); 
+  }; 
 
   // Get index of clicked text box
   function onTextClick(index: number) {
@@ -75,7 +77,12 @@ export default function CFG() {
       }
 
       if (stringSoFar.length <= maxLength && stringSoFar.indexOf(lang) === -1) {
-        if (!visited.has(stringSoFar) && visited.size < maxNumPrinted) {
+        if (!visited.has(stringSoFar) && visited.size < maxNumPrinted && !randomize) {
+          visited.add(stringSoFar);
+          CFGStringArray.add(stringSoFar);
+          return;
+        }
+        else if(!visited.has(stringSoFar) && randomize){
           visited.add(stringSoFar);
           CFGStringArray.add(stringSoFar);
           return;
@@ -101,7 +108,19 @@ export default function CFG() {
     };
 
     generateStrings(lang, new Set(), 0);
-    setCFGOutArray(CFGStringArray);
+
+    //set random values in array
+    if(randomize){
+      let tmpArray = Array.from(CFGOutArray);
+      tmpArray = tmpArray.slice(1);
+      tmpArray = shuffle(tmpArray);
+      tmpArray.unshift(`Strings from the language ${lang}`);
+      setCFGOutArray(new Set(tmpArray));
+    }
+
+    else{
+      setCFGOutArray(CFGStringArray);
+    }
   };
 
   // Clear all text boxes and array
@@ -115,7 +134,6 @@ export default function CFG() {
 
   function generate() {
     renderOutputs();
-
     setGenerated(true);
   }
 
@@ -195,7 +213,7 @@ export default function CFG() {
              setRandomize(Boolean(e.target.value));
           }} />
         <div>
-          Randomize Outputs?
+          Randomize Outputs: {randomize}
         </div>
         <input
           type="range"
