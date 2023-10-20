@@ -45,3 +45,14 @@
 body {
   flex-direction: column;
 }
+
+.CFG_Button_Div > button {
+	/* margin: 1px; */
+	/* text-align: center; */
+	/* align-content: center; */
+	border: 2px solid #00000045;
+	padding: 0.6em 1em .6em 1em;
+	margin-bottom: 3px;
+	margin-right: 1px;
+	margin-left: 1px;
+}
