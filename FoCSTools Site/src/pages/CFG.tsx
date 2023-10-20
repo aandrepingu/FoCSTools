@@ -130,7 +130,9 @@ export default function CFG() {
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
     if (e.key === "|") {
-      onAdd();
+      setCount(count + 1);
+      const newText = [...text, ""];
+      setText(newText);
       e.preventDefault();
     }
     else if (e.key === "Backspace" && !value) 
