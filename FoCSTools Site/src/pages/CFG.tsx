@@ -13,9 +13,9 @@ export default function CFG() {
   const [generated, setGenerated] = useState(false);
   const [randomize, setRandomize] = useState(false);
 
-  const shuffle = (array: string[]) => { 
-    return array.sort(() => Math.random() - 0.5); 
-  }; 
+  const shuffle = (array: string[]) => {
+    return array.sort(() => Math.random() - 0.5);
+  };
 
   // Get index of clicked text box
   function onTextClick(index: number) {
@@ -77,12 +77,15 @@ export default function CFG() {
       }
 
       if (stringSoFar.length <= maxLength && stringSoFar.indexOf(lang) === -1) {
-        if (!visited.has(stringSoFar) && visited.size < maxNumPrinted && !randomize) {
+        if (
+          !visited.has(stringSoFar) &&
+          visited.size < maxNumPrinted &&
+          !randomize
+        ) {
           visited.add(stringSoFar);
           CFGStringArray.add(stringSoFar);
           return;
-        }
-        else if(!visited.has(stringSoFar) && randomize){
+        } else if (!visited.has(stringSoFar) && randomize) {
           visited.add(stringSoFar);
           CFGStringArray.add(stringSoFar);
           return;
@@ -110,15 +113,22 @@ export default function CFG() {
     generateStrings(lang, new Set(), 0);
 
     //set random values in array
-    if(randomize){
-      let tmpArray = Array.from(CFGOutArray);
+    if (randomize) {
+      let tmpArray = Array.from(CFGStringArray);
       tmpArray = tmpArray.slice(1);
       tmpArray = shuffle(tmpArray);
       tmpArray.unshift(`Strings from the language ${lang}`);
-      setCFGOutArray(new Set(tmpArray));
-    }
+      //Only add the first maxNumPrinted elemts from randomized array
+      if (maxNumPrinted < tmpArray.length + 1) {
+        let tmpArray1 = Array(maxNumPrinted + 1);
+        for (let i = 0; i < maxNumPrinted + 1; i++) {
+          tmpArray1[i] = tmpArray[i];
+        }
+        tmpArray = tmpArray1;
+      }
 
-    else{
+      setCFGOutArray(new Set(tmpArray));
+    } else {
       setCFGOutArray(CFGStringArray);
     }
   };
@@ -152,9 +162,7 @@ export default function CFG() {
       const newText = [...text, ""];
       setText(newText);
       e.preventDefault();
-    }
-    else if (e.key === "Backspace" && !value) 
-    {
+    } else if (e.key === "Backspace" && !value) {
       if (count > 0) {
         setCount(count - 1);
         text.splice(currentTextIndex, 1);
@@ -209,12 +217,13 @@ export default function CFG() {
         </div>
       </div>
       <div className="slider">
-        <input type="checkbox" onChange={(e) => {
-             setRandomize(Boolean(e.target.value));
-          }} />
-        <div>
-          Randomize Outputs: {randomize}
-        </div>
+        <input
+          type="checkbox"
+          onChange={(e) => {
+            setRandomize(Boolean(e.target.value));
+          }}
+        />
+        <div>Randomize Outputs: {randomize}</div>
         <input
           type="range"
           min="1"
