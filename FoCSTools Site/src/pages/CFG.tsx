@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./CFG.css";
 
 export default function CFG() {
@@ -8,7 +8,12 @@ export default function CFG() {
   const [CFGOutArray, setCFGOutArray] = useState<Set<string>>(new Set());
   const [currentTextIndex, setCurrentTextIndex] = useState<number>(count - 1);
   const [maxLength, setMaxLength] = useState<number>(1);
+  const [maxRecursion, setMaxRecursion] = useState<number>(1);
+  const [maxNumPrinted, setMaxNumPrinted] = useState<number>(1);
   const [generated, setGenerated] = useState(false);
+  const [randomize, setRandomize] = useState(false);
+
+  //useEffect(() => {}, [CFGOutArray]);
 
   // Get index of clicked text box
   function onTextClick(index: number) {
@@ -58,15 +63,19 @@ export default function CFG() {
 
     const generateStrings = (
       stringSoFar: string,
-      visited: Set<string>
+      visited: Set<string>,
+      depth: number
     ): void => {
       //Base case:
+      if (depth > maxRecursion) {
+        return;
+      }
       if (stringSoFar.length > maxLength) {
         return;
       }
 
       if (stringSoFar.length <= maxLength && stringSoFar.indexOf(lang) === -1) {
-        if (!visited.has(stringSoFar)) {
+        if (!visited.has(stringSoFar) && visited.size < maxNumPrinted) {
           visited.add(stringSoFar);
           CFGStringArray.add(stringSoFar);
           return;
@@ -84,14 +93,14 @@ export default function CFG() {
               const newString =
                 stringSoFar.slice(0, i) + production + stringSoFar.slice(i + 1);
               //recurse with rule
-              generateStrings(newString, visited);
+              generateStrings(newString, visited, depth + 1);
             }
           }
         }
       }
     };
 
-    generateStrings(lang, new Set());
+    generateStrings(lang, new Set(), 0);
     setCFGOutArray(CFGStringArray);
   };
 
@@ -106,6 +115,7 @@ export default function CFG() {
 
   function generate() {
     renderOutputs();
+
     setGenerated(true);
   }
 
@@ -119,8 +129,20 @@ export default function CFG() {
   // Handle special keypresses "|" and "Backspace" to add and remove
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
-    if (e.key === "|") onAdd();
-    else if (e.key === "Backspace" && !value) onRemove();
+    if (e.key === "|") {
+      setCount(count + 1);
+      const newText = [...text, ""];
+      setText(newText);
+      e.preventDefault();
+    }
+    else if (e.key === "Backspace" && !value) 
+    {
+      if (count > 0) {
+        setCount(count - 1);
+        text.splice(currentTextIndex, 1);
+      }
+      e.preventDefault();
+    }
   };
 
   // Edit a text box
@@ -149,7 +171,12 @@ export default function CFG() {
           <button onClick={generate}>Generate</button>
         </div>
         <div className="CFG_Rules">
-          <input type="text" placeholder="Variable" value={lang} onChange={(e) => handleLang(e)} />
+          <input
+            type="text"
+            placeholder="Variable"
+            value={lang}
+            onChange={(e) => handleLang(e)}
+          />
           {Array.from({ length: count }).map((_, index) => (
             <input
               key={index}
@@ -164,6 +191,12 @@ export default function CFG() {
         </div>
       </div>
       <div className="slider">
+        <input type="checkbox" onChange={(e) => {
+             setRandomize(Boolean(e.target.value));
+          }} />
+        <div>
+          Randomize Outputs?
+        </div>
         <input
           type="range"
           min="1"
@@ -173,6 +206,28 @@ export default function CFG() {
           onChange={(e) => setMaxLength(Number(e.currentTarget.value))}
         />
         <div>Max string length: {maxLength}</div>
+      </div>
+      <div className="slider">
+        <input
+          type="range"
+          min="1"
+          max="20"
+          step="1"
+          value={maxRecursion}
+          onChange={(e) => setMaxRecursion(Number(e.currentTarget.value))}
+        />
+        <div>Max Recursion length: {maxRecursion}</div>
+      </div>
+      <div className="slider">
+        <input
+          type="range"
+          min="1"
+          max="100"
+          step="1"
+          value={maxNumPrinted}
+          onChange={(e) => setMaxNumPrinted(Number(e.currentTarget.value))}
+        />
+        <div>Number of Strings: {maxNumPrinted}</div>
       </div>
       {generated && (
         <div className="outputBox">
