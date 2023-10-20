@@ -119,8 +119,18 @@ export default function CFG() {
   // Handle special keypresses "|" and "Backspace" to add and remove
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
-    if (e.key === "|") onAdd();
-    else if (e.key === "Backspace" && !value) onRemove();
+    if (e.key === "|") {
+      onAdd();
+      e.preventDefault();
+    }
+    else if (e.key === "Backspace" && !value) 
+    {
+      if (count > 0) {
+        setCount(count - 1);
+        text.splice(currentTextIndex, 1);
+      }
+      e.preventDefault();
+    }
   };
 
   // Edit a text box
