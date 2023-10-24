@@ -192,12 +192,14 @@ export default function CFG() {
   function toggleSettings(){
     setShowSettings(!showSettings);
   }
+
+  function toggleRandomize(){
+    setRandomize(!randomize);
+  }
+
   return (
     <>
       <h2 className="CFG_Text_Div">Create a Context Free Grammar</h2>
-      <div>
-        <button onClick={toggleSettings}>⚙️</button>
-      </div>
       <div className="CFG_FlexBox_Div">
         <div className="CFG_Button_Div">
           <button onClick={onAdd}>Add</button>
@@ -228,46 +230,49 @@ export default function CFG() {
 
       {showSettings && (<div className="settingsBox">
         <label>Randomize Outputs: {randomize}</label>
-        <input
-          type="checkbox"
-          onChange={(e) => {
-            setRandomize(Boolean(e.target.value));
-          }}
-        />
-        <div></div>
-        <label>Max String Length: </label>
-        <input
-          type="range"
-          min="1"
-          max="20"
-          step="1"
-          value={maxLength}
-          onChange={(e) => setMaxLength(Number(e.currentTarget.value))}
-        />
-        <label> {maxLength}</label>
-        <div></div>
-        <label>Max Recursive Depth: </label>
-        <input
-          type="range"
-          min="1"
-          max="20"
-          step="1"
-          value={maxRecursion}
-          onChange={(e) => setMaxRecursion(Number(e.currentTarget.value))}
-        />
-        <label> {maxRecursion}</label>
-        <div></div>
-        <label>Number of Strings: </label>
-        <input
-          type="range"
-          min="1"
-          max="100"
-          step="1"
-          value={maxNumPrinted}
-          onChange={(e) => setMaxNumPrinted(Number(e.currentTarget.value))}
-        />
-        <label> {maxNumPrinted}</label>
+        <div className="setting">
+          <button onClick={toggleRandomize}>{randomize ? 'On' : 'Off'}</button>
+        </div>
+        <div className="setting">
+          <label>Max String Length: </label>
+          <input
+            type="range"
+            min="1"
+            max="20"
+            step="1"
+            value={maxLength}
+            onChange={(e) => setMaxLength(Number(e.currentTarget.value))}
+          />
+          <label> {maxLength}</label>
+        </div>
+        <div className="setting">
+          <label>Recursive Depth: </label>
+          <input
+            type="range"
+            min="1"
+            max="20"
+            step="1"
+            value={maxRecursion}
+            onChange={(e) => setMaxRecursion(Number(e.currentTarget.value))}
+          />
+          <label> {maxRecursion}</label>
+        </div>
+        <div className="setting">
+          <label>Number of Strings: </label>
+          <input
+            type="range"
+            min="1"
+            max="100"
+            step="1"
+            value={maxNumPrinted}
+            onChange={(e) => setMaxNumPrinted(Number(e.currentTarget.value))}
+          />
+          <label> {maxNumPrinted}</label>
+        </div>
       </div>)}
+      <div>
+        <button className="gear" onClick={toggleSettings}>⚙️</button>
+      </div>
       {generated && (
         <div className="outputBox">
           {Array.from(CFGOutArray).map((s, ind) => {

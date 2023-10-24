@@ -22,9 +22,19 @@
 .settingsBox {
   background-color: rgb(64, 63, 63);
   text-align: left;
-  padding: 2%;
+  display: flex;
+  flex-direction: column;
+  padding: 1%;
   position: absolute;
-  right: 40px;
+  right: 25px;
+  top: 65px;
+}
+
+.setting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 
 .CFG_Text_Div {
@@ -48,6 +58,16 @@
 
 body {
   flex-direction: column;
+}
+
+.gear {
+  position: absolute;
+  right: 25px;
+  top: 65px;
+  background-color: transparent;
+  font-size: xx-large;
+  padding: 0%;
+  background-color: rgb(64, 63, 63);
 }
 
 .CFG_Button_Div > button {
