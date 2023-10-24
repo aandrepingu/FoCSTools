@@ -64,6 +64,29 @@ export default function CFG() {
       return;
     }
 
+    /*
+    input string s:
+
+      base case:
+          if only terminals and string length matches
+      if equal: return YES
+      if not: return (exit branch)
+          else
+      return (if only terminals but doesnt match length)
+
+
+      for each S in substring:
+      for each production rule:
+      newString = apply rule
+      check beginnings
+      check endings
+      last change:
+      check substrings (ex. S000S)
+      if valid
+      function(newString)
+
+    */
+
     const generateStrings = (
       stringSoFar: string,
       visited: Set<string>,
@@ -189,11 +212,11 @@ export default function CFG() {
   };
 
   // Toggle settings bar
-  function toggleSettings(){
+  function toggleSettings() {
     setShowSettings(!showSettings);
   }
 
-  function toggleRandomize(){
+  function toggleRandomize() {
     setRandomize(!randomize);
   }
 
@@ -228,50 +251,56 @@ export default function CFG() {
         </div>
       </div>
 
-      {showSettings && (<div className="settingsBox">
-        <label>Randomize Outputs: {randomize}</label>
-        <div className="setting">
-          <button onClick={toggleRandomize}>{randomize ? 'On' : 'Off'}</button>
+      {showSettings && (
+        <div className="settingsBox">
+          <label>Randomize Outputs: {randomize}</label>
+          <div className="setting">
+            <button onClick={toggleRandomize}>
+              {randomize ? "On" : "Off"}
+            </button>
+          </div>
+          <div className="setting">
+            <label>Max String Length: </label>
+            <input
+              type="range"
+              min="1"
+              max="20"
+              step="1"
+              value={maxLength}
+              onChange={(e) => setMaxLength(Number(e.currentTarget.value))}
+            />
+            <label> {maxLength}</label>
+          </div>
+          <div className="setting">
+            <label>Recursive Depth: </label>
+            <input
+              type="range"
+              min="1"
+              max="20"
+              step="1"
+              value={maxRecursion}
+              onChange={(e) => setMaxRecursion(Number(e.currentTarget.value))}
+            />
+            <label> {maxRecursion}</label>
+          </div>
+          <div className="setting">
+            <label>Number of Strings: </label>
+            <input
+              type="range"
+              min="1"
+              max="100"
+              step="1"
+              value={maxNumPrinted}
+              onChange={(e) => setMaxNumPrinted(Number(e.currentTarget.value))}
+            />
+            <label> {maxNumPrinted}</label>
+          </div>
         </div>
-        <div className="setting">
-          <label>Max String Length: </label>
-          <input
-            type="range"
-            min="1"
-            max="20"
-            step="1"
-            value={maxLength}
-            onChange={(e) => setMaxLength(Number(e.currentTarget.value))}
-          />
-          <label> {maxLength}</label>
-        </div>
-        <div className="setting">
-          <label>Recursive Depth: </label>
-          <input
-            type="range"
-            min="1"
-            max="20"
-            step="1"
-            value={maxRecursion}
-            onChange={(e) => setMaxRecursion(Number(e.currentTarget.value))}
-          />
-          <label> {maxRecursion}</label>
-        </div>
-        <div className="setting">
-          <label>Number of Strings: </label>
-          <input
-            type="range"
-            min="1"
-            max="100"
-            step="1"
-            value={maxNumPrinted}
-            onChange={(e) => setMaxNumPrinted(Number(e.currentTarget.value))}
-          />
-          <label> {maxNumPrinted}</label>
-        </div>
-      </div>)}
+      )}
       <div>
-        <button className="gear" onClick={toggleSettings}>⚙️</button>
+        <button className="gear" onClick={toggleSettings}>
+          ⚙️
+        </button>
       </div>
       {generated && (
         <div className="outputBox">
