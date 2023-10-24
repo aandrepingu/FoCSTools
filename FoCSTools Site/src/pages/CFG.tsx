@@ -12,6 +12,7 @@ export default function CFG() {
   const [maxNumPrinted, setMaxNumPrinted] = useState<number>(1);
   const [generated, setGenerated] = useState(false);
   const [randomize, setRandomize] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
 
   const shuffle = (array: string[]) => {
     return array.sort(() => Math.random() - 0.5);
@@ -186,9 +187,17 @@ export default function CFG() {
     const value = e.currentTarget.value;
     setLang(value);
   };
+
+  // Toggle settings bar
+  function toggleSettings(){
+    setShowSettings(!showSettings);
+  }
   return (
     <>
       <h2 className="CFG_Text_Div">Create a Context Free Grammar</h2>
+      <div>
+        <button onClick={toggleSettings}>⚙️</button>
+      </div>
       <div className="CFG_FlexBox_Div">
         <div className="CFG_Button_Div">
           <button onClick={onAdd}>Add</button>
@@ -216,14 +225,17 @@ export default function CFG() {
           ))}
         </div>
       </div>
-      <div className="slider">
+
+      {showSettings && (<div className="settingsBox">
+        <label>Randomize Outputs: {randomize}</label>
         <input
           type="checkbox"
           onChange={(e) => {
             setRandomize(Boolean(e.target.value));
           }}
         />
-        <div>Randomize Outputs: {randomize}</div>
+        <div></div>
+        <label>Max String Length: </label>
         <input
           type="range"
           min="1"
@@ -232,9 +244,9 @@ export default function CFG() {
           value={maxLength}
           onChange={(e) => setMaxLength(Number(e.currentTarget.value))}
         />
-        <div>Max string length: {maxLength}</div>
-      </div>
-      <div className="slider">
+        <label> {maxLength}</label>
+        <div></div>
+        <label>Max Recursive Depth: </label>
         <input
           type="range"
           min="1"
@@ -243,9 +255,9 @@ export default function CFG() {
           value={maxRecursion}
           onChange={(e) => setMaxRecursion(Number(e.currentTarget.value))}
         />
-        <div>Max Recursion length: {maxRecursion}</div>
-      </div>
-      <div className="slider">
+        <label> {maxRecursion}</label>
+        <div></div>
+        <label>Number of Strings: </label>
         <input
           type="range"
           min="1"
@@ -254,8 +266,8 @@ export default function CFG() {
           value={maxNumPrinted}
           onChange={(e) => setMaxNumPrinted(Number(e.currentTarget.value))}
         />
-        <div>Number of Strings: {maxNumPrinted}</div>
-      </div>
+        <label> {maxNumPrinted}</label>
+      </div>)}
       {generated && (
         <div className="outputBox">
           {Array.from(CFGOutArray).map((s, ind) => {

@@ -19,8 +19,12 @@
   background-color: green;
 }
 
-.slider {
+.settingsBox {
   background-color: rgb(64, 63, 63);
+  text-align: left;
+  padding: 2%;
+  position: absolute;
+  right: 40px;
 }
 
 .CFG_Text_Div {
