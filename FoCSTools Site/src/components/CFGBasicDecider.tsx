@@ -37,7 +37,7 @@ function simpleProdStep(prods: string[], match: string): [number, string][]{
     return ret;
 }
 
-function simpleProd(prods: string[], match){
+function simpleProd(prods: string[], match: string){
     // Our prods have no duplication now so this should be easier. Lets create an array so we don't need recursion
     let recurse: [number, string][][] = [];
     // Let's jumpstart our production
