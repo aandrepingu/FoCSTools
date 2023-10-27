@@ -14,6 +14,9 @@
   margin: 2%; 
   font-weight: bold;
 }
+.sidebar_Button:hover{
+  background-color: orange;
+}
 
 .sidebar_Minimize_Button {
   background-color: #d6d6d694;
