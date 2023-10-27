@@ -1,5 +1,5 @@
 import Node from "../components/Node";
-import { useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { v4 as uuid } from "uuid";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
@@ -19,7 +19,7 @@ export interface NodeType {
 
 const nodeReducer = (
   state: Map<ID, NodeType>,
-  action: { type: string; payload?: ID; target?: ID; source?: ID }
+  action: { type: string; payload?: ID | number; target?: ID; source?: ID }
 ): Map<ID, NodeType> => {
   if (action.type === "add_node") {
     const uniqueID = uuid();
@@ -30,11 +30,14 @@ const nodeReducer = (
     };
     const newState = new Map(state);
     newState.set(uniqueID, newNode);
-    console.log(newState);
     return newState;
   } else if (action.type === "link_node") {
     if (!action.source || !action.target) {
-      console.log("no payload on link");
+      console.log("no source or target in action", action);
+      return state;
+    }
+    if (!action.payload || typeof action.payload !== "number") {
+      console.log("no payload on link", action);
       return state;
     }
     const newState = new Map(state);
@@ -43,9 +46,14 @@ const nodeReducer = (
       console.log("source node not found");
       return state;
     }
-    newState.set(action.source, { ...sourceNode });
+    const newOutgoing = {
+      ...sourceNode.outgoing,
+      [action.payload]: action.target,
+    };
+    newState.set(action.source, { ...sourceNode, outgoing: newOutgoing });
+    return newState;
   } else if (action.type === "remove_node") {
-    if (!action.payload) {
+    if (!action.payload || typeof action.payload !== "string") {
       return state;
     }
     const newState = new Map(state);
@@ -76,8 +84,12 @@ export default function DFA() {
     nodeReducer,
     new Map<ID, NodeType>()
   );
-  const [changing0, setChanging0] = useState(false);
-  const [changing1, setChanging1] = useState(false);
+  const [changing0, setChanging0] = useState<ID | null>(null);
+  const [changing1, setChanging1] = useState<ID | null>(null);
+
+  useEffect(() => {
+    console.log(nodeState, "CHANGING");
+  }, [nodeState]);
 
   return (
     <>
@@ -86,8 +98,16 @@ export default function DFA() {
       {Array.from(nodeState.values()).map((node) => (
         <Node
           node={node}
+          onClick={() => {
+            if (!changing0 && !changing1) return;
+            dispatch({
+              type: "link_node",
+              payload: changing0 ? 0 : changing1 ? 1 : undefined,
+              source: changing0 || changing1 || undefined,
+              target: node.id,
+            });
+          }}
           dispatch={dispatch}
-          changing={changing0 || changing1}
           setChanging0={setChanging0}
           setChanging1={setChanging1}
         />
