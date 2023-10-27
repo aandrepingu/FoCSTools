@@ -196,6 +196,10 @@ export default function CFG() {
         setCount(count - 1);
         text.splice(currentTextIndex, 1);
       }
+      if(index==count-1)
+      {
+        inputRef.current[count-2].focus();
+      }
       e.preventDefault();
     }
     // ArrowUp: Goes to the previous box
