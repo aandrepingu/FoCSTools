@@ -29,6 +29,7 @@
   position: absolute;
   right: 25px;
   top: 65px;
+  color: white;
 }
 
 .setting {
@@ -82,7 +83,19 @@ body {
 	margin-right: 1px;
 	margin-left: 1px;
 }
+  /* v This changes ALL/Navbar Buttons, should be moved before main branch merge v*/
+button {
+  background-color: black;
+  color: white;
+}
+.navbar button {
+  background-color: black;
+  color: white;
+}
+  /* ^ This changes ALL/Navbar Buttons, should be moved before main branch merge ^ */
+
 .settingsBox {
+
   display: grid;
   align-items: center;
   row-gap: 4px;
@@ -111,6 +124,7 @@ body {
   width: 100px;
 }
 .setting button {
+  background-color: black;
   grid-column: 2/3;
   width: 50%;
   align-self: center;
