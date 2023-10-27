@@ -6,7 +6,7 @@ import { useState } from "react";
 export default function Node({
   node,
   dispatch,
-  changing,
+  onClick,
   setChanging0,
   setChanging1,
 }: {
@@ -15,9 +15,9 @@ export default function Node({
     type: string;
     payload?: string | undefined;
   }>;
-  changing: boolean;
-  setChanging0: React.Dispatch<React.SetStateAction<boolean>>;
-  setChanging1: React.Dispatch<React.SetStateAction<boolean>>;
+  onClick: () => void;
+  setChanging0: React.Dispatch<React.SetStateAction<string | null>>;
+  setChanging1: React.Dispatch<React.SetStateAction<string | null>>;
 }) {
   const [name, setName] = useState("name");
   const [isEditing, setIsEditing] = useState(false);
@@ -38,7 +38,7 @@ export default function Node({
   return (
     <>
       <Draggable>
-        <div>
+        <div onClick={onClick}>
           {isEditing && (
             <div className={"editBox"}>
               Name:
@@ -58,7 +58,7 @@ export default function Node({
                 <button
                   className={"editButton"}
                   onClick={() => {
-                    setChanging0(true);
+                    setChanging0(node.id);
                   }}
                 >
                   Change 0
@@ -66,7 +66,7 @@ export default function Node({
                 <button
                   className={"editButton"}
                   onClick={() => {
-                    setChanging1(true);
+                    setChanging1(node.id);
                   }}
                 >
                   Change 1
