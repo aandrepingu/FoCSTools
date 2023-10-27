@@ -2,6 +2,7 @@ import Draggable from "react-draggable";
 import { NodeType } from "src/pages/DFA";
 import "./Node.css";
 import { useState } from "react";
+import Xarrow, { useXarrow, Xwrapper } from "react-xarrows";
 
 export default function Node({
   node,
@@ -23,6 +24,7 @@ export default function Node({
   const [isEditing, setIsEditing] = useState(false);
   const [beforeUnderscore, setBeforeUnderscore] = useState(name);
   const [afterUnderscore, setAfterUnderscore] = useState("");
+  const updateXarrow = useXarrow();
 
   function splitName(word: string) {
     const nameSplit = word.split("_");
@@ -37,7 +39,7 @@ export default function Node({
 
   return (
     <>
-      <Draggable>
+      <Draggable onDrag={updateXarrow} onStop={updateXarrow}>
         <div onClick={onClick}>
           {isEditing && (
             <div className={"editBox"}>
@@ -83,7 +85,17 @@ export default function Node({
               </div>
             </div>
           )}
-          <div className={"node"} id={node.id} style={{backgroundColor: node.start ? "green" : node.end ? "red" : "brown"}}>
+          <div
+            className={"node"}
+            id={node.id}
+            style={{
+              backgroundColor: node.start
+                ? "green"
+                : node.end
+                ? "red"
+                : "brown",
+            }}
+          >
             <div
               style={{
                 position: "absolute",

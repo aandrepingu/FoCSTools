@@ -3,6 +3,7 @@ import { useEffect, useReducer, useState } from "react";
 import { v4 as uuid } from "uuid";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
+import Xarrow, { useXarrow, Xwrapper } from "react-xarrows";
 
 type ID = string;
 
@@ -21,14 +22,18 @@ const nodeReducer = (
   state: Map<ID, NodeType>,
   action: { type: string; payload?: ID | number; target?: ID; source?: ID }
 ): Map<ID, NodeType> => {
-  if (action.type === "add_node" || action.type === "add_start_node" || action.type === "add_end_node") {
+  if (
+    action.type === "add_node" ||
+    action.type === "add_start_node" ||
+    action.type === "add_end_node"
+  ) {
     const uniqueID = uuid();
     const newNode: NodeType = {
       id: uniqueID,
       incoming: [],
       outgoing: { 0: null, 1: null },
       start: action.type === "add_start_node",
-      end: action.type === "add_end_node"
+      end: action.type === "add_end_node",
     };
     const newState = new Map(state);
     newState.set(uniqueID, newNode);
@@ -38,7 +43,7 @@ const nodeReducer = (
       console.log("no source or target in action", action);
       return state;
     }
-    if (!action.payload || typeof action.payload !== "number") {
+    if (action.payload === undefined || typeof action.payload !== "number") {
       console.log("no payload on link", action);
       return state;
     }
@@ -97,23 +102,47 @@ export default function DFA() {
     <>
       <Navbar />
       <Sidebar dispatch={dispatch} />
-      {Array.from(nodeState.values()).map((node) => (
-        <Node
-          node={node}
-          onClick={() => {
-            if (!changing0 && !changing1) return;
-            dispatch({
-              type: "link_node",
-              payload: changing0 ? 0 : changing1 ? 1 : undefined,
-              source: changing0 || changing1 || undefined,
-              target: node.id,
-            });
-          }}
-          dispatch={dispatch}
-          setChanging0={setChanging0}
-          setChanging1={setChanging1}
-        />
-      ))}
+      <Xwrapper>
+        {Array.from(nodeState.values()).map((node) => (
+          <Node
+            node={node}
+            onClick={() => {
+              if (!changing0 && !changing1) return;
+              dispatch({
+                type: "link_node",
+                payload: changing0 ? 0 : changing1 ? 1 : undefined,
+                source: changing0 || changing1 || undefined,
+                target: node.id,
+              });
+              setChanging0(null);
+              setChanging1(null);
+            }}
+            dispatch={dispatch}
+            setChanging0={setChanging0}
+            setChanging1={setChanging1}
+          />
+        ))}
+        {Array.from(nodeState.values()).map((node) => {
+          return (
+            <>
+              {node.outgoing[0] && (
+                <Xarrow
+                  start={node.id} //can be react ref
+                  end={node.outgoing[0]} //or an id
+                  labels={"0"}
+                />
+              )}
+              {node.outgoing[1] && (
+                <Xarrow
+                  start={node.id} //can be react ref
+                  end={node.outgoing[1]} //or an id
+                  labels={"1"}
+                />
+              )}
+            </>
+          );
+        })}
+      </Xwrapper>
     </>
   );
 }
