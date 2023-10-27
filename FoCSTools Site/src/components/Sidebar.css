@@ -1,24 +1,24 @@
 .sidebar {
   display: grid;
-  min-width: 25%;
   height: 100%;
   align-items: normal;
   background-color: #797575;
+  border: 5px;
 }
 
 .sidebar_Button {
   position: relative;
-  /*border: 5px;*/
-  height: 70%;
-  width: 20%;
-  margin: 2%;
+  border: 5px;
+  /* height: 70%;
+  width: 20%; */
+  margin: 2%; 
+  font-weight: bold;
 }
 
 .sidebar_Minimize_Button {
-  position: absolute;
   background-color: #d6d6d694;
   /*border: 5px;*/
-  height: 200px;
+  height: 120px;
   width: 100px;
   top: 55px;
 }
