@@ -12,6 +12,7 @@ export default function CFG() {
   const [maxLength, setMaxLength] = useState<number>(1);
   const [maxRecursion, setMaxRecursion] = useState<number>(1);
   const [maxNumPrinted, setMaxNumPrinted] = useState<number>(1);
+  const [maxTime, setMaxTime] = useState<number>(10);
   const [generated, setGenerated] = useState(false);
   const [randomize, setRandomize] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -56,6 +57,7 @@ export default function CFG() {
   // Output grammars in a div
   const renderOutputs = () => {
     //const renderValues: JSX.Element[] = [];
+    var startTime = new Date().getTime();
     const CFGStringArray: Set<string> = new Set();
     //const result: string[] = [];
     //const queue: { symbol: string, stringSoFar: string }[] = [];
@@ -95,6 +97,13 @@ export default function CFG() {
       depth: number
     ): void => {
       //Base case:
+      var endTime = new Date().getTime();
+      console.log(endTime - startTime);
+      if (endTime - startTime >= maxTime * 1000) {
+        console.log("ended!");
+        return;
+      }
+
       if (depth > maxRecursion) {
         return;
       }
@@ -102,16 +111,16 @@ export default function CFG() {
         return;
       }
 
-      if (stringSoFar.length <= maxLength && stringSoFar.indexOf(lang) === -1) {
-        if (
-          !visited.has(stringSoFar) &&
-          visited.size < maxNumPrinted &&
-          !randomize
-        ) {
+      if (
+        stringSoFar.length <= maxLength &&
+        stringSoFar.indexOf(lang) === -1 &&
+        !visited.has(stringSoFar)
+      ) {
+        if (visited.size < maxNumPrinted && !randomize) {
           visited.add(stringSoFar);
           CFGStringArray.add(stringSoFar);
           return;
-        } else if (!visited.has(stringSoFar) && randomize) {
+        } else if (randomize) {
           visited.add(stringSoFar);
           CFGStringArray.add(stringSoFar);
           return;
@@ -344,6 +353,18 @@ export default function CFG() {
               onChange={(e) => changeNumberStrings(e)}
             />
             <label> {maxNumPrinted}</label>
+          </div>
+          <div className="setting">
+            <label>Time of Recursive Search: </label>
+            <input
+              type="range"
+              min="5"
+              max="25"
+              step="1"
+              value={maxTime}
+              onChange={(e) => setMaxTime(Number(e.currentTarget.value))}
+            />
+            <label> {maxTime}</label>
           </div>
         </div>
       )}
