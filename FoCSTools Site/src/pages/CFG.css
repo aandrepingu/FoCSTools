@@ -82,3 +82,38 @@ body {
 	margin-right: 1px;
 	margin-left: 1px;
 }
+.settingsBox {
+  display: grid;
+  align-items: center;
+  row-gap: 4px;
+}
+.setting {
+  display: contents;
+}
+.setting .setting-name {
+  grid-column: 1/2;
+  margin: 2px;
+  margin-top: -.2em;
+}
+.settingsBox > .setting:first-child > .setting-name {
+  margin-bottom: .2em;
+}
+
+.setting .setting-val{
+  grid-column: 3/4;
+  width: 3ch;
+  text-align: end;
+  margin-bottom: 2px;
+  margin-top: -.2em;
+} 
+.setting input {
+  grid-column: 2/3;
+  width: 100px;
+}
+.setting button {
+  grid-column: 2/3;
+  width: 50%;
+  align-self: center;
+  justify-self: center;
+  padding: 0;
+}

@@ -317,14 +317,14 @@ export default function CFG() {
 
       {showSettings && (
         <div className="settingsBox">
-          <label>Randomize Outputs: {randomize}</label>
           <div className="setting">
+            <label className="setting-name">Randomize Outputs: {randomize}</label>
             <button onClick={toggleRandomize}>
               {randomize ? "On" : "Off"}
             </button>
           </div>
           <div className="setting">
-            <label>Max String Length: </label>
+            <label className="setting-name">Max String Length: </label>
             <input
               type="range"
               min="1"
@@ -333,10 +333,10 @@ export default function CFG() {
               value={maxLength}
               onChange={(e) => changeMaxLength(e)}
             />
-            <label> {maxLength}</label>
+            <label className="setting-val"> {maxLength}</label>
           </div>
           <div className="setting">
-            <label>Recursive Depth: </label>
+            <label className="setting-name">Recursive Depth: </label>
             <input
               type="range"
               min="1"
@@ -345,10 +345,10 @@ export default function CFG() {
               value={maxRecursion}
               onChange={(e) => changeRecursionDepth(e)}
             />
-            <label> {maxRecursion}</label>
+            <label className="setting-val"> {maxRecursion}</label>
           </div>
           <div className="setting">
-            <label>Number of Strings: </label>
+            <label className="setting-name">Number of Strings: </label>
             <input
               type="range"
               min="1"
@@ -357,10 +357,10 @@ export default function CFG() {
               value={maxNumPrinted}
               onChange={(e) => changeNumberStrings(e)}
             />
-            <label> {maxNumPrinted}</label>
+            <label className="setting-val"> {maxNumPrinted}</label>
           </div>
           <div className="setting">
-            <label>Time of Recursive Search: </label>
+            <label  className="setting-name">Time of Recursive Search: </label>
             <input
               type="range"
               min="5"
@@ -369,7 +369,7 @@ export default function CFG() {
               value={maxTime}
               onChange={(e) => setMaxTime(Number(e.currentTarget.value))}
             />
-            <label> {maxTime}</label>
+            <label className="setting-val"> {maxTime}</label>
           </div>
         </div>
       )}
