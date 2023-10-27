@@ -21,12 +21,14 @@ const nodeReducer = (
   state: Map<ID, NodeType>,
   action: { type: string; payload?: ID; target?: ID; source?: ID }
 ): Map<ID, NodeType> => {
-  if (action.type === "add_node") {
+  if (action.type === "add_node" || action.type === "add_start_node" || action.type === "add_end_node") {
     const uniqueID = uuid();
     const newNode: NodeType = {
       id: uniqueID,
       incoming: [],
       outgoing: { 0: null, 1: null },
+      start: action.type === "add_start_node",
+      end: action.type === "add_end_node"
     };
     const newState = new Map(state);
     newState.set(uniqueID, newNode);

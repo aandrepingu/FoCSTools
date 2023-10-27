@@ -24,12 +24,21 @@ export default function Sidebar({
                 className="sidebar_Button"
                 onClick={() => {
                   dispatch({ type: "add_node" });
-                }}
-              >
+                }}>
                 Add Node
-              </button>
-              <button className="sidebar_Button">Add Start Node</button>
-              <button className="sidebar_Button">Add End Node</button>
+                </button>
+              <button className="sidebar_Button" 
+              onClick={() => {
+                dispatch({ type: "add_start_node" });
+              }}>
+                Add Start Node
+                </button>
+              <button className="sidebar_Button"
+              onClick={() => {
+                dispatch({ type: "add_end_node" });
+              }}>
+                Add End Node
+                </button>
               </div>
             
           //  </div>
