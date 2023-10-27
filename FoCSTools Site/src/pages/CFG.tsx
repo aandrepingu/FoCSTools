@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useRef } from "react";
 import "./CFG.css";
 
 export default function CFG() {
@@ -7,6 +8,7 @@ export default function CFG() {
   const [text, setText] = useState<string[]>([]);
   const [CFGOutArray, setCFGOutArray] = useState<Set<string>>(new Set());
   const [currentTextIndex, setCurrentTextIndex] = useState<number>(count - 1);
+  const inputRef = useRef(new Array());
   const [maxLength, setMaxLength] = useState<number>(1);
   const [maxRecursion, setMaxRecursion] = useState<number>(1);
   const [maxNumPrinted, setMaxNumPrinted] = useState<number>(1);
@@ -47,7 +49,6 @@ export default function CFG() {
     if (production === lang) {
       return false;
     }
-
     return true;
   };
 
@@ -178,20 +179,40 @@ export default function CFG() {
     setText(newText);
   };
 
-  // Handle special keypresses "|" and "Backspace" to add and remove
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  // Handle special keypresses
+
+  const handleKeyPress = (index:number, e: React.KeyboardEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
-    if (e.key === "|") {
+    // |: add a box at the end
+    if (e.key === "|") {  
       setCount(count + 1);
       const newText = [...text, ""];
       setText(newText);
       e.preventDefault();
-    } else if (e.key === "Backspace" && !value) {
+    }
+    // Backspace: deletes the current box if the box is empty
+    else if (e.key === "Backspace" && !value) {
       if (count > 0) {
         setCount(count - 1);
         text.splice(currentTextIndex, 1);
       }
       e.preventDefault();
+    }
+    // ArrowUp: Goes to the previous box
+    else if (e.key === "ArrowUp"){
+      if(index>0)
+      {
+        inputRef.current[index-1].focus();
+        e.preventDefault();
+      }
+    }
+    // ArrowDpwm: Goes to the next box
+    else if (e.key === "ArrowDown"){
+      if(index<count)
+      {
+        inputRef.current[index+1].focus();
+        e.preventDefault();
+      }
     }
   };
 
@@ -201,7 +222,6 @@ export default function CFG() {
     e: React.FormEvent<HTMLInputElement>
   ) => {
     const value = e.currentTarget.value;
-    if (value[value.length - 1] === "|") return;
     onWrite(index, value);
   };
 
@@ -240,12 +260,15 @@ export default function CFG() {
           {Array.from({ length: count }).map((_, index) => (
             <input
               key={index}
+              ref={(element)=>inputRef.current[index]=element}
+              autoFocus
               type="text"
               value={text[index]}
               placeholder="ε"
               onChange={(e) => handleChange(index, e)}
-              onKeyDown={(e) => handleKeyPress(e)}
+              onKeyDown={(e) => handleKeyPress(index,e)}
               onClick={() => onTextClick(index)}
+              
             />
           ))}
         </div>
