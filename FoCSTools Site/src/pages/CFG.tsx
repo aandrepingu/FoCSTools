@@ -33,6 +33,7 @@ export default function CFG() {
     setCount(count + 1);
     const newText = [...text, ""];
     setText(newText);
+    setSettingsUpdated(true);
   }
 
   // Remove from grammar array
@@ -43,6 +44,7 @@ export default function CFG() {
       setCount(count - 1);
       text.splice(currentTextIndex, 1);
       setCurrentTextIndex(count - 2);
+      setSettingsUpdated(true);
     }
   }
 
@@ -174,6 +176,7 @@ export default function CFG() {
     setCount(0);
     setCurrentTextIndex(-1);
     setGenerated(false);
+    setSettingsUpdated(true);
   }
 
   function generate() {
@@ -187,6 +190,7 @@ export default function CFG() {
     const newText = [...text];
     newText[index] = value;
     setText(newText);
+    setSettingsUpdated(true);
   };
 
   // Handle special keypresses
@@ -228,6 +232,7 @@ export default function CFG() {
         e.preventDefault();
       }
     }
+    
   };
 
   // Edit a text box
