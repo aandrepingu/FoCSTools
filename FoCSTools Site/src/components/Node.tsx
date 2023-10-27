@@ -83,7 +83,7 @@ export default function Node({
               </div>
             </div>
           )}
-          <div className={"node"} id={node.id}>
+          <div className={"node"} id={node.id} style={{backgroundColor: node.start ? "green" : node.end ? "red" : "brown"}}>
             <div
               style={{
                 position: "absolute",
