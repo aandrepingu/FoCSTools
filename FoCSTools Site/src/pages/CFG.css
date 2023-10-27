@@ -2,6 +2,7 @@
   margin: 2%;
   height: 50px;
   width: 50px;
+  background-color: black;
   text-align: center;
   text-size-adjust: auto;
 }
@@ -67,7 +68,7 @@ body {
   background-color: transparent;
   font-size: xx-large;
   padding: 0%;
-  background-color: rgb(64, 63, 63);
+  
 }
 
 .CFG_Button_Div > button {
@@ -75,6 +76,7 @@ body {
 	/* text-align: center; */
 	/* align-content: center; */
 	border: 2px solid #00000045;
+  background-color: black;
 	padding: 0.6em 1em .6em 1em;
 	margin-bottom: 3px;
 	margin-right: 1px;

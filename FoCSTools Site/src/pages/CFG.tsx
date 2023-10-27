@@ -15,6 +15,7 @@ export default function CFG() {
   const [generated, setGenerated] = useState(false);
   const [randomize, setRandomize] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [settingsUpdated, setSettingsUpdated] = useState(false);
 
   const shuffle = (array: string[]) => {
     return array.sort(() => Math.random() - 0.5);
@@ -125,8 +126,7 @@ export default function CFG() {
             //newString.replace(new RegExp(lang, "g"), production);
             var isValid = productionError(production);
             if (isValid) {
-              const newString =
-                stringSoFar.slice(0, i) + production + stringSoFar.slice(i + 1);
+              const newString = stringSoFar.slice(0, i) + production + stringSoFar.slice(i + 1);
               //recurse with rule
               generateStrings(newString, visited, depth + 1);
             }
@@ -169,6 +169,7 @@ export default function CFG() {
 
   function generate() {
     renderOutputs();
+    setSettingsUpdated(false);
     setGenerated(true);
   }
 
@@ -242,6 +243,25 @@ export default function CFG() {
 
   function toggleRandomize() {
     setRandomize(!randomize);
+    setSettingsUpdated(true);
+  }
+
+  function changeMaxLength(e: React.FormEvent<HTMLInputElement>) {
+    const value = Number(e.currentTarget.value);
+    setMaxLength(value);
+    setSettingsUpdated(true);
+  }
+
+  function changeRecursionDepth(e: React.FormEvent<HTMLInputElement>){
+    const value = Number(e.currentTarget.value);
+    setMaxRecursion(value);
+    setSettingsUpdated(true);
+  }
+
+  function changeNumberStrings(e: React.FormEvent<HTMLInputElement>){
+    const value = Number(e.currentTarget.value);
+    setMaxNumPrinted(value);
+    setSettingsUpdated(true);
   }
 
   return (
@@ -252,7 +272,10 @@ export default function CFG() {
           <button onClick={onAdd}>Add</button>
           <button onClick={onRemove}>Remove</button>
           <button onClick={clear}>Clear</button>
-          <button onClick={generate}>Generate</button>
+          <button 
+            style={{ backgroundColor: settingsUpdated ? "darkcyan" : "black" }}
+            onClick={generate}
+          >Generate</button>
         </div>
         <div className="CFG_Rules">
           <input
@@ -294,7 +317,7 @@ export default function CFG() {
               max="20"
               step="1"
               value={maxLength}
-              onChange={(e) => setMaxLength(Number(e.currentTarget.value))}
+              onChange={(e) => changeMaxLength(e)}
             />
             <label> {maxLength}</label>
           </div>
@@ -306,7 +329,7 @@ export default function CFG() {
               max="20"
               step="1"
               value={maxRecursion}
-              onChange={(e) => setMaxRecursion(Number(e.currentTarget.value))}
+              onChange={(e) => changeRecursionDepth(e)}
             />
             <label> {maxRecursion}</label>
           </div>
@@ -318,7 +341,7 @@ export default function CFG() {
               max="100"
               step="1"
               value={maxNumPrinted}
-              onChange={(e) => setMaxNumPrinted(Number(e.currentTarget.value))}
+              onChange={(e) => changeNumberStrings(e)}
             />
             <label> {maxNumPrinted}</label>
           </div>
