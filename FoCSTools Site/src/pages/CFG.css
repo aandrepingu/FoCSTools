@@ -53,9 +53,10 @@
 
 .CFG_Rules {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   max-height: 65vh;
-  overflow: scroll;
+  height: 30px;
+  overflow:visible;
 }
 
 body {

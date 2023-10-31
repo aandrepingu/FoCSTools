@@ -9,6 +9,8 @@ export default function CFG() {
   const [CFGOutArray, setCFGOutArray] = useState<Set<string>>(new Set());
   const [currentTextIndex, setCurrentTextIndex] = useState<number>(count - 1);
   const inputRef = useRef(new Array());
+  const [width, setWidth] = useState<number[]>(new Array());
+  // const {variableWidth, setVariable} = useState<number>(8);
   const [maxLength, setMaxLength] = useState<number>(1);
   const [maxRecursion, setMaxRecursion] = useState<number>(1);
   const [maxNumPrinted, setMaxNumPrinted] = useState<number>(1);
@@ -33,6 +35,10 @@ export default function CFG() {
     setCount(count + 1);
     const newText = [...text, ""];
     setText(newText);
+    
+    const newWidth = [...width,8];
+    setWidth(newWidth);
+
     setSettingsUpdated(true);
   }
 
@@ -43,6 +49,7 @@ export default function CFG() {
     if (count > 0) {
       setCount(count - 1);
       text.splice(currentTextIndex, 1);
+      width.splice(currentTextIndex, 1);
       setCurrentTextIndex(count - 2);
       setSettingsUpdated(true);
     }
@@ -90,7 +97,6 @@ export default function CFG() {
       check substrings (ex. S000S)
       if valid
       function(newString)
-
     */
 
     const generateStrings = (
@@ -105,14 +111,12 @@ export default function CFG() {
         console.log("ended!");
         return;
       }
-
       if (depth > maxRecursion) {
         return;
       }
       if (stringSoFar.length > maxLength) {
         return;
       }
-
       if (
         stringSoFar.length <= maxLength &&
         stringSoFar.indexOf(lang) === -1 &&
@@ -128,7 +132,6 @@ export default function CFG() {
           return;
         }
       }
-
       for (let i = 0; i < stringSoFar.length; i++) {
         if (stringSoFar[i] === lang) {
           //Loop through product rules
@@ -173,6 +176,8 @@ export default function CFG() {
   function clear() {
     const newText = [""];
     setText(newText);
+    const newWidth = new Array();
+    setWidth(newWidth);
     setCount(0);
     setCurrentTextIndex(-1);
     setGenerated(false);
@@ -191,6 +196,10 @@ export default function CFG() {
     newText[index] = value;
     setText(newText);
     setSettingsUpdated(true);
+
+    const newWidth = [...width];
+    newWidth[index] = value.length*8;
+    setWidth(newWidth);
   };
 
   // Handle special keypresses
@@ -199,18 +208,15 @@ export default function CFG() {
     const value = e.currentTarget.value;
     // |: add a box at the end
     if (e.key === "|") {  
-      setCount(count + 1);
-      const newText = [...text, ""];
-      setText(newText);
+      onAdd();
       e.preventDefault();
     }
     // Backspace: deletes the current box if the box is empty
     else if (e.key === "Backspace" && !value) {
-      if (count > 0) {
-        setCount(count - 1);
-        text.splice(currentTextIndex, 1);
-      }
-      if(index==count-1)
+      
+      onRemove();
+      console.log(count,currentTextIndex);
+      if(index==count-1&&count>=2)
       {
         inputRef.current[count-2].focus();
       }
@@ -220,14 +226,18 @@ export default function CFG() {
     else if (e.key === "ArrowUp"){
       if(index>0)
       {
+        setCurrentTextIndex(index-1);
+        console.log(index-1,count);
         inputRef.current[index-1].focus();
         e.preventDefault();
       }
     }
-    // ArrowDpwm: Goes to the next box
+    // ArrowDown: Goes to the next box
     else if (e.key === "ArrowDown"){
-      if(index<count)
+      if(index+1<count)
       {
+        setCurrentTextIndex(index+1);
+        console.log(index+1,count);
         inputRef.current[index+1].focus();
         e.preventDefault();
       }
@@ -291,15 +301,19 @@ export default function CFG() {
             onClick={generate}
           >Generate</button>
         </div>
-        <div className="CFG_Rules">
+        <div className="CFG_Rules" >
           <input
+            style={{width:60}}
             type="text"
             placeholder="Variable"
             value={lang}
             onChange={(e) => handleLang(e)}
           />
           {Array.from({ length: count }).map((_, index) => (
+           
             <input
+            style={{width:width[index]}}
+
               key={index}
               ref={(element)=>inputRef.current[index]=element}
               autoFocus
