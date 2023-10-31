@@ -137,14 +137,14 @@ export default function DFA() {
                 <Xarrow
                   start={node.id} //can be react ref
                   end={node.outgoing[0]} //or an id
-                  labels={"0"}
+                  labels={node.outgoing[0] !== node.outgoing[1]?  "0" : "0,1"}
                 />
               )}
               {node.outgoing[1] && (
                 <Xarrow
                   start={node.id} //can be react ref
                   end={node.outgoing[1]} //or an id
-                  labels={"1"}
+                  labels={node.outgoing[0] !== node.outgoing[1] ? "1" : "0,1"}
                 />
               )}
             </>
