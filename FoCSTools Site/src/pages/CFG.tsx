@@ -63,6 +63,45 @@ export default function CFG() {
     return true;
   };
 
+  function checkBeginning(substring: string, matchString: string): boolean{
+    let beginningString = "";
+    let i = 0
+    for( i; i < substring.length; i++){
+      if(substring[i] === lang)
+        break;
+      beginningString.concat(substring[i]);
+    }
+    if(beginningString.length > matchString.length)
+      return false
+    for(let j = 0; j < beginningString.length; j++){
+      if(beginningString[j] != matchString[j])
+        return false;
+    }
+    return true;
+  }
+
+  function checkEnding(substring: string, matchString: string): boolean{
+    let beginningString = "";
+    let i = substring.length-1
+    for( i; i >= 0; i--){
+      if(substring[i] === lang)
+        break;
+      beginningString.concat(substring[i]);
+    }
+    if(beginningString.length > matchString.length)
+      return false
+    for(let j = 0; j < beginningString.length; j++){
+      if(beginningString[j] != matchString[j])
+        return false;
+    }
+    return true;
+  }
+
+  function checkSubstring(): boolean{
+
+  }
+
+
   // Output grammars in a div
   const renderOutputs = () => {
     //const renderValues: JSX.Element[] = [];
@@ -77,6 +116,7 @@ export default function CFG() {
       return;
     }
 
+<<<<<<< Updated upstream
     /*
     input string s:
 
@@ -99,6 +139,8 @@ export default function CFG() {
       function(newString)
     */
 
+=======
+>>>>>>> Stashed changes
     const generateStrings = (
       stringSoFar: string,
       visited: Set<string>,
@@ -140,7 +182,8 @@ export default function CFG() {
             //newString.replace(new RegExp(lang, "g"), production);
             var isValid = productionError(production);
             if (isValid) {
-              const newString = stringSoFar.slice(0, i) + production + stringSoFar.slice(i + 1);
+              var newString = stringSoFar; 
+              newString = newString.slice(0, i) + production + newString.slice(i + 1);
               //recurse with rule
               generateStrings(newString, visited, depth + 1);
             }
@@ -148,6 +191,72 @@ export default function CFG() {
         }
       }
     };
+
+    /*
+    input string s:
+
+      base case:
+          if only terminals and string length matches
+      if equal: return YES
+      if not: return (exit branch)
+          else
+      return (if only terminals but doesntmatch length)
+
+
+      for each S in substring:
+      for each production rule:
+      newString = apply rule
+      check beginnings
+      check endings
+      last change:
+      check substrings (ex. S000S)
+      if valid
+      function(newString)
+
+    */
+    function inputStringParser(matchString: string, currentString: string, empty: boolean): boolean {
+      //base cases
+      if(!empty){
+        if(currentString.length > matchString.length)
+          return false;
+        else if(currentString == matchString)
+          return true;
+      }
+      else if(empty){
+        let nonTerminals = 0;
+        let terminals = true;
+        for(let i = 0; i < currentString.length; i++){
+          if(currentString[i] == lang){
+            terminals = false;
+          }
+          else{
+            nonTerminals++;
+          }
+        }
+        if(nonTerminals > matchString.length){
+          return false;
+        }
+        if(terminals){
+          if(currentString == matchString){
+            return true;
+          }
+          return false
+        }
+      }
+
+      for(let i = 0; i < currentString.length; i++){
+        if(currentString[i] == lang){
+          for(const production of text){
+            var newString = currentString; 
+            newString = newString.slice(0, i) + production + newString.slice(i + 1);
+
+          }
+        }
+      }
+      
+      
+      return true;
+    }
 
     generateStrings(lang, new Set(), 0);
 
