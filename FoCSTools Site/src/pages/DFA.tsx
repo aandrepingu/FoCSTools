@@ -144,6 +144,7 @@ export default function DFA() {
                   start={node.id} //can be react ref
                   end={node.outgoing[0]} //or an id
                   labels={node.outgoing[0] !== node.outgoing[1] ? "0" : "0,1"}
+                  path={"straight"}
                 />
               )}
               {node.outgoing[1] && (
@@ -151,6 +152,7 @@ export default function DFA() {
                   start={node.id} //can be react ref
                   end={node.outgoing[1]} //or an id
                   labels={node.outgoing[0] !== node.outgoing[1] ? "1" : "0,1"}
+                  path={"straight"}
                 />
               )}
             </>

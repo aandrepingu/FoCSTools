@@ -2,7 +2,7 @@ import Draggable from "react-draggable";
 import { NodeType } from "src/pages/DFA";
 import "./Node.css";
 import { useState } from "react";
-import Xarrow, { useXarrow, Xwrapper } from "react-xarrows";
+import { useXarrow } from "react-xarrows";
 
 export default function Node({
   node,
