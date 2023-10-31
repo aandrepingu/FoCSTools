@@ -37,6 +37,7 @@ export default function Sidebar({
               display: "flex",
               backgroundColor: "gray",
               width: "max-content",
+              flexDirection: "column"
             }}
           >
             <button
@@ -70,6 +71,10 @@ export default function Sidebar({
               }}
             >
               Clear
+            </button>
+            <button className="sidebar_Button">
+              Input String:
+              <input/>
             </button>
           </div>
 

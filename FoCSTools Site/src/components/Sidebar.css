@@ -24,6 +24,7 @@
   height: 120px;
   width: 100px;
   top: 55px;
+  align-self: center;
 }
 
 .flexBox {

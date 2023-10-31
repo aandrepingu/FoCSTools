@@ -98,7 +98,7 @@ export default function Node({
                 ? "#4ed964"
                 : node.end
                 ? "#ff443b"
-                : "brown",
+                : "#4a17f0",
             }}
           >
             <div
