@@ -281,7 +281,8 @@ export default function CFG() {
   return (
     <>
       <h2 className="CFG_Text_Div">Create a Context Free Grammar</h2>
-      <div className="CFG_FlexBox_Div">
+      <div className="CFGcontrols">
+      <div className="CFG_FlexBox_Div" style={{flexBasis: "25%","marginBottom":"10px"}}>
         <div className="CFG_Button_Div">
           <button onClick={onAdd}>Add</button>
           <button onClick={onRemove}>Remove</button>
@@ -314,7 +315,16 @@ export default function CFG() {
           ))}
         </div>
       </div>
-
+      <div> <input type="text" placeholder="Input String" name="" id="" /></div>
+      <div style={{flexBasis: "25%"}}>
+      {generated && (
+        <div className="outputBox">
+          {Array.from(CFGOutArray).map((s, ind) => {
+            return <h2 key={ind}>{s}</h2>;
+          })}
+        </div>
+      )}</div>
+      </div>
       {showSettings && (
         <div className="settingsBox">
           <div className="setting">
@@ -378,13 +388,7 @@ export default function CFG() {
           ⚙️
         </button>
       </div>
-      {generated && (
-        <div className="outputBox">
-          {Array.from(CFGOutArray).map((s, ind) => {
-            return <h2 key={ind}>{s}</h2>;
-          })}
-        </div>
-      )}
+      
     </>
   );
 }
