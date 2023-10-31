@@ -6,6 +6,7 @@ export default function CFG() {
   const [count, setCount] = useState<number>(0);
   const [lang, setLang] = useState<string>("");
   const [text, setText] = useState<string[]>([]);
+  const [inputString, setInputString] = useState<string>("");
   const [CFGOutArray, setCFGOutArray] = useState<Set<string>>(new Set());
   const [currentTextIndex, setCurrentTextIndex] = useState<number>(count - 1);
   const inputRef = useRef(new Array());
@@ -169,6 +170,12 @@ export default function CFG() {
     }
     return true;
   }
+
+  const testParser = () => {
+    let empty = text.includes("");
+    let bool = inputStringParser(inputString, lang, empty);
+    console.log(bool);
+  };
 
   // Output grammars in a div
   const renderOutputs = () => {
@@ -399,51 +406,67 @@ export default function CFG() {
     <>
       <h2 className="CFG_Text_Div">Create a Context Free Grammar</h2>
       <div className="CFGcontrols">
-      <div className="CFG_FlexBox_Div" style={{flexBasis: "25%","marginBottom":"10px"}}>
-        <div className="CFG_Button_Div">
-          <button onClick={onAdd}>Add</button>
-          <button onClick={onRemove}>Remove</button>
-          <button onClick={clear}>Clear</button>
-          <button
-            style={{ backgroundColor: settingsUpdated ? "darkcyan" : "black" }}
-            onClick={generate}
-          >
-            Generate
-          </button>
-        </div>
-        <div className="CFG_Rules">
-          <input
-            style={{ width: 60 }}
-            type="text"
-            placeholder="Variable"
-            value={lang}
-            onChange={(e) => handleLang(e)}
-          />
-          {Array.from({ length: count }).map((_, index) => (
+        <div
+          className="CFG_FlexBox_Div"
+          style={{ flexBasis: "25%", marginBottom: "10px" }}
+        >
+          <div className="CFG_Button_Div">
+            <button onClick={onAdd}>Add</button>
+            <button onClick={onRemove}>Remove</button>
+            <button onClick={clear}>Clear</button>
+            <button
+              style={{
+                backgroundColor: settingsUpdated ? "darkcyan" : "black",
+              }}
+              onClick={generate}
+            >
+              Generate
+            </button>
+          </div>
+          <div className="CFG_Rules">
             <input
-              style={{ width: width[index] }}
-              key={index}
-              ref={(element) => (inputRef.current[index] = element)}
-              autoFocus
+              style={{ width: 60 }}
               type="text"
-              value={text[index]}
-              placeholder="ε"
-              onChange={(e) => handleChange(index, e)}
-              onKeyDown={(e) => handleKeyPress(index, e)}
-              onClick={() => onTextClick(index)}
+              placeholder="Variable"
+              value={lang}
+              onChange={(e) => handleLang(e)}
             />
-          ))}
+            {Array.from({ length: count }).map((_, index) => (
+              <input
+                style={{ width: width[index] }}
+                key={index}
+                ref={(element) => (inputRef.current[index] = element)}
+                autoFocus
+                type="text"
+                value={text[index]}
+                placeholder="ε"
+                onChange={(e) => handleChange(index, e)}
+                onKeyDown={(e) => handleKeyPress(index, e)}
+                onClick={() => onTextClick(index)}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-      <div> <input type="text" placeholder="Input String" name="" id="" /></div>
-      <div style={{flexBasis: "25%"}}>
-      {generated && (
-        <div className="outputBox">
-          {Array.from(CFGOutArray).map((s, ind) => {
-            return <h2 key={ind}>{s}</h2>;
-          })}
+        <div>
+          {" "}
+          <input
+            type="text"
+            placeholder="Input String"
+            name=""
+            id=""
+            onChange={(e) => setInputString(e.currentTarget.value)}
+          />
+          <button onClick={testParser}>{"Check Input String"}</button>
         </div>
-      )}</div>
+        <div style={{ flexBasis: "25%" }}>
+          {generated && (
+            <div className="outputBox">
+              {Array.from(CFGOutArray).map((s, ind) => {
+                return <h2 key={ind}>{s}</h2>;
+              })}
+            </div>
+          )}
+        </div>
       </div>
       {showSettings && (
         <div className="settingsBox">
@@ -510,7 +533,6 @@ export default function CFG() {
           ⚙️
         </button>
       </div>
-      
     </>
   );
 }
