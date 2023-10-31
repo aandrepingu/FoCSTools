@@ -82,6 +82,10 @@ const nodeReducer = (
     });
     newState.delete(action.payload);
     return newState;
+  } else if (action.type === "clear") {
+    const newState = new Map(state);
+    newState.clear();
+    return newState;
   }
   return state;
 };
@@ -120,6 +124,10 @@ export default function DFA() {
             dispatch={dispatch}
             setChanging0={setChanging0}
             setChanging1={setChanging1}
+            changing={
+              (changing0 != null && changing0 != node.id) ||
+              (changing1 != null && changing1 != node.id)
+            }
           />
         ))}
         {Array.from(nodeState.values()).map((node) => {

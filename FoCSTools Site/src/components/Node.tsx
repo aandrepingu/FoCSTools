@@ -10,6 +10,7 @@ export default function Node({
   onClick,
   setChanging0,
   setChanging1,
+  changing,
 }: {
   node: NodeType;
   dispatch: React.Dispatch<{
@@ -19,6 +20,7 @@ export default function Node({
   onClick: () => void;
   setChanging0: React.Dispatch<React.SetStateAction<string | null>>;
   setChanging1: React.Dispatch<React.SetStateAction<string | null>>;
+  changing: boolean;
 }) {
   const [name, setName] = useState("name");
   const [isEditing, setIsEditing] = useState(false);
@@ -89,7 +91,9 @@ export default function Node({
             className={"node"}
             id={node.id}
             style={{
-              backgroundColor: node.start
+              backgroundColor: changing
+                ? "yellow"
+                : node.start
                 ? "green"
                 : node.end
                 ? "red"

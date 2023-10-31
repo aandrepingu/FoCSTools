@@ -18,29 +18,48 @@ export default function Sidebar({
       <div className="flexBox">
         {show && (
           // <div className="sidebar" style={{ paddingLeft: "0px" }}>
-            // <div style={{ paddingTop: "4px" }}>
-            <div style={{display: "flex", backgroundColor: "gray", width: "max-content"}}>
-              <button
-                className="sidebar_Button"
-                onClick={() => {
-                  dispatch({ type: "add_node" });
-                }}>
-                Add Node
-                </button>
-              <button className="sidebar_Button" 
+          // <div style={{ paddingTop: "4px" }}>
+          <div
+            style={{
+              display: "flex",
+              backgroundColor: "gray",
+              width: "max-content",
+            }}
+          >
+            <button
+              className="sidebar_Button"
+              onClick={() => {
+                dispatch({ type: "add_node" });
+              }}
+            >
+              Add Node
+            </button>
+            <button
+              className="sidebar_Button"
               onClick={() => {
                 dispatch({ type: "add_start_node" });
-              }}>
-                Add Start Node
-                </button>
-              <button className="sidebar_Button"
+              }}
+            >
+              Add Start Node
+            </button>
+            <button
+              className="sidebar_Button"
               onClick={() => {
                 dispatch({ type: "add_end_node" });
-              }}>
-                Add End Node
-                </button>
-              </div>
-            
+              }}
+            >
+              Add End Node
+            </button>
+            <button
+              className="sidebar_Button"
+              onClick={() => {
+                dispatch({ type: "clear" });
+              }}
+            >
+              Clear
+            </button>
+          </div>
+
           //  </div>
         )}
 
