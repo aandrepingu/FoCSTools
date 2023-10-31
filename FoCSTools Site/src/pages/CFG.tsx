@@ -35,8 +35,8 @@ export default function CFG() {
     setCount(count + 1);
     const newText = [...text, ""];
     setText(newText);
-    
-    const newWidth = [...width,8];
+
+    const newWidth = [...width, 8];
     setWidth(newWidth);
 
     setSettingsUpdated(true);
@@ -63,44 +63,112 @@ export default function CFG() {
     return true;
   };
 
-  function checkBeginning(substring: string, matchString: string): boolean{
+  function checkBeginning(substring: string, matchString: string): boolean {
     let beginningString = "";
-    let i = 0
-    for( i; i < substring.length; i++){
-      if(substring[i] === lang)
-        break;
+    let i = 0;
+    for (i; i < substring.length; i++) {
+      if (substring[i] === lang) break;
       beginningString.concat(substring[i]);
     }
-    if(beginningString.length > matchString.length)
-      return false
-    for(let j = 0; j < beginningString.length; j++){
-      if(beginningString[j] != matchString[j])
-        return false;
+    if (beginningString.length > matchString.length) return false;
+    for (let j = 0; j < beginningString.length; j++) {
+      if (beginningString[j] != matchString[j]) return false;
     }
     return true;
   }
 
-  function checkEnding(substring: string, matchString: string): boolean{
+  function checkEnding(substring: string, matchString: string): boolean {
     let beginningString = "";
-    let i = substring.length-1
-    for( i; i >= 0; i--){
-      if(substring[i] === lang)
-        break;
+    let i = substring.length - 1;
+    for (i; i >= 0; i--) {
+      if (substring[i] === lang) break;
       beginningString.concat(substring[i]);
     }
-    if(beginningString.length > matchString.length)
-      return false
-    for(let j = 0; j < beginningString.length; j++){
-      if(beginningString[j] != matchString[j])
-        return false;
+    if (beginningString.length > matchString.length) return false;
+    for (let j = 0; j < beginningString.length; j++) {
+      if (beginningString[j] != matchString[j]) return false;
     }
     return true;
   }
 
-  function checkSubstring(): boolean{
-
+  function checkSubstring(substring: string, matchString: string): boolean {
+    return true;
   }
 
+  /*
+    input string s:
+
+      base case:
+          if only terminals and string length matches
+      if equal: return YES
+      if not: return (exit branch)
+          else
+      return (if only terminals but doesntmatch length)
+
+
+      for each S in substring:
+      for each production rule:
+      newString = apply rule
+      check beginnings
+      check endings
+      last change:
+      check substrings (ex. S000S)
+      if valid
+      function(newString)
+
+    */
+  function inputStringParser(
+    matchString: string,
+    currentString: string,
+    empty: boolean
+  ): boolean {
+    //base cases
+    if (!empty) {
+      if (currentString.length > matchString.length) return false;
+      else if (currentString == matchString) return true;
+    } else if (empty) {
+      let nonTerminals = 0;
+      let terminals = true;
+      for (let i = 0; i < currentString.length; i++) {
+        if (currentString[i] == lang) {
+          terminals = false;
+        } else {
+          nonTerminals++;
+        }
+      }
+      if (nonTerminals > matchString.length) {
+        return false;
+      }
+      if (terminals) {
+        if (currentString == matchString) {
+          return true;
+        }
+        return false;
+      }
+    }
+
+    for (let i = 0; i < currentString.length; i++) {
+      if (currentString[i] == lang) {
+        for (const production of text) {
+          var newString = currentString;
+          newString =
+            newString.slice(0, i) + production + newString.slice(i + 1);
+
+          if (!checkBeginning(currentString, matchString)) {
+            return false;
+          }
+          if (!checkEnding(currentString, matchString)) {
+            return false;
+          }
+          if (!checkSubstring(currentString, matchString)) {
+            return false;
+          }
+          inputStringParser(matchString, newString, empty);
+        }
+      }
+    }
+    return true;
+  }
 
   // Output grammars in a div
   const renderOutputs = () => {
@@ -116,7 +184,6 @@ export default function CFG() {
       return;
     }
 
-<<<<<<< Updated upstream
     /*
     input string s:
 
@@ -139,8 +206,6 @@ export default function CFG() {
       function(newString)
     */
 
-=======
->>>>>>> Stashed changes
     const generateStrings = (
       stringSoFar: string,
       visited: Set<string>,
@@ -182,8 +247,9 @@ export default function CFG() {
             //newString.replace(new RegExp(lang, "g"), production);
             var isValid = productionError(production);
             if (isValid) {
-              var newString = stringSoFar; 
-              newString = newString.slice(0, i) + production + newString.slice(i + 1);
+              var newString = stringSoFar;
+              newString =
+                newString.slice(0, i) + production + newString.slice(i + 1);
               //recurse with rule
               generateStrings(newString, visited, depth + 1);
             }
@@ -191,72 +257,6 @@ export default function CFG() {
         }
       }
     };
-
-    /*
-    input string s:
-
-      base case:
-          if only terminals and string length matches
-      if equal: return YES
-      if not: return (exit branch)
-          else
-      return (if only terminals but doesntmatch length)
-
-
-      for each S in substring:
-      for each production rule:
-      newString = apply rule
-      check beginnings
-      check endings
-      last change:
-      check substrings (ex. S000S)
-      if valid
-      function(newString)
-
-    */
-    function inputStringParser(matchString: string, currentString: string, empty: boolean): boolean {
-      //base cases
-      if(!empty){
-        if(currentString.length > matchString.length)
-          return false;
-        else if(currentString == matchString)
-          return true;
-      }
-      else if(empty){
-        let nonTerminals = 0;
-        let terminals = true;
-        for(let i = 0; i < currentString.length; i++){
-          if(currentString[i] == lang){
-            terminals = false;
-          }
-          else{
-            nonTerminals++;
-          }
-        }
-        if(nonTerminals > matchString.length){
-          return false;
-        }
-        if(terminals){
-          if(currentString == matchString){
-            return true;
-          }
-          return false
-        }
-      }
-
-      for(let i = 0; i < currentString.length; i++){
-        if(currentString[i] == lang){
-          for(const production of text){
-            var newString = currentString; 
-            newString = newString.slice(0, i) + production + newString.slice(i + 1);
-
-          }
-        }
-      }
-      
-      
-      return true;
-    }
 
     generateStrings(lang, new Set(), 0);
 
@@ -307,51 +307,49 @@ export default function CFG() {
     setSettingsUpdated(true);
 
     const newWidth = [...width];
-    newWidth[index] = value.length*8;
+    newWidth[index] = value.length * 8;
     setWidth(newWidth);
   };
 
   // Handle special keypresses
 
-  const handleKeyPress = (index:number, e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyPress = (
+    index: number,
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
     const value = e.currentTarget.value;
     // |: add a box at the end
-    if (e.key === "|") {  
+    if (e.key === "|") {
       onAdd();
       e.preventDefault();
     }
     // Backspace: deletes the current box if the box is empty
     else if (e.key === "Backspace" && !value) {
-      
       onRemove();
-      console.log(count,currentTextIndex);
-      if(index==count-1&&count>=2)
-      {
-        inputRef.current[count-2].focus();
+      console.log(count, currentTextIndex);
+      if (index == count - 1 && count >= 2) {
+        inputRef.current[count - 2].focus();
       }
       e.preventDefault();
     }
     // ArrowUp: Goes to the previous box
-    else if (e.key === "ArrowUp"){
-      if(index>0)
-      {
-        setCurrentTextIndex(index-1);
-        console.log(index-1,count);
-        inputRef.current[index-1].focus();
+    else if (e.key === "ArrowUp") {
+      if (index > 0) {
+        setCurrentTextIndex(index - 1);
+        console.log(index - 1, count);
+        inputRef.current[index - 1].focus();
         e.preventDefault();
       }
     }
     // ArrowDown: Goes to the next box
-    else if (e.key === "ArrowDown"){
-      if(index+1<count)
-      {
-        setCurrentTextIndex(index+1);
-        console.log(index+1,count);
-        inputRef.current[index+1].focus();
+    else if (e.key === "ArrowDown") {
+      if (index + 1 < count) {
+        setCurrentTextIndex(index + 1);
+        console.log(index + 1, count);
+        inputRef.current[index + 1].focus();
         e.preventDefault();
       }
     }
-    
   };
 
   // Edit a text box
@@ -385,13 +383,13 @@ export default function CFG() {
     setSettingsUpdated(true);
   }
 
-  function changeRecursionDepth(e: React.FormEvent<HTMLInputElement>){
+  function changeRecursionDepth(e: React.FormEvent<HTMLInputElement>) {
     const value = Number(e.currentTarget.value);
     setMaxRecursion(value);
     setSettingsUpdated(true);
   }
 
-  function changeNumberStrings(e: React.FormEvent<HTMLInputElement>){
+  function changeNumberStrings(e: React.FormEvent<HTMLInputElement>) {
     const value = Number(e.currentTarget.value);
     setMaxNumPrinted(value);
     setSettingsUpdated(true);
@@ -405,34 +403,33 @@ export default function CFG() {
           <button onClick={onAdd}>Add</button>
           <button onClick={onRemove}>Remove</button>
           <button onClick={clear}>Clear</button>
-          <button 
+          <button
             style={{ backgroundColor: settingsUpdated ? "darkcyan" : "black" }}
             onClick={generate}
-          >Generate</button>
+          >
+            Generate
+          </button>
         </div>
-        <div className="CFG_Rules" >
+        <div className="CFG_Rules">
           <input
-            style={{width:60}}
+            style={{ width: 60 }}
             type="text"
             placeholder="Variable"
             value={lang}
             onChange={(e) => handleLang(e)}
           />
           {Array.from({ length: count }).map((_, index) => (
-           
             <input
-            style={{width:width[index]}}
-
+              style={{ width: width[index] }}
               key={index}
-              ref={(element)=>inputRef.current[index]=element}
+              ref={(element) => (inputRef.current[index] = element)}
               autoFocus
               type="text"
               value={text[index]}
               placeholder="ε"
               onChange={(e) => handleChange(index, e)}
-              onKeyDown={(e) => handleKeyPress(index,e)}
+              onKeyDown={(e) => handleKeyPress(index, e)}
               onClick={() => onTextClick(index)}
-              
             />
           ))}
         </div>
@@ -441,7 +438,9 @@ export default function CFG() {
       {showSettings && (
         <div className="settingsBox">
           <div className="setting">
-            <label className="setting-name">Randomize Outputs: {randomize}</label>
+            <label className="setting-name">
+              Randomize Outputs: {randomize}
+            </label>
             <button onClick={toggleRandomize}>
               {randomize ? "On" : "Off"}
             </button>
@@ -483,7 +482,7 @@ export default function CFG() {
             <label className="setting-val"> {maxNumPrinted}</label>
           </div>
           <div className="setting">
-            <label  className="setting-name">Time of Recursive Search: </label>
+            <label className="setting-name">Time of Recursive Search: </label>
             <input
               type="range"
               min="5"
