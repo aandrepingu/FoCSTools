@@ -38,11 +38,12 @@ export default function Node({
       setAfterUnderscore("");
     }
   }
+  function noop() {}
 
   return (
     <>
       <Draggable onDrag={updateXarrow} onStop={updateXarrow}>
-        <div onClick={onClick}>
+        <div onClick={changing ? onClick : noop}>
           {isEditing && (
             <div className={"editBox"}>
               Name:
@@ -92,11 +93,11 @@ export default function Node({
             id={node.id}
             style={{
               backgroundColor: changing
-                ? "yellow"
+                ? "#F5BF03"
                 : node.start
-                ? "green"
+                ? "#4ed964"
                 : node.end
-                ? "red"
+                ? "#ff443b"
                 : "brown",
             }}
           >

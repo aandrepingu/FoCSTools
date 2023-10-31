@@ -22,6 +22,12 @@ const nodeReducer = (
   state: Map<ID, NodeType>,
   action: { type: string; payload?: ID | number; target?: ID; source?: ID }
 ): Map<ID, NodeType> => {
+  if (action.type === "add_start_node") {
+    if (Array.from(state.values()).some((node) => node.start)) {
+      alert("There can only be one start node");
+      return state;
+    }
+  }
   if (
     action.type === "add_node" ||
     action.type === "add_start_node" ||
@@ -137,7 +143,7 @@ export default function DFA() {
                 <Xarrow
                   start={node.id} //can be react ref
                   end={node.outgoing[0]} //or an id
-                  labels={node.outgoing[0] !== node.outgoing[1]?  "0" : "0,1"}
+                  labels={node.outgoing[0] !== node.outgoing[1] ? "0" : "0,1"}
                 />
               )}
               {node.outgoing[1] && (

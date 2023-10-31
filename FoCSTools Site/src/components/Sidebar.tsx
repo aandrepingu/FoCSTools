@@ -1,6 +1,19 @@
 import { useState } from "react";
 import "./Sidebar.css";
 
+type ID = string;
+
+export interface NodeType {
+  id: ID;
+  start?: boolean;
+  end?: boolean;
+  incoming: ID[];
+  outgoing: {
+    0: ID | null;
+    1: ID | null;
+  };
+}
+
 export default function Sidebar({
   dispatch,
 }: {
