@@ -1,11 +1,13 @@
-import { useState } from "react";
-import { useRef } from "react";
+import React, {useRef, useState } from "react";
 import "./CFG.css";
 
 export default function CFG() {
   const [count, setCount] = useState<number>(0);
+  const [langCount, setLangCount] = useState<number>(0);
   const [lang, setLang] = useState<string>("");
+  const [multLang, setMultLang] = useState<string[]>([]);
   const [text, setText] = useState<string[]>([]);
+  const [langText, setLangText] = useState<string[][]>([[]]);
   const [CFGOutArray, setCFGOutArray] = useState<Set<string>>(new Set());
   const [currentTextIndex, setCurrentTextIndex] = useState<number>(count - 1);
   const inputRef = useRef(new Array());
@@ -53,6 +55,14 @@ export default function CFG() {
       setCurrentTextIndex(count - 2);
       setSettingsUpdated(true);
     }
+  }
+
+  function onAddLang(){
+    
+  }
+
+  function onRemoveLang() {
+
   }
 
   const productionError = (production: string): Boolean => {
@@ -171,7 +181,6 @@ export default function CFG() {
       setCFGOutArray(CFGStringArray);
     }
   };
-
   // Clear all text boxes and array
   function clear() {
     const newText = [""];
@@ -218,31 +227,38 @@ export default function CFG() {
       console.log(count,currentTextIndex);
       if(index==count-1&&count>=2)
       {
+        setCurrentTextIndex(index-2);
         inputRef.current[count-2].focus();
       }
       e.preventDefault();
     }
     // ArrowUp: Goes to the previous box
-    else if (e.key === "ArrowUp"){
+    else if (e.key === "ArrowLeft"){
       if(index>0)
       {
-        setCurrentTextIndex(index-1);
-        console.log(index-1,count);
-        inputRef.current[index-1].focus();
-        e.preventDefault();
+        if(e.currentTarget.selectionStart===0)
+        {
+          setCurrentTextIndex(index-1);
+          inputRef.current[index-1].focus();
+          inputRef.current[index-1].setSelectionRange(text[index-1].length,text[index-1].length);
+          // inputRef.current.
+          e.preventDefault();
+        }
       }
     }
     // ArrowDown: Goes to the next box
-    else if (e.key === "ArrowDown"){
+    else if (e.key === "ArrowRight"){
       if(index+1<count)
       {
-        setCurrentTextIndex(index+1);
-        console.log(index+1,count);
-        inputRef.current[index+1].focus();
-        e.preventDefault();
+        if(e.currentTarget.selectionStart===text[index].length)
+        {
+          setCurrentTextIndex(index+1);
+          inputRef.current[index+1].focus();
+          inputRef.current[index+1].setSelectionRange(0,0);
+          e.preventDefault();
+        }
       }
-    }
-    
+    }  
   };
 
   // Edit a text box
@@ -323,10 +339,11 @@ export default function CFG() {
               onChange={(e) => handleChange(index, e)}
               onKeyDown={(e) => handleKeyPress(index,e)}
               onClick={() => onTextClick(index)}
-              
             />
           ))}
+          <button onClick={onRemoveLang}>X</button>
         </div>
+        <button onClick={onAddLang}>Add Language or Press 'Enter'</button>
       </div>
 
       {showSettings && (
