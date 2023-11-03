@@ -105,26 +105,27 @@ export default function CFG() {
     let tempStr = "";
     let start = 0;
     let foundStart = false;
-    let end = 0; 
+    let end = 0;
     for (let i = 0; i < substring.length; i++) {
-      if (substring[i] === lang && !foundStart){
+      if (substring[i] === lang && !foundStart) {
         start = i;
         foundStart = true;
       }
-      if (substring[i] === lang && foundStart){
+      if (substring[i] === lang && foundStart && i != substring.length - 1) {
         end = i;
-        tempStr = substring.substring(start, end - start);
-        arr.push(tempStr);
+        if (start + 1 != end) {
+          tempStr = substring.substring(start + 1, end);
+          arr.push(tempStr);
+        }
         start = end;
         end = 0;
       }
     }
     // S000S11S   11 000  11
     let tempMatchString = matchString;
-    for(const str in arr){
+    for (const str in arr) {
       var indexStr = tempMatchString.indexOf(str);
-      if(indexStr === -1)
-        return false;
+      if (indexStr === -1) return false;
     }
     return true;
   }
@@ -422,23 +423,19 @@ export default function CFG() {
           e.preventDefault();
         }
       }
-    }
-    else if(e.key === "Tab"&&e.shiftKey)
-    {
+    } else if (e.key === "Tab" && e.shiftKey) {
       e.preventDefault();
       if (index > 0) {
-          setCurrentTextIndex(index - 1);
-          inputRef.current[index - 1].focus();
-          inputRef.current[index - 1].setSelectionRange(0,0)
-        }
-    }
-    else if(e.key === "Tab")
-    {
+        setCurrentTextIndex(index - 1);
+        inputRef.current[index - 1].focus();
+        inputRef.current[index - 1].setSelectionRange(0, 0);
+      }
+    } else if (e.key === "Tab") {
       e.preventDefault();
       if (index + 1 < count) {
-          setCurrentTextIndex(index + 1);
-          inputRef.current[index + 1].focus();
-          inputRef.current[index + 1].setSelectionRange(0, 0);
+        setCurrentTextIndex(index + 1);
+        inputRef.current[index + 1].focus();
+        inputRef.current[index + 1].setSelectionRange(0, 0);
       }
     }
   };
