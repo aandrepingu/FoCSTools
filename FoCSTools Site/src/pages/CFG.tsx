@@ -22,6 +22,8 @@ export default function CFG() {
   const [randomize, setRandomize] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [settingsUpdated, setSettingsUpdated] = useState(false);
+  const match = useRef(false);
+  const cutRecursion = useRef(false);
 
   const shuffle = (array: string[]) => {
     return array.sort(() => Math.random() - 0.5);
@@ -149,15 +151,34 @@ export default function CFG() {
       function(newString)
 
     */
-  function inputStringParser(
+
+  //Fails for cycles between substrings. Implement Hash table to avoid recalculating looping substrings. O(1) lookup required!
+
+  const inputStringParser = (
     matchString: string,
     currentString: string,
-    empty: boolean
-  ): boolean {
+    empty: boolean,
+    visited: Set<string>
+  ): void => {
     //base cases
+    if (cutRecursion.current === true) {
+      return;
+    }
+    if (visited.has(currentString)) {
+      return;
+    } else {
+      visited.add(currentString);
+    }
     if (!empty) {
-      if (currentString.length > matchString.length) return false;
-      else if (currentString == matchString) return true;
+      if (currentString.length > matchString.length) {
+        return;
+      } else if (currentString == matchString) {
+        match.current = true;
+        cutRecursion.current = true;
+        //console.log("Match = True");
+
+        return;
+      }
     } else if (empty) {
       let nonTerminals = 0;
       let terminals = true;
@@ -169,13 +190,16 @@ export default function CFG() {
         }
       }
       if (nonTerminals > matchString.length) {
-        return false;
+        return;
       }
       if (terminals) {
         if (currentString == matchString) {
-          return true;
+          //console.log("Match = True");
+          match.current = true;
+          cutRecursion.current = true;
+          return;
         }
-        return false;
+        return;
       }
     }
 
@@ -187,25 +211,28 @@ export default function CFG() {
             newString.slice(0, i) + production + newString.slice(i + 1);
 
           if (!checkBeginning(currentString, matchString)) {
-            return false;
+            return;
           }
           if (!checkEnding(currentString, matchString)) {
-            return false;
+            return;
           }
           if (!checkSubstring(currentString, matchString)) {
-            return false;
+            return;
           }
-          inputStringParser(matchString, newString, empty);
+          inputStringParser(matchString, newString, empty, visited);
         }
       }
     }
-    return true;
-  }
+    return;
+  };
 
   const testParser = () => {
     let empty = text.includes("");
-    let bool = inputStringParser(inputString, lang, empty);
-    console.log(bool);
+    //let tmp = false;
+    match.current = false;
+    cutRecursion.current = false;
+    inputStringParser(inputString, lang, empty, new Set());
+    console.log(match.current);
   };
 
   // Output grammars in a div
@@ -251,9 +278,9 @@ export default function CFG() {
     ): void => {
       //Base case:
       var endTime = new Date().getTime();
-      console.log(endTime - startTime);
+      //console.log(endTime - startTime);
       if (endTime - startTime >= maxTime * 1000) {
-        console.log("ended!");
+        //console.log("ended!");
         return;
       }
       if (depth > maxRecursion) {
@@ -363,7 +390,7 @@ export default function CFG() {
     // Backspace: deletes the current box if the box is empty
     else if (e.key === "Backspace" && !value) {
       onRemove();
-      console.log(count, currentTextIndex);
+      //console.log(count, currentTextIndex);
       if (index == count - 1 && count >= 2) {
         setCurrentTextIndex(index - 2);
         inputRef.current[count - 2].focus();
