@@ -103,7 +103,7 @@ export default function DFA() {
   );
   const [changing0, setChanging0] = useState<ID | null>(null);
   const [changing1, setChanging1] = useState<ID | null>(null);
-
+  const [inputString, setInputString] = useState('');
   useEffect(() => {
     console.log(nodeState, "CHANGING");
   }, [nodeState]);
@@ -111,7 +111,7 @@ export default function DFA() {
   return (
     <>
       <Navbar />
-      <Sidebar dispatch={dispatch} />
+      <Sidebar dispatch={dispatch} inputString={inputString} setInputString={setInputString} />
       <Xwrapper>
         {Array.from(nodeState.values()).map((node) => (
           <Node

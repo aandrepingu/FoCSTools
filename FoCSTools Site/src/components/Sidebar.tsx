@@ -15,14 +15,19 @@ export interface NodeType {
 }
 
 export default function Sidebar({
-  dispatch,
+  dispatch, 
+  inputString,
+  setInputString
 }: {
   dispatch: React.Dispatch<{
     type: string;
     payload?: string | undefined;
   }>;
+  inputString: string;
+  setInputString: (e: string) => void;
 }) {
   const [show, setShow] = useState(true);
+  //
   function handleClick() {
     setShow(!show);
   }
@@ -72,13 +77,13 @@ export default function Sidebar({
             >
               Clear
             </button>
-            <button className="sidebar_Button">
+            <button className="sidebar_Button" onClick={() => {
+              console.log(inputString);
+            }}>
               Input String:
-              <input/>
+              <input onChange={(e) => {setInputString(e.target.value)}}/>
             </button>
           </div>
-
-          //  </div>
         )}
 
         <div>
