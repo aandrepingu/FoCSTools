@@ -371,6 +371,24 @@ export default function CFG() {
         }
       }
     }
+    else if(e.key === "Tab"&&e.shiftKey)
+    {
+      e.preventDefault();
+      if (index > 0) {
+          setCurrentTextIndex(index - 1);
+          inputRef.current[index - 1].focus();
+          inputRef.current[index - 1].setSelectionRange(0,0)
+        }
+    }
+    else if(e.key === "Tab")
+    {
+      e.preventDefault();
+      if (index + 1 < count) {
+          setCurrentTextIndex(index + 1);
+          inputRef.current[index + 1].focus();
+          inputRef.current[index + 1].setSelectionRange(0, 0);
+      }
+    }
   };
 
   // Edit a text box
