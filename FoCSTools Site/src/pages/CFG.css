@@ -48,18 +48,21 @@
 
 .CFG_Button_Div {
   justify-content: center;
-
+  margin-bottom: 10px;
   position: relative;
   display: flex;
   flex-direction: row;
 }
 
 .CFG_Rules {
+  align-items: center;
   display: flex;
   flex-direction: row;
   max-height: 65vh;
   height: 30px;
   overflow:visible;
+  margin-bottom: 10px;
+
 }
 
 body {
@@ -76,25 +79,56 @@ body {
   
 }
 
-.CFG_Button_Div > button {
-	/* margin: 1px; */
-	/* text-align: center; */
-	/* align-content: center; */
-	border: 2px solid #00000045;
-  background-color: black;
-	padding: 0.6em 1em .6em 1em;
-	margin-bottom: 3px;
-	margin-right: 1px;
-	margin-left: 1px;
-}
   /* v This changes ALL/Navbar Buttons, should be moved before main branch merge v*/
 button {
   background-color: black;
   color: white;
 }
+.CFG_Rules button.xButton  {
+  padding: 0;
+  font-size: 1em;
+  height: 1lh;
+}
+.CFG_Rules button.xButton {
+	padding: 0;
+	font-size: 1.3em;
+	height: 1em;
+	font-weight: bolder;
+	white-space: nowrap;
+	line-height: 0px;
+	width: 1em;
+	border-radius: .5em;
+	display: inline-block;
+}
+.CFG_Rules button.xButton span{
+  transform: translate(0.3px, -1px);
+  display: block;
+}
 .navbar button {
   background-color: black;
   color: white;
+}
+.CFGcontrols button {
+  background-color: black;
+  color: white;
+  border: 2px solid #00000045;
+	padding: 0.6em 1em .6em 1em;
+	margin-bottom: 3px;
+	margin-right: 1px;
+	margin-left: 1px;
+
+}
+.navbar button:hover, .CFGcontrols button:hover {
+  border-color: black;
+}
+.CFGcontrols input {
+  background-color: rgb(33, 33, 33);
+  color: white;
+  height: 1.3lh;
+  font-size: 15px;
+}
+.CFGcontrols input::placeholder {
+  color: rgb(195, 195, 195);
 }
   /* ^ This changes ALL/Navbar Buttons, should be moved before main branch merge ^ */
 
@@ -127,6 +161,7 @@ button {
   grid-column: 2/3;
   width: 100px;
 }
+
 .setting button {
   background-color: black;
   grid-column: 2/3;

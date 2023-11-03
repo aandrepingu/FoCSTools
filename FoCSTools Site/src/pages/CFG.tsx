@@ -526,7 +526,7 @@ export default function CFG() {
                 onClick={() => onTextClick(index)}
               />
             ))}
-            <button onClick={onRemoveLang}>X</button>
+            <button onClick={onRemoveLang} className="xButton"><span>&times;</span></button>
           </div>
           <button onClick={onAddLang}>Add Language or Press 'Enter'</button>
         </div>
