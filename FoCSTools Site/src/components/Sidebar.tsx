@@ -81,7 +81,16 @@ export default function Sidebar({
               console.log(inputString);
             }}>
               Input String:
-              <input onChange={(e) => {setInputString(e.target.value)}}/>
+              <input onChange={(e) => {
+                  if(e.target.value.length === 0) return;
+                  for(const c of e.target.value){
+                    if(c != '0' && c != '1'){
+                      alert("Input string must only consist of 1s and 0s!");
+                      return;
+                    }
+                  }
+                  setInputString(e.target.value)
+                }}/>
             </button>
           </div>
         )}
