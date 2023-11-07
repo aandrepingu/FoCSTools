@@ -17,11 +17,7 @@ export default function CFG() {
   const [maxLength, setMaxLength] = useState<number>(10);
   const [maxRecursion, setMaxRecursion] = useState<number>(8);
   const [maxNumPrinted, setMaxNumPrinted] = useState<number>(9);
-<<<<<<< Updated upstream
   const [maxTime, setMaxTime] = useState<number>(5);
-=======
-  const [maxTime, setMaxTime] = useState<number>(10);
->>>>>>> Stashed changes
   const [generated, setGenerated] = useState(false);
   const [randomize, setRandomize] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
