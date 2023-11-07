@@ -23,6 +23,17 @@
   left: 0;
 }
 
+.progressBarBox {
+  width: 20%;
+  background-color: lightgrey;
+}
+
+.progressBar {
+  width: 1%;
+  height: 30px;
+  background-color: greenyellow;
+}
+
 .outputBox {
   background-color: green;
 }

@@ -17,7 +17,11 @@ export default function CFG() {
   const [maxLength, setMaxLength] = useState<number>(10);
   const [maxRecursion, setMaxRecursion] = useState<number>(8);
   const [maxNumPrinted, setMaxNumPrinted] = useState<number>(9);
+<<<<<<< Updated upstream
   const [maxTime, setMaxTime] = useState<number>(5);
+=======
+  const [maxTime, setMaxTime] = useState<number>(10);
+>>>>>>> Stashed changes
   const [generated, setGenerated] = useState(false);
   const [randomize, setRandomize] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -295,6 +299,7 @@ export default function CFG() {
     ): void => {
       //Base case:
       var endTime = new Date().getTime();
+
       //console.log(endTime - startTime);
       if (endTime - startTime >= maxTime * 1000) {
         //console.log("ended!");
@@ -378,6 +383,28 @@ export default function CFG() {
     renderOutputs();
     setSettingsUpdated(false);
     setGenerated(true);
+  }
+
+  function progress() {
+    var elem = document.getElementById("bar");
+    var durationInSeconds = maxTime; // Set your desired duration in seconds
+    var targetWidth = 100;    // 100% width
+    //elem!.style.width = 0 + "%";
+
+    var width = 0;            // Initial width
+    var interval = 10;        // Milliseconds between each frame update
+    var step = (targetWidth / (durationInSeconds * 1000 / interval)); // Calculate the step size
+
+    var id = setInterval(frame, interval);
+
+    function frame() {
+      if (width >= targetWidth) {
+        clearInterval(id);
+      } else {
+        width += step;
+        elem!.style.width = width + "%";
+      }
+    }
   }
 
   // Edit the value in the array
@@ -527,7 +554,10 @@ export default function CFG() {
               style={{
                 backgroundColor: settingsUpdated ? "darkcyan" : "black",
               }}
-              onClick={generate}
+              onClick={ () => {
+                progress();
+                generate();
+              } }
             >
               Generate
             </button>
@@ -579,6 +609,7 @@ export default function CFG() {
         <div style={{ flexBasis: "25%" }}>
           {generated && (
             <div className="outputBox">
+              <div className="progressBar" id="bar"></div>
               {Array.from(CFGOutArray).map((s, ind) => {
                 return <h2 key={ind}>{s}</h2>;
               })}
