@@ -31,6 +31,15 @@ export default function Sidebar({
   function handleClick() {
     setShow(!show);
   }
+  const processInputString = () => {
+    if(inputString.length === 0) return;
+    for(const c of inputString){
+      if(c != '0' && c != '1'){
+        alert("Input string must only consist of 1s and 0s!");
+        return;
+      }
+    }
+  }
   return (
     <>
       <div className="flexBox">
@@ -77,18 +86,9 @@ export default function Sidebar({
             >
               Clear
             </button>
-            <button className="sidebar_Button" onClick={() => {
-              console.log(inputString);
-            }}>
+            <button className="sidebar_Button" onClick={processInputString}>
               Input String:
               <input onChange={(e) => {
-                  if(e.target.value.length === 0) return;
-                  for(const c of e.target.value){
-                    if(c != '0' && c != '1'){
-                      alert("Input string must only consist of 1s and 0s!");
-                      return;
-                    }
-                  }
                   setInputString(e.target.value)
                 }}/>
             </button>
