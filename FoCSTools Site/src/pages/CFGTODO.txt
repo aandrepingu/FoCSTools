@@ -1,0 +1,17 @@
+//Generation
+Slow with multiple S construction rules. Fix by cutting recusion after 100 strings are found
+Add progress bar
+
+//Input Parsing
+Fast with most cases
+Slow with multiple S contruction rules AND E set colnstruction rule. Infinite recursion.
+
+//Code
+Clean up useless things and organize
+
+
+//Layout
+Fix layout to be more aethetic and convienient.
+
+
+//Add multiple language

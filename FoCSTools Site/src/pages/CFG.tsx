@@ -14,16 +14,17 @@ export default function CFG() {
   const inputRef = useRef(new Array());
   const [width, setWidth] = useState<number[]>(new Array());
   // const {variableWidth, setVariable} = useState<number>(8);
-  const [maxLength, setMaxLength] = useState<number>(1);
-  const [maxRecursion, setMaxRecursion] = useState<number>(1);
-  const [maxNumPrinted, setMaxNumPrinted] = useState<number>(1);
-  const [maxTime, setMaxTime] = useState<number>(10);
+  const [maxLength, setMaxLength] = useState<number>(10);
+  const [maxRecursion, setMaxRecursion] = useState<number>(8);
+  const [maxNumPrinted, setMaxNumPrinted] = useState<number>(9);
+  const [maxTime, setMaxTime] = useState<number>(5);
   const [generated, setGenerated] = useState(false);
   const [randomize, setRandomize] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [settingsUpdated, setSettingsUpdated] = useState(false);
   const match = useRef(false);
   const cutRecursion = useRef(false);
+  const [valid, setValid] = useState<number>(0);
 
   const shuffle = (array: string[]) => {
     return array.sort(() => Math.random() - 0.5);
@@ -79,6 +80,9 @@ export default function CFG() {
       if (substring[i] === lang) break;
       beginningString.concat(substring[i]);
     }
+    if (beginningString === "") {
+      return true;
+    }
     if (beginningString.length > matchString.length) return false;
     for (let j = 0; j < beginningString.length; j++) {
       if (beginningString[j] != matchString[j]) return false;
@@ -92,6 +96,9 @@ export default function CFG() {
     for (i; i >= 0; i--) {
       if (substring[i] === lang) break;
       beginningString.concat(substring[i]);
+    }
+    if (beginningString === "") {
+      return true;
     }
     if (beginningString.length > matchString.length) return false;
     for (let j = 0; j < beginningString.length; j++) {
@@ -159,9 +166,13 @@ export default function CFG() {
     matchString: string,
     currentString: string,
     empty: boolean,
-    visited: Set<string>
+    visited: Set<string>,
+    depth: number
   ): void => {
     //base cases
+    if (depth >= 50) {
+      return;
+    }
     if (cutRecursion.current === true) {
       return;
     }
@@ -220,7 +231,7 @@ export default function CFG() {
           if (!checkSubstring(currentString, matchString)) {
             return;
           }
-          inputStringParser(matchString, newString, empty, visited);
+          inputStringParser(matchString, newString, empty, visited, depth + 1);
         }
       }
     }
@@ -232,8 +243,13 @@ export default function CFG() {
     //let tmp = false;
     match.current = false;
     cutRecursion.current = false;
-    inputStringParser(inputString, lang, empty, new Set());
+    inputStringParser(inputString, lang, empty, new Set(), 0);
     console.log(match.current);
+    if (match.current) {
+      setValid(1);
+    } else {
+      setValid(0);
+    }
   };
 
   // Output grammars in a div
@@ -484,10 +500,15 @@ export default function CFG() {
   }
 
   function outputParser() {
-    if(match.current){
-      return (inputString+" is valid.");
+    if (valid === 1) {
+      return inputString + " is valid.";
+      //return "VALID!";
+    } else if (valid === 0) {
+      return inputString + " is invalid.";
+    } else if (valid === 2) {
+      return "New Input Check String.";
     }
-    return (inputString+" is not valid.");
+    //return "INVALID!";
   }
 
   return (
@@ -533,7 +554,9 @@ export default function CFG() {
                 onClick={() => onTextClick(index)}
               />
             ))}
-            <button onClick={onRemoveLang} className="xButton"><span>&times;</span></button>
+            <button onClick={onRemoveLang} className="xButton">
+              <span>&times;</span>
+            </button>
           </div>
           <button onClick={onAddLang}>Add Language or Press 'Enter'</button>
         </div>
@@ -544,12 +567,14 @@ export default function CFG() {
             placeholder="Input String"
             name=""
             id=""
-            onChange={(e) => setInputString(e.currentTarget.value)}
+            onChange={(e) => (
+              setInputString(e.currentTarget.value), setValid(2)
+            )}
           />
           <button onClick={testParser}>{"Check Input String"}</button>
         </div>
         <div className="inputStringText">
-          <h2>{ outputParser() }</h2>
+          <h2>{outputParser()}</h2>
         </div>
         <div style={{ flexBasis: "25%" }}>
           {generated && (
