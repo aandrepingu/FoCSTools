@@ -82,7 +82,7 @@ export default function Sidebar({
                 startTraverse();
               }}
             >
-              Input String:
+              {inputString.length === 0 ? "Input String:" : "Run Input String"}
               <input
                 onClick={(e) => {
                   e.stopPropagation();
