@@ -483,6 +483,13 @@ export default function CFG() {
     setSettingsUpdated(true);
   }
 
+  function outputParser() {
+    if(match.current){
+      return (inputString+" is valid.");
+    }
+    return (inputString+" is not valid.");
+  }
+
   return (
     <>
       <h2 className="CFG_Text_Div">Create a Context Free Grammar</h2>
@@ -540,6 +547,9 @@ export default function CFG() {
             onChange={(e) => setInputString(e.currentTarget.value)}
           />
           <button onClick={testParser}>{"Check Input String"}</button>
+        </div>
+        <div className="inputStringText">
+          <h2>{ outputParser() }</h2>
         </div>
         <div style={{ flexBasis: "25%" }}>
           {generated && (

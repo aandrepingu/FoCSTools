@@ -7,6 +7,15 @@
   text-size-adjust: auto;
 }
 
+.inputStringText {
+  background-color: blue;
+  text-align: center;
+  position: absolute;
+  left: 45%;
+  top: 25%;
+  padding: 1%;
+}
+
 .CFG_FlexBox_Div {
   top: 10%;
   display: flex;
