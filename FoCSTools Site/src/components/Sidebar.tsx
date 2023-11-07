@@ -1,23 +1,12 @@
 import { useState } from "react";
 import "./Sidebar.css";
-
-type ID = string;
-
-export interface NodeType {
-  id: ID;
-  start?: boolean;
-  end?: boolean;
-  incoming: ID[];
-  outgoing: {
-    0: ID | null;
-    1: ID | null;
-  };
-}
+import { NodeType } from "src/pages/DFA";
 
 export default function Sidebar({
-  dispatch, 
+  dispatch,
+  setInputString,
+  startTraverse,
   inputString,
-  setInputString
 }: {
   dispatch: React.Dispatch<{
     type: string;
@@ -25,6 +14,7 @@ export default function Sidebar({
   }>;
   inputString: string;
   setInputString: (e: string) => void;
+  startTraverse: () => void;
 }) {
   const [show, setShow] = useState(true);
   //
@@ -32,14 +22,14 @@ export default function Sidebar({
     setShow(!show);
   }
   const processInputString = () => {
-    if(inputString.length === 0) return;
-    for(const c of inputString){
-      if(c != '0' && c != '1'){
+    if (inputString.length === 0) return;
+    for (const c of inputString) {
+      if (c != "0" && c != "1") {
         alert("Input string must only consist of 1s and 0s!");
         return;
       }
     }
-  }
+  };
   return (
     <>
       <div className="flexBox">
@@ -51,7 +41,7 @@ export default function Sidebar({
               display: "flex",
               backgroundColor: "gray",
               width: "max-content",
-              flexDirection: "column"
+              flexDirection: "column",
             }}
           >
             <button
@@ -86,11 +76,21 @@ export default function Sidebar({
             >
               Clear
             </button>
-            <button className="sidebar_Button" onClick={processInputString}>
+            <button
+              className="sidebar_Button"
+              onClick={() => {
+                startTraverse();
+              }}
+            >
               Input String:
-              <input onChange={(e) => {
-                  setInputString(e.target.value)
-                }}/>
+              <input
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                onChange={(e) => {
+                  setInputString(e.target.value);
+                }}
+              />
             </button>
           </div>
         )}

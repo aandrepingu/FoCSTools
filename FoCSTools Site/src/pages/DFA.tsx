@@ -1,9 +1,9 @@
 import Node from "../components/Node";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import { v4 as uuid } from "uuid";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import Xarrow, { useXarrow, Xwrapper } from "react-xarrows";
+import Xarrow, { Xwrapper } from "react-xarrows";
 
 type ID = string;
 
@@ -13,8 +13,8 @@ export interface NodeType {
   end?: boolean;
   incoming: ID[];
   outgoing: {
-    0: ID | null;
-    1: ID | null;
+    0: ID;
+    1: ID;
   };
 }
 
@@ -37,7 +37,7 @@ const nodeReducer = (
     const newNode: NodeType = {
       id: uniqueID,
       incoming: [],
-      outgoing: { 0: null, 1: null },
+      outgoing: { 0: uniqueID, 1: uniqueID },
       start: action.type === "add_start_node",
       end: action.type === "add_end_node",
     };
@@ -80,10 +80,10 @@ const nodeReducer = (
         return state;
       }
       if (node?.outgoing[0] === action.payload) {
-        node.outgoing[0] = null;
+        node.outgoing[0] = node.id;
       }
       if (node?.outgoing[1] === action.payload) {
-        node.outgoing[1] = null;
+        node.outgoing[1] = node.id;
       }
     });
     newState.delete(action.payload);
@@ -103,15 +103,54 @@ export default function DFA() {
   );
   const [changing0, setChanging0] = useState<ID | null>(null);
   const [changing1, setChanging1] = useState<ID | null>(null);
-  const [inputString, setInputString] = useState('');
+  const [inputString, setInputString] = useState("");
   useEffect(() => {
     console.log(nodeState, "CHANGING");
   }, [nodeState]);
+  const [highlightedNode, setHighlightedNode] = useState<ID | null>(null);
+  const startNode = Array.from(nodeState.values()).find((node) => node.start);
+  const timerRef = useRef<number | null>(null);
+
+  function startTraverse() {
+    if (!startNode) {
+      alert("No start node");
+      return;
+    }
+    setHighlightedNode(startNode.id);
+  }
+  useEffect(() => {
+    timerRef.current = setTimeout(() => {
+      if (highlightedNode) {
+        const node = nodeState.get(highlightedNode);
+        if (!node) {
+          return;
+        }
+        if (node.outgoing[0] && inputString[0] === "0") {
+          setHighlightedNode(node.outgoing[0]);
+          setInputString(inputString.slice(1));
+        } else if (node.outgoing[1] && inputString[0] === "1") {
+          setHighlightedNode(node.outgoing[1]);
+          setInputString(inputString.slice(1));
+        } else if (inputString.length === 0 && node.end) {
+          alert("Accepted");
+          setHighlightedNode(null);
+        } else {
+          alert("Rejected");
+          setHighlightedNode(null);
+        }
+      }
+    }, 1000);
+  }, [highlightedNode, inputString]);
 
   return (
     <>
       <Navbar />
-      <Sidebar dispatch={dispatch} inputString={inputString} setInputString={setInputString} />
+      <Sidebar
+        dispatch={dispatch}
+        inputString={inputString}
+        setInputString={setInputString}
+        startTraverse={startTraverse}
+      />
       <Xwrapper>
         {Array.from(nodeState.values()).map((node) => (
           <Node
@@ -131,26 +170,29 @@ export default function DFA() {
             setChanging0={setChanging0}
             setChanging1={setChanging1}
             changing={
-              (changing0 != null && changing0 != node.id) ||
-              (changing1 != null && changing1 != node.id)
+              (changing0 !== null && changing0 !== node.id) ||
+              (changing1 !== null && changing1 !== node.id)
+            }
+            highlightedNode={
+              highlightedNode ? highlightedNode === node.id : false
             }
           />
         ))}
         {Array.from(nodeState.values()).map((node) => {
           return (
             <>
-              {node.outgoing[0] && (
+              {node.outgoing[0] && node.outgoing[0] !== node.id && (
                 <Xarrow
-                  start={node.id} //can be react ref
-                  end={node.outgoing[0]} //or an id
+                  start={node.id}
+                  end={node.outgoing[0]}
                   labels={node.outgoing[0] !== node.outgoing[1] ? "0" : "0,1"}
                   path={"straight"}
                 />
               )}
-              {node.outgoing[1] && (
+              {node.outgoing[1] && node.outgoing[1] !== node.id && (
                 <Xarrow
-                  start={node.id} //can be react ref
-                  end={node.outgoing[1]} //or an id
+                  start={node.id}
+                  end={node.outgoing[1]}
                   labels={node.outgoing[0] !== node.outgoing[1] ? "1" : "0,1"}
                   path={"straight"}
                 />
