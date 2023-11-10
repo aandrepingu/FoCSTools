@@ -110,20 +110,9 @@ export default function DFA() {
   const timerRef = useRef<number | null>(null);
 
   function startTraverse() {
-    if (inputString.length === 0) {
-      alert("No input string");
-      return;
-    }
     if (!startNode) {
       alert("No start node");
       return;
-    }
-    if (inputString.length === 0) return;
-    for (const c of inputString) {
-      if (c != "0" && c != "1") {
-        alert("Input string must only consist of 1s and 0s!");
-        return;
-      }
     }
     setHighlightedNode(startNode.id);
     setHighlightedString(inputString);
@@ -197,8 +186,6 @@ export default function DFA() {
                   start={node.id}
                   end={node.outgoing[0]}
                   labels={node.outgoing[0] !== node.outgoing[1] ? "0" : "0,1"}
-                  dashness={true}
-                  animateDrawing={2}
                   path={"straight"}
                 />
               )}
@@ -207,8 +194,6 @@ export default function DFA() {
                   start={node.id}
                   end={node.outgoing[1]}
                   labels={node.outgoing[0] !== node.outgoing[1] ? "1" : "0,1"}
-                  dashness={true}
-                  animateDrawing={2}
                   path={"straight"}
                 />
               )}
