@@ -82,7 +82,7 @@ export default function CFG() {
   // Remove from back
   // If a box is clicked, remove that one
   function onRemove() {
-    if (count[currentLangIndex] > 0) {
+    if (count[currentLangIndex] > 1) {
       const newCount=[...count];
       newCount[currentLangIndex]--;
       setCount(newCount);
