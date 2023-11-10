@@ -36,7 +36,7 @@ export default function CFG() {
   const [currentLangIndex, setCurrentLangIndex] = useState<number>(0);
   const [currentTextIndex, setCurrentTextIndex] = useState<number>(0);
   const inputRef = useRef(new Array(new Array()));
-  const [width, setWidth] = useState<number[][]>([[]]);
+  const [width, setWidth] = useState<number[][]>([[8]]);
   const [maxLength, setMaxLength] = useState<number>(1);
   const [maxRecursion, setMaxRecursion] = useState<number>(1);
   const [maxNumPrinted, setMaxNumPrinted] = useState<number>(1);
