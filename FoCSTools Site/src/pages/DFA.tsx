@@ -112,6 +112,10 @@ export default function DFA() {
   const timerRef = useRef<number | null>(null);
 
   function startTraverse() {
+    if (inputString.length === 0) {
+      alert("No input string");
+      return;
+    }
     if (!startNode) {
       alert("No start node");
       return;
