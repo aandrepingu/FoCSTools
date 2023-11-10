@@ -2,45 +2,110 @@ import React, { useRef, useState } from "react";
 import "./CFG.css";
 
 export default function CFG() {
-  const [count, setCount] = useState<number>(0);
+  // const [count, setCount] = useState<number>(0);
+  // const [langCount, setLangCount] = useState<number>(5);
+  // const [lang, setLang] = useState<string>("");
+  // const [multLang, setMultLang] = useState<string[]>([]);
+  // const [text, setText] = useState<string[]>([]);
+  // const [inputString, setInputString] = useState<string>("");
+  // const [langText, setLangText] = useState<string[][]>([[]]);
+  // const [CFGOutArray, setCFGOutArray] = useState<Set<string>>(new Set());
+  // const [currentLangIndex, setCurrentLangIndex] = useState<number>(0);
+  // const [currentTextIndex, setCurrentTextIndex] = useState<number>(0);
+  // const inputRef = useRef(new Array());
+  // const [width, setWidth] = useState<number[]>(new Array());
+  // const [maxLength, setMaxLength] = useState<number>(1);
+  // const [maxRecursion, setMaxRecursion] = useState<number>(1);
+  // const [maxNumPrinted, setMaxNumPrinted] = useState<number>(1);
+  // const [maxTime, setMaxTime] = useState<number>(10);
+  // const [generated, setGenerated] = useState(false);
+  // const [randomize, setRandomize] = useState(false);
+  // const [showSettings, setShowSettings] = useState(false);
+  // const [settingsUpdated, setSettingsUpdated] = useState(false);
+
+  // original version
+
+  const [count, setCount] = useState<number[]>([0]);
   const [langCount, setLangCount] = useState<number>(0);
   const [lang, setLang] = useState<string>("");
   const [multLang, setMultLang] = useState<string[]>([]);
   const [text, setText] = useState<string[]>([]);
   const [inputString, setInputString] = useState<string>("");
-  const [langText, setLangText] = useState<string[][]>([[]]);
+  const [langText, setLangText] = useState<string[][]>([[""]]);
   const [CFGOutArray, setCFGOutArray] = useState<Set<string>>(new Set());
-  const [currentTextIndex, setCurrentTextIndex] = useState<number>(count - 1);
-  const inputRef = useRef(new Array());
+  const [currentLangIndex, setCurrentLangIndex] = useState<number>(0);
+  const [currentTextIndex, setCurrentTextIndex] = useState<number>(0);
+  const inputRef = useRef(new Array(new Array()));
   const [width, setWidth] = useState<number[]>(new Array());
-  // const {variableWidth, setVariable} = useState<number>(8);
-  const [maxLength, setMaxLength] = useState<number>(10);
-  const [maxRecursion, setMaxRecursion] = useState<number>(8);
-  const [maxNumPrinted, setMaxNumPrinted] = useState<number>(9);
-  const [maxTime, setMaxTime] = useState<number>(5);
+  const [maxLength, setMaxLength] = useState<number>(1);
+  const [maxRecursion, setMaxRecursion] = useState<number>(1);
+  const [maxNumPrinted, setMaxNumPrinted] = useState<number>(1);
+  const [maxTime, setMaxTime] = useState<number>(10);
   const [generated, setGenerated] = useState(false);
   const [randomize, setRandomize] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [settingsUpdated, setSettingsUpdated] = useState(false);
-  const match = useRef(false);
-  const cutRecursion = useRef(false);
-  const [valid, setValid] = useState<number>(0);
-
   const shuffle = (array: string[]) => {
     return array.sort(() => Math.random() - 0.5);
   }; 
 
   // Get index of clicked text box
-  function onTextClick(index: number) {
+  function onTextClick(index: number, indexLang:number) {
     setCurrentTextIndex(index);
+    setCurrentLangIndex(indexLang);
+  }
+  function onVariableClick(indexLang:number) {
+    setCurrentLangIndex(indexLang);
   }
 
   // Append to grammar array
   function onAdd() {
-    setCurrentTextIndex(count);
-    setCount(count + 1);
-    const newText = [...text, ""];
-    setText(newText);
+    
+    setCurrentTextIndex(count[currentLangIndex]); // Set current text index
+
+    // Update the count array
+    count[currentLangIndex]++;
+
+    // Update the langText array
+    const newText = [...langText[currentLangIndex], ""]; 
+    langText[currentLangIndex]=newText;
+
+    const newWidth = [...width, 8]; 
+    setWidth(newWidth); 
+    console.log(count[currentLangIndex]);
+    setSettingsUpdated(true); 
+  }
+
+
+  // Remove from grammar array
+  // Remove from back
+  // If a box is clicked, remove that one
+  function onRemove() {
+    if (count[currentLangIndex] > 0) {
+      const newCount=[...count];
+      newCount[currentLangIndex]--;
+      setCount(newCount);
+      langText[currentLangIndex].splice(currentTextIndex, 1);
+      width.splice(currentTextIndex, 1);
+      if(currentTextIndex==count[currentLangIndex]-1)
+      {
+        setCurrentTextIndex(currentTextIndex-1);
+      }
+      if(currentTextIndex>0){
+        inputRef.current[currentLangIndex][currentTextIndex-1].focus();
+      }
+      setSettingsUpdated(true);
+    }
+  }
+
+  function onAddLang() {
+    setCurrentLangIndex(langCount);
+    setLangCount(langCount + 1);
+    const newLangText = [...langText, new Array("")];
+    setLangText(newLangText);
+
+    const newCount= [...count,0];
+    setCount(newCount);
 
     const newWidth = [...width, 8];
     setWidth(newWidth);
@@ -48,22 +113,16 @@ export default function CFG() {
     setSettingsUpdated(true);
   }
 
-  // Remove from grammar array
-  // Remove from back
-  // If a box is clicked, remove that one
-  function onRemove() {
-    if (count > 0) {
-      setCount(count - 1);
-      text.splice(currentTextIndex, 1);
-      width.splice(currentTextIndex, 1);
-      setCurrentTextIndex(count - 2);
+  function onRemoveLang(index:number) {
+    if (langCount > 0) {
+      console.log(index);
+      setLangCount(langCount-1);
+      langText.splice(index, 1);
+      count.splice(index,1);
+      width.splice(index,1);
       setSettingsUpdated(true);
     }
   }
-
-  function onAddLang() {}
-
-  function onRemoveLang() {}
 
   const productionError = (production: string): Boolean => {
     //Check if no digits
@@ -80,9 +139,6 @@ export default function CFG() {
       if (substring[i] === lang) break;
       beginningString.concat(substring[i]);
     }
-    if (beginningString === "") {
-      return true;
-    }
     if (beginningString.length > matchString.length) return false;
     for (let j = 0; j < beginningString.length; j++) {
       if (beginningString[j] != matchString[j]) return false;
@@ -97,9 +153,6 @@ export default function CFG() {
       if (substring[i] === lang) break;
       beginningString.concat(substring[i]);
     }
-    if (beginningString === "") {
-      return true;
-    }
     if (beginningString.length > matchString.length) return false;
     for (let j = 0; j < beginningString.length; j++) {
       if (beginningString[j] != matchString[j]) return false;
@@ -108,32 +161,6 @@ export default function CFG() {
   }
 
   function checkSubstring(substring: string, matchString: string): boolean {
-    let arr: Array<String> = [];
-    let tempStr = "";
-    let start = 0;
-    let foundStart = false;
-    let end = 0;
-    for (let i = 0; i < substring.length; i++) {
-      if (substring[i] === lang && !foundStart) {
-        start = i;
-        foundStart = true;
-      }
-      if (substring[i] === lang && foundStart && i != substring.length - 1) {
-        end = i;
-        if (start + 1 != end) {
-          tempStr = substring.substring(start + 1, end);
-          arr.push(tempStr);
-        }
-        start = end;
-        end = 0;
-      }
-    }
-    // S000S11S   11 000  11
-    let tempMatchString = matchString;
-    for (const str in arr) {
-      var indexStr = tempMatchString.indexOf(str);
-      if (indexStr === -1) return false;
-    }
     return true;
   }
 
@@ -159,38 +186,15 @@ export default function CFG() {
       function(newString)
 
     */
-
-  //Fails for cycles between substrings. Implement Hash table to avoid recalculating looping substrings. O(1) lookup required!
-
-  const inputStringParser = (
+  function inputStringParser(
     matchString: string,
     currentString: string,
-    empty: boolean,
-    visited: Set<string>,
-    depth: number
-  ): void => {
+    empty: boolean
+  ): boolean {
     //base cases
-    if (depth >= 50) {
-      return;
-    }
-    if (cutRecursion.current === true) {
-      return;
-    }
-    if (visited.has(currentString)) {
-      return;
-    } else {
-      visited.add(currentString);
-    }
     if (!empty) {
-      if (currentString.length > matchString.length) {
-        return;
-      } else if (currentString == matchString) {
-        match.current = true;
-        cutRecursion.current = true;
-        //console.log("Match = True");
-
-        return;
-      }
+      if (currentString.length > matchString.length) return false;
+      else if (currentString == matchString) return true;
     } else if (empty) {
       let nonTerminals = 0;
       let terminals = true;
@@ -202,16 +206,13 @@ export default function CFG() {
         }
       }
       if (nonTerminals > matchString.length) {
-        return;
+        return false;
       }
       if (terminals) {
         if (currentString == matchString) {
-          //console.log("Match = True");
-          match.current = true;
-          cutRecursion.current = true;
-          return;
+          return true;
         }
-        return;
+        return false;
       }
     }
 
@@ -223,33 +224,25 @@ export default function CFG() {
             newString.slice(0, i) + production + newString.slice(i + 1);
 
           if (!checkBeginning(currentString, matchString)) {
-            return;
+            return false;
           }
           if (!checkEnding(currentString, matchString)) {
-            return;
+            return false;
           }
           if (!checkSubstring(currentString, matchString)) {
-            return;
+            return false;
           }
-          inputStringParser(matchString, newString, empty, visited, depth + 1);
+          inputStringParser(matchString, newString, empty);
         }
       }
     }
-    return;
-  };
+    return true;
+  }
 
   const testParser = () => {
     let empty = text.includes("");
-    //let tmp = false;
-    match.current = false;
-    cutRecursion.current = false;
-    inputStringParser(inputString, lang, empty, new Set(), 0);
-    console.log(match.current);
-    if (match.current) {
-      setValid(1);
-    } else {
-      setValid(0);
-    }
+    let bool = inputStringParser(inputString, lang, empty);
+    console.log(bool);
   };
 
   // Output grammars in a div
@@ -295,10 +288,9 @@ export default function CFG() {
     ): void => {
       //Base case:
       var endTime = new Date().getTime();
-
-      //console.log(endTime - startTime);
+      console.log(endTime - startTime);
       if (endTime - startTime >= maxTime * 1000) {
-        //console.log("ended!");
+        console.log("ended!");
         return;
       }
       if (depth > maxRecursion) {
@@ -365,11 +357,14 @@ export default function CFG() {
   };
   // Clear all text boxes and array
   function clear() {
-    const newText = [""];
-    setText(newText);
+    const newLangText = [[]];
+    setLangText(newLangText);
+    const newCount = [0]
+    setCount(newCount);
+    setLangCount(0);
     const newWidth = new Array();
     setWidth(newWidth);
-    setCount(0);
+    
     setCurrentTextIndex(-1);
     setGenerated(false);
     setSettingsUpdated(true);
@@ -381,33 +376,13 @@ export default function CFG() {
     setGenerated(true);
   }
 
-  function progress() {
-    var elem = document.getElementById("bar");
-    var durationInSeconds = maxTime; // Set your desired duration in seconds
-    var targetWidth = 100;    // 100% width
-    //elem!.style.width = 0 + "%";
-
-    var width = 0;            // Initial width
-    var interval = 10;        // Milliseconds between each frame update
-    var step = (targetWidth / (durationInSeconds * 1000 / interval)); // Calculate the step size
-
-    var id = setInterval(frame, interval);
-
-    function frame() {
-      if (width >= targetWidth) {
-        clearInterval(id);
-      } else {
-        width += step;
-        elem!.style.width = width + "%";
-      }
-    }
-  }
-
   // Edit the value in the array
   const onWrite = (index: number, value: string) => {
-    const newText = [...text];
+    const newText = [...langText[currentLangIndex]];
     newText[index] = value;
-    setText(newText);
+    const newLangText = [...langText];
+    newLangText[currentLangIndex]=newText;
+    setLangText(newLangText);
     setSettingsUpdated(true);
 
     const newWidth = [...width];
@@ -430,10 +405,14 @@ export default function CFG() {
     // Backspace: deletes the current box if the box is empty
     else if (e.key === "Backspace" && !value) {
       onRemove();
-      //console.log(count, currentTextIndex);
-      if (index == count - 1 && count >= 2) {
-        setCurrentTextIndex(index - 2);
-        inputRef.current[count - 2].focus();
+      console.log(currentTextIndex)
+      if (index == count[currentLangIndex] - 1 && count[currentLangIndex] >= 2) {
+        setCurrentTextIndex(index - 1);
+        inputRef.current[currentLangIndex][count[currentLangIndex] - 2].focus();
+        inputRef.current[currentLangIndex][count[currentLangIndex] - 2].setSelectionRange(
+          langText[currentLangIndex][index - 1].length,
+          langText[currentLangIndex][index - 1].length
+        );
       }
       e.preventDefault();
     }
@@ -442,40 +421,48 @@ export default function CFG() {
       if (index > 0) {
         if (e.currentTarget.selectionStart === 0) {
           setCurrentTextIndex(index - 1);
-          inputRef.current[index - 1].focus();
-          inputRef.current[index - 1].setSelectionRange(
-            text[index - 1].length,
-            text[index - 1].length
+          inputRef.current[currentLangIndex][index - 1].focus();
+          inputRef.current[currentLangIndex][index - 1].setSelectionRange(
+            langText[currentLangIndex][index - 1].length,
+            langText[currentLangIndex][index - 1].length
           );
-          // inputRef.current.
           e.preventDefault();
         }
       }
     }
     // ArrowDown: Goes to the next box
     else if (e.key === "ArrowRight") {
-      if (index + 1 < count) {
-        if (e.currentTarget.selectionStart === text[index].length) {
+      if (index + 1 < count[currentLangIndex]) {
+        if (e.currentTarget.selectionStart === langText[currentLangIndex][index].length) {
           setCurrentTextIndex(index + 1);
-          inputRef.current[index + 1].focus();
-          inputRef.current[index + 1].setSelectionRange(0, 0);
+          inputRef.current[currentLangIndex][index + 1].focus();
+          inputRef.current[currentLangIndex][index + 1].setSelectionRange(0, 0);
           e.preventDefault();
         }
       }
-    } else if (e.key === "Tab" && e.shiftKey) {
+    }
+    else if(e.key === "Tab"&&e.shiftKey)
+    {
       e.preventDefault();
       if (index > 0) {
-        setCurrentTextIndex(index - 1);
-        inputRef.current[index - 1].focus();
-        inputRef.current[index - 1].setSelectionRange(0, 0);
-      }
-    } else if (e.key === "Tab") {
+          setCurrentTextIndex(index - 1);
+          inputRef.current[currentLangIndex][index - 1].focus();
+          inputRef.current[currentLangIndex][index - 1].setSelectionRange(0,0)
+        }
+    }
+    else if(e.key === "Tab")
+    {
       e.preventDefault();
-      if (index + 1 < count) {
-        setCurrentTextIndex(index + 1);
-        inputRef.current[index + 1].focus();
-        inputRef.current[index + 1].setSelectionRange(0, 0);
+      if (index + 1 < count[currentLangIndex]) {
+          setCurrentTextIndex(index + 1);
+          inputRef.current[currentLangIndex][index + 1].focus();
+          inputRef.current[currentLangIndex][index + 1].setSelectionRange(0, 0);
       }
+    }
+    else if(e.key==="Enter")
+    {
+      e.preventDefault();
+      onAddLang();
     }
   };
 
@@ -522,18 +509,6 @@ export default function CFG() {
     setSettingsUpdated(true);
   }
 
-  function outputParser() {
-    if (valid === 1) {
-      return inputString + " is valid.";
-      //return "VALID!";
-    } else if (valid === 0) {
-      return inputString + " is invalid.";
-    } else if (valid === 2) {
-      return "New Input Check String.";
-    }
-    //return "INVALID!";
-  }
-
   return (
     <>
       <h2 className="CFG_Text_Div">Create a Context Free Grammar</h2>
@@ -550,40 +525,43 @@ export default function CFG() {
               style={{
                 backgroundColor: settingsUpdated ? "darkcyan" : "black",
               }}
-              onClick={ () => {
-                progress();
-                generate();
-              } }
+              onClick={generate}
             >
               Generate
             </button>
           </div>
-          <div className="CFG_Rules">
-            <input
-              style={{ width: 60 }}
-              type="text"
-              placeholder="Variable"
-              value={lang}
-              onChange={(e) => handleLang(e)}
-            />
-            {Array.from({ length: count }).map((_, index) => (
+          {Array.from({length: langCount}).map((_,indexLang) => (
+            <div className="CFG_Rules" key={indexLang}>
               <input
-                style={{ width: width[index] }}
-                key={index}
-                ref={(element) => (inputRef.current[index] = element)}
-                autoFocus
+                style={{ width: 60 }}
                 type="text"
-                value={text[index]}
-                placeholder="ε"
-                onChange={(e) => handleChange(index, e)}
-                onKeyDown={(e) => handleKeyPress(index, e)}
-                onClick={() => onTextClick(index)}
+                placeholder="Variable"
+                value={multLang[indexLang]}
+                onChange={(e) => handleLang(e)}
+                onClick={() => onVariableClick(indexLang)}
               />
-            ))}
-            <button onClick={onRemoveLang} className="xButton">
-              <span>&times;</span>
-            </button>
-          </div>
+              {Array.from({ length: count[indexLang] }).map((_, index) => (
+                <input
+                  style={{ width: width[index] }}
+                  key={index}
+                  ref={(element) => {
+                    if (!inputRef.current[indexLang]) {
+                      inputRef.current[indexLang] = [];
+                    }
+                    inputRef.current[indexLang][index] = element;
+                  }}
+                  autoFocus
+                  type="text"
+                  value={langText[indexLang][index]}
+                  placeholder="ε"
+                  onChange={(e) => handleChange(index, e)}
+                  onKeyDown={(e) => handleKeyPress(index, e)}
+                  onClick={() => onTextClick(index,indexLang)}
+                />
+              ))}
+              <button onClick={()=>onRemoveLang(indexLang)}>X</button>
+            </div>
+          ))}
           <button onClick={onAddLang}>Add Language or Press 'Enter'</button>
         </div>
         <div>
@@ -593,19 +571,13 @@ export default function CFG() {
             placeholder="Input String"
             name=""
             id=""
-            onChange={(e) => (
-              setInputString(e.currentTarget.value), setValid(2)
-            )}
+            onChange={(e) => setInputString(e.currentTarget.value)}
           />
           <button onClick={testParser}>{"Check Input String"}</button>
-        </div>
-        <div className="inputStringText">
-          <h2>{outputParser()}</h2>
         </div>
         <div style={{ flexBasis: "25%" }}>
           {generated && (
             <div className="outputBox">
-              <div className="progressBar" id="bar"></div>
               {Array.from(CFGOutArray).map((s, ind) => {
                 return <h2 key={ind}>{s}</h2>;
               })}
