@@ -106,18 +106,40 @@ export default function DFA() {
   const [changing0, setChanging0] = useState<ID | null>(null);
   const [changing1, setChanging1] = useState<ID | null>(null);
   const [inputString, setInputString] = useState("");
+  const [traversing, setTraversing] = useState(false);
+  const [speed, setSpeed] = useState(0);
   const [highlightedString, setHighlightedString] = useState<string>("");
   const [highlightedNode, setHighlightedNode] = useState<ID | null>(null);
   const startNode = Array.from(nodeState.values()).find((node) => node.start);
   const timerRef = useRef<number | null>(null);
 
   function startTraverse() {
+    if (inputString.length === 0) {
+      alert("No input string");
+      return;
+    }
+    for (const c of inputString) {
+      if (c != "0" && c != "1") {
+        alert("Input string must only consist of 1s and 0s!");
+        return;
+      }
+    }
     if (!startNode) {
       alert("No start node");
       return;
     }
     setHighlightedNode(startNode.id);
+    setTraversing(true);
     setHighlightedString(inputString);
+    setSpeed(1000);
+  }
+
+  function changeSpeed(up: boolean) {
+    if (up) {
+      setSpeed(speed / 2);
+    } else {
+      setSpeed(speed * 2);
+    }
   }
 
   useEffect(() => {
@@ -125,6 +147,7 @@ export default function DFA() {
       if (highlightedNode) {
         const node = nodeState.get(highlightedNode);
         if (!node) {
+          setTraversing(false);
           return;
         }
         if (node.outgoing[0] && highlightedString[0] === "0") {
@@ -136,12 +159,14 @@ export default function DFA() {
         } else if (highlightedString.length === 0 && node.end) {
           alert("Accepted");
           setHighlightedNode(null);
+          setTraversing(false);
         } else {
           alert("Rejected");
           setHighlightedNode(null);
+          setTraversing(false);
         }
       }
-    }, 1000);
+    }, speed);
   }, [highlightedNode, highlightedString]);
 
   return (
@@ -152,6 +177,8 @@ export default function DFA() {
         inputString={inputString}
         setInputString={setInputString}
         startTraverse={startTraverse}
+        changeSpeed={changeSpeed}
+        traversing={traversing}
       />
       <Xwrapper>
         {Array.from(nodeState.values()).map((node) => (
