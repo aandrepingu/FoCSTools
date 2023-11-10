@@ -25,8 +25,8 @@ export default function CFG() {
 
   // original version
 
-  const [count, setCount] = useState<number[]>([0]);
-  const [langCount, setLangCount] = useState<number>(0);
+  const [count, setCount] = useState<number[]>([1]);
+  const [langCount, setLangCount] = useState<number>(1);
   const [lang, setLang] = useState<string>("");
   const [multLang, setMultLang] = useState<string[]>([]);
   const [text, setText] = useState<string[]>([]);
@@ -36,7 +36,7 @@ export default function CFG() {
   const [currentLangIndex, setCurrentLangIndex] = useState<number>(0);
   const [currentTextIndex, setCurrentTextIndex] = useState<number>(0);
   const inputRef = useRef(new Array(new Array()));
-  const [width, setWidth] = useState<number[]>(new Array());
+  const [width, setWidth] = useState<number[][]>([[]]);
   const [maxLength, setMaxLength] = useState<number>(1);
   const [maxRecursion, setMaxRecursion] = useState<number>(1);
   const [maxNumPrinted, setMaxNumPrinted] = useState<number>(1);
@@ -70,8 +70,9 @@ export default function CFG() {
     const newText = [...langText[currentLangIndex], ""]; 
     langText[currentLangIndex]=newText;
 
-    const newWidth = [...width, 8]; 
-    setWidth(newWidth); 
+    const newWidth = [...width[currentLangIndex], 8]; 
+    width[currentLangIndex] = newWidth;
+    
     console.log(count[currentLangIndex]);
     setSettingsUpdated(true); 
   }
@@ -104,10 +105,11 @@ export default function CFG() {
     const newLangText = [...langText, new Array("")];
     setLangText(newLangText);
 
-    const newCount= [...count,0];
+    const newCount= [...count,1];
     setCount(newCount);
 
-    const newWidth = [...width, 8];
+    const newLangWidth=[8];
+    const newWidth=[...width,newLangWidth];
     setWidth(newWidth);
 
     setSettingsUpdated(true);
@@ -386,7 +388,7 @@ export default function CFG() {
     setSettingsUpdated(true);
 
     const newWidth = [...width];
-    newWidth[index] = value.length * 8;
+    newWidth[currentLangIndex][index] = value.length * 8;
     setWidth(newWidth);
   };
 
@@ -542,7 +544,7 @@ export default function CFG() {
               />
               {Array.from({ length: count[indexLang] }).map((_, index) => (
                 <input
-                  style={{ width: width[index] }}
+                  style={{ width: width[indexLang][index] }}
                   key={index}
                   ref={(element) => {
                     if (!inputRef.current[indexLang]) {
