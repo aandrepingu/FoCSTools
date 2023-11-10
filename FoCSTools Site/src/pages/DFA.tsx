@@ -116,6 +116,13 @@ export default function DFA() {
       alert("No start node");
       return;
     }
+    if (inputString.length === 0) return;
+    for (const c of inputString) {
+      if (c != "0" && c != "1") {
+        alert("Input string must only consist of 1s and 0s!");
+        return;
+      }
+    }
     setHighlightedNode(startNode.id);
   }
   useEffect(() => {

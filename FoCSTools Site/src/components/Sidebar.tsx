@@ -21,15 +21,7 @@ export default function Sidebar({
   function handleClick() {
     setShow(!show);
   }
-  const processInputString = () => {
-    if (inputString.length === 0) return;
-    for (const c of inputString) {
-      if (c != "0" && c != "1") {
-        alert("Input string must only consist of 1s and 0s!");
-        return;
-      }
-    }
-  };
+  
   return (
     <>
       <div className="flexBox">
