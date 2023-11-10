@@ -104,6 +104,8 @@ export default function DFA() {
   const [changing0, setChanging0] = useState<ID | null>(null);
   const [changing1, setChanging1] = useState<ID | null>(null);
   const [inputString, setInputString] = useState("");
+  const [traversing, setTraversing] = useState(false);
+  const [speed, setSpeed] = useState(0);
   useEffect(() => {
     console.log(nodeState, "CHANGING");
   }, [nodeState]);
@@ -116,24 +118,35 @@ export default function DFA() {
       alert("No input string");
       return;
     }
-    if (!startNode) {
-      alert("No start node");
-      return;
-    }
-    if (inputString.length === 0) return;
     for (const c of inputString) {
       if (c != "0" && c != "1") {
         alert("Input string must only consist of 1s and 0s!");
         return;
       }
     }
+    if (!startNode) {
+      alert("No start node");
+      return;
+    }
     setHighlightedNode(startNode.id);
+    setTraversing(true);
+    setSpeed(1000);
   }
+
+  function changeSpeed(up: boolean) {
+    if (up) {
+      setSpeed(speed / 2);
+    } else {
+      setSpeed(speed * 2);
+    }
+  }
+
   useEffect(() => {
     timerRef.current = setTimeout(() => {
       if (highlightedNode) {
         const node = nodeState.get(highlightedNode);
         if (!node) {
+          setTraversing(false);
           return;
         }
         if (node.outgoing[0] && inputString[0] === "0") {
@@ -145,12 +158,14 @@ export default function DFA() {
         } else if (inputString.length === 0 && node.end) {
           alert("Accepted");
           setHighlightedNode(null);
+          setTraversing(false);
         } else {
           alert("Rejected");
           setHighlightedNode(null);
+          setTraversing(false);
         }
       }
-    }, 1000);
+    }, speed);
   }, [highlightedNode, inputString]);
 
   return (
@@ -161,6 +176,8 @@ export default function DFA() {
         inputString={inputString}
         setInputString={setInputString}
         startTraverse={startTraverse}
+        changeSpeed={changeSpeed}
+        traversing={traversing}
       />
       <Xwrapper>
         {Array.from(nodeState.values()).map((node) => (

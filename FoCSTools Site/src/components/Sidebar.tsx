@@ -1,12 +1,13 @@
 import { useState } from "react";
 import "./Sidebar.css";
-import { NodeType } from "src/pages/DFA";
 
 export default function Sidebar({
   dispatch,
   setInputString,
   startTraverse,
   inputString,
+  changeSpeed,
+  traversing,
 }: {
   dispatch: React.Dispatch<{
     type: string;
@@ -15,13 +16,15 @@ export default function Sidebar({
   inputString: string;
   setInputString: (e: string) => void;
   startTraverse: () => void;
+  changeSpeed: (up: boolean) => void;
+  traversing: boolean;
 }) {
   const [show, setShow] = useState(true);
   //
   function handleClick() {
     setShow(!show);
   }
-  
+
   return (
     <>
       <div className="flexBox">
@@ -84,6 +87,30 @@ export default function Sidebar({
                 }}
               />
             </button>
+            {traversing && (
+              <div style={{ display: "flex", width: "100%" }}>
+                <button
+                  className="sidebar_Button"
+                  style={{ width: "50%" }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    changeSpeed(false);
+                  }}
+                >
+                  {"<<"}
+                </button>
+                <button
+                  className="sidebar_Button"
+                  style={{ width: "50%" }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    changeSpeed(true);
+                  }}
+                >
+                  {">>"}
+                </button>
+              </div>
+            )}
           </div>
         )}
 
