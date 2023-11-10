@@ -186,6 +186,7 @@ export default function DFA() {
                   start={node.id}
                   end={node.outgoing[0]}
                   labels={node.outgoing[0] !== node.outgoing[1] ? "0" : "0,1"}
+                  dashness={node.outgoing[0] === highlightedNode ? true : false}
                   path={"straight"}
                 />
               )}
@@ -194,6 +195,7 @@ export default function DFA() {
                   start={node.id}
                   end={node.outgoing[1]}
                   labels={node.outgoing[0] !== node.outgoing[1] ? "1" : "0,1"}
+                  dashness={node.outgoing[1] === highlightedNode ? true : false}
                   path={"straight"}
                 />
               )}
