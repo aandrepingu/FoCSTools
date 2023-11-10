@@ -28,7 +28,7 @@ export default function CFG() {
 
   const shuffle = (array: string[]) => {
     return array.sort(() => Math.random() - 0.5);
-  };
+  }; 
 
   // Get index of clicked text box
   function onTextClick(index: number) {
