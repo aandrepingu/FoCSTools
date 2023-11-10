@@ -106,9 +106,7 @@ export default function DFA() {
   const [inputString, setInputString] = useState("");
   const [traversing, setTraversing] = useState(false);
   const [speed, setSpeed] = useState(0);
-  useEffect(() => {
-    console.log(nodeState, "CHANGING");
-  }, [nodeState]);
+  const [highlightedString, setHighlightedString] = useState<string>("");
   const [highlightedNode, setHighlightedNode] = useState<ID | null>(null);
   const startNode = Array.from(nodeState.values()).find((node) => node.start);
   const timerRef = useRef<number | null>(null);
@@ -130,6 +128,7 @@ export default function DFA() {
     }
     setHighlightedNode(startNode.id);
     setTraversing(true);
+    setHighlightedString(inputString);
     setSpeed(1000);
   }
 
@@ -149,13 +148,13 @@ export default function DFA() {
           setTraversing(false);
           return;
         }
-        if (node.outgoing[0] && inputString[0] === "0") {
+        if (node.outgoing[0] && highlightedString[0] === "0") {
           setHighlightedNode(node.outgoing[0]);
-          setInputString(inputString.slice(1));
-        } else if (node.outgoing[1] && inputString[0] === "1") {
+          setHighlightedString(highlightedString.slice(1));
+        } else if (node.outgoing[1] && highlightedString[0] === "1") {
           setHighlightedNode(node.outgoing[1]);
-          setInputString(inputString.slice(1));
-        } else if (inputString.length === 0 && node.end) {
+          setHighlightedString(highlightedString.slice(1));
+        } else if (highlightedString.length === 0 && node.end) {
           alert("Accepted");
           setHighlightedNode(null);
           setTraversing(false);
@@ -166,7 +165,7 @@ export default function DFA() {
         }
       }
     }, speed);
-  }, [highlightedNode, inputString]);
+  }, [highlightedNode, highlightedString]);
 
   return (
     <>
@@ -214,6 +213,7 @@ export default function DFA() {
                   start={node.id}
                   end={node.outgoing[0]}
                   labels={node.outgoing[0] !== node.outgoing[1] ? "0" : "0,1"}
+                  dashness={node.outgoing[0] === highlightedNode ? true : false}
                   path={"straight"}
                 />
               )}
@@ -222,6 +222,7 @@ export default function DFA() {
                   start={node.id}
                   end={node.outgoing[1]}
                   labels={node.outgoing[0] !== node.outgoing[1] ? "1" : "0,1"}
+                  dashness={node.outgoing[1] === highlightedNode ? true : false}
                   path={"straight"}
                 />
               )}
