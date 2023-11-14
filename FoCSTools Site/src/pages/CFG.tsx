@@ -407,15 +407,15 @@ export default function CFG() {
     // Backspace: deletes the current box if the box is empty
     else if (e.key === "Backspace" && !value) {
       onRemove();
-      console.log(currentTextIndex)
-      if (index == count[currentLangIndex] - 1 && count[currentLangIndex] >= 2) {
-        setCurrentTextIndex(index - 1);
-        inputRef.current[currentLangIndex][count[currentLangIndex] - 2].focus();
-        inputRef.current[currentLangIndex][count[currentLangIndex] - 2].setSelectionRange(
-          langText[currentLangIndex][index - 1].length,
-          langText[currentLangIndex][index - 1].length
-        );
-      }
+      // if (index == count[currentLangIndex] - 1 && count[currentLangIndex] >= 2) {
+      //   setCurrentTextIndex(index - 1);
+      //   inputRef.current[currentLangIndex][count[currentLangIndex] - 2].focus();
+      //   inputRef.current[currentLangIndex][count[currentLangIndex] - 2].setSelectionRange(
+      //     langText[currentLangIndex][index - 1].length,
+      //     langText[currentLangIndex][index - 1].length
+      //   );
+      //   count[currentLangIndex]=count[currentLangIndex]-1;
+      // }
       e.preventDefault();
     }
     // ArrowUp: Goes to the previous box
@@ -442,6 +442,33 @@ export default function CFG() {
           e.preventDefault();
         }
       }
+    }
+    else if(e.key==="ArrowUp")
+    {
+      if(currentLangIndex > 0){
+        setCurrentLangIndex(currentLangIndex-1);
+        if(count[currentLangIndex-1] > index){
+          inputRef.current[currentLangIndex - 1][index].focus();
+        } else {
+          setCurrentTextIndex(count[currentLangIndex-1]-1);
+          inputRef.current[currentLangIndex - 1][count[currentLangIndex-1]-1].focus(); 
+        }
+        e.preventDefault();
+      }
+    }
+    else if(e.key==="ArrowDown")
+    {
+      if(currentLangIndex+1<langCount){
+        if(currentTextIndex+1>count[currentLangIndex+1]){
+          setCurrentTextIndex(count[currentLangIndex+1]-1);
+          inputRef.current[currentLangIndex+1][count[currentLangIndex+1]-1].focus();
+        } else{
+          inputRef.current[currentLangIndex+1][currentTextIndex].focus();
+        }
+        setCurrentLangIndex(currentLangIndex+1);
+        e.preventDefault();
+      }
+      
     }
     else if(e.key === "Tab"&&e.shiftKey)
     {
