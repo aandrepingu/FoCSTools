@@ -495,7 +495,8 @@ export default function CFG() {
   };
 
   // Toggle settings bar
-  function toggleSettings() {
+  function toggleSettings(e: React.MouseEvent<HTMLElement>) {
+    (e.target as HTMLElement).classList.toggle("open");
     setShowSettings(!showSettings);
   }
 
@@ -566,6 +567,7 @@ export default function CFG() {
               value={lang}
               onChange={(e) => handleLang(e)}
             />
+            <div className="CFG_Prod_Candidates">
             {Array.from({ length: count }).map((_, index) => (
               <input
                 style={{ width: width[index] }}
@@ -580,13 +582,15 @@ export default function CFG() {
                 onClick={() => onTextClick(index)}
               />
             ))}
+            </div>
             <button onClick={onRemoveLang} className="xButton">
               <span>&times;</span>
             </button>
           </div>
           <button onClick={onAddLang}>Add Language or Press 'Enter'</button>
         </div>
-        <div>
+        <div style={{maxWidth:"30%"}}>
+          <div>
           {" "}
           <input
             type="text"
@@ -598,10 +602,11 @@ export default function CFG() {
             )}
           />
           <button onClick={testParser}>{"Check Input String"}</button>
-        </div>
-        <div className="inputStringText">
-          <h2>{outputParser()}</h2>
-        </div>
+          </div>
+          <div className="inputStringText" style={{maxWidth:"100%", overflow:"scroll"}}>
+            <h2>{outputParser()}</h2>
+          </div>
+        </div>    
         <div style={{ flexBasis: "25%" }}>
           {generated && (
             <div className="outputBox">
