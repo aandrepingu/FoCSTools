@@ -87,11 +87,8 @@ export default function CFG() {
       newCount[currentLangIndex]--;
       setCount(newCount);
       langText[currentLangIndex].splice(currentTextIndex, 1);
-      width.splice(currentTextIndex, 1);
-      if(currentTextIndex==count[currentLangIndex]-1)
-      {
-        setCurrentTextIndex(currentTextIndex-1);
-      }
+      width[currentLangIndex].splice(currentTextIndex, 1);
+      setCurrentTextIndex(currentTextIndex-1);
       if(currentTextIndex>0){
         inputRef.current[currentLangIndex][currentTextIndex-1].focus();
       }
@@ -115,13 +112,30 @@ export default function CFG() {
     setSettingsUpdated(true);
   }
 
-  function onRemoveLang(index:number) {
+  function onRemoveLang(indexLang:number) {
     if (langCount > 0) {
-      console.log(index);
+      console.log(indexLang);
       setLangCount(langCount-1);
-      langText.splice(index, 1);
-      count.splice(index,1);
-      width.splice(index,1);
+      setCurrentLangIndex(indexLang-1);
+      langText.splice(indexLang, 1);
+      count.splice(indexLang,1);
+      width.splice(indexLang,1);
+      if(indexLang>0)
+      {
+        inputRef.current[indexLang-1][count[indexLang-1]-1].focus();
+        inputRef.current[indexLang-1][count[indexLang-1]-1].setSelectionRange(
+          langText[indexLang-1][count[indexLang-1]-1].length,
+          langText[indexLang-1][count[indexLang-1]-1].length
+        );
+      }
+      // if(indexLang===0)
+      // {
+      //   inputRef.current[0][count[0]-1].focus();
+      //   inputRef.current[0][count[0]-1].setSelectionRange(
+      //     langText[0][count[0]-1].length,
+      //     langText[0][count[0]-1].length
+      //   );
+      // }
       setSettingsUpdated(true);
     }
   }
