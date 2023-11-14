@@ -12,6 +12,8 @@ export default function Node({
   setChanging1,
   changing,
   highlightedNode,
+  editingNode,
+  setEditingNode,
 }: {
   node: NodeType;
   dispatch: React.Dispatch<{
@@ -23,9 +25,10 @@ export default function Node({
   setChanging1: React.Dispatch<React.SetStateAction<string | null>>;
   changing: boolean;
   highlightedNode: boolean;
+  editingNode: string;
+  setEditingNode: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const [name, setName] = useState("name");
-  const [isEditing, setIsEditing] = useState(false);
   const [beforeUnderscore, setBeforeUnderscore] = useState(name);
   const [afterUnderscore, setAfterUnderscore] = useState("");
   const updateXarrow = useXarrow();
@@ -46,7 +49,7 @@ export default function Node({
     <>
       <Draggable onDrag={updateXarrow} onStop={updateXarrow}>
         <div onClick={changing ? onClick : noop}>
-          {isEditing && (
+          {editingNode === node.id && (
             <div className={"editBox"}>
               Name:
               <br />
@@ -112,8 +115,11 @@ export default function Node({
                 top: "8px",
                 cursor: "pointer",
               }}
-              onClick={() => {
-                setIsEditing(!isEditing);
+              onClick={(e) => {
+                e.stopPropagation();
+                editingNode === node.id
+                  ? setEditingNode("")
+                  : setEditingNode(node.id);
               }}
             >
               <div className={"edit"}>e</div>

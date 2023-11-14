@@ -104,12 +104,19 @@ export default function DFA() {
   const [changing0, setChanging0] = useState<ID | null>(null);
   const [changing1, setChanging1] = useState<ID | null>(null);
   const [inputString, setInputString] = useState("");
-  const [traversing, setTraversing] = useState(false);
+  const [prevTraversedNode, setPrevTraversedNode] = useState("");
+  const [editingNode, setEditingNode] = useState("");
   const [speed, setSpeed] = useState(0);
   const [highlightedString, setHighlightedString] = useState<string>("");
   const [highlightedNode, setHighlightedNode] = useState<ID | null>(null);
   const startNode = Array.from(nodeState.values()).find((node) => node.start);
   const timerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    document.body.addEventListener("mousedown", () => {
+      setEditingNode("");
+    });
+  }, []);
 
   function startTraverse() {
     if (inputString.length === 0) {
@@ -127,7 +134,7 @@ export default function DFA() {
       return;
     }
     setHighlightedNode(startNode.id);
-    setTraversing(true);
+    setPrevTraversedNode(startNode.id);
     setHighlightedString(inputString);
     setSpeed(1000);
   }
@@ -145,23 +152,25 @@ export default function DFA() {
       if (highlightedNode) {
         const node = nodeState.get(highlightedNode);
         if (!node) {
-          setTraversing(false);
+          setPrevTraversedNode("");
           return;
         }
         if (node.outgoing[0] && highlightedString[0] === "0") {
+          setPrevTraversedNode(node.id);
           setHighlightedNode(node.outgoing[0]);
           setHighlightedString(highlightedString.slice(1));
         } else if (node.outgoing[1] && highlightedString[0] === "1") {
+          setPrevTraversedNode(node.id);
           setHighlightedNode(node.outgoing[1]);
           setHighlightedString(highlightedString.slice(1));
         } else if (highlightedString.length === 0 && node.end) {
           alert("Accepted");
           setHighlightedNode(null);
-          setTraversing(false);
+          setPrevTraversedNode("");
         } else {
           alert("Rejected");
           setHighlightedNode(null);
-          setTraversing(false);
+          setPrevTraversedNode("");
         }
       }
     }, speed);
@@ -176,7 +185,7 @@ export default function DFA() {
         setInputString={setInputString}
         startTraverse={startTraverse}
         changeSpeed={changeSpeed}
-        traversing={traversing}
+        traversing={prevTraversedNode !== ""}
       />
       <Xwrapper>
         {Array.from(nodeState.values()).map((node) => (
@@ -203,6 +212,8 @@ export default function DFA() {
             highlightedNode={
               highlightedNode ? highlightedNode === node.id : false
             }
+            editingNode={editingNode}
+            setEditingNode={setEditingNode}
           />
         ))}
         {Array.from(nodeState.values()).map((node) => {
@@ -213,7 +224,12 @@ export default function DFA() {
                   start={node.id}
                   end={node.outgoing[0]}
                   labels={node.outgoing[0] !== node.outgoing[1] ? "0" : "0,1"}
-                  dashness={node.outgoing[0] === highlightedNode ? true : false}
+                  dashness={
+                    node.outgoing[0] === highlightedNode &&
+                    node.id === prevTraversedNode
+                      ? true
+                      : false
+                  }
                   path={"straight"}
                 />
               )}
@@ -222,7 +238,12 @@ export default function DFA() {
                   start={node.id}
                   end={node.outgoing[1]}
                   labels={node.outgoing[0] !== node.outgoing[1] ? "1" : "0,1"}
-                  dashness={node.outgoing[1] === highlightedNode ? true : false}
+                  dashness={
+                    node.outgoing[1] === highlightedNode &&
+                    node.id === prevTraversedNode
+                      ? true
+                      : false
+                  }
                   path={"straight"}
                 />
               )}
