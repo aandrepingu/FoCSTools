@@ -64,6 +64,8 @@ const nodeReducer = (
       [action.payload]: action.target,
     };
     newState.set(action.source, { ...sourceNode, outgoing: newOutgoing });
+    const targetNode = newState.get(action.target);
+    targetNode?.incoming.push(action.source);
     return newState;
   } else if (action.type === "remove_node") {
     if (!action.payload || typeof action.payload !== "string") {
@@ -226,7 +228,10 @@ export default function DFA() {
                   labels={node.outgoing[0] !== node.outgoing[1] ? "0" : "0,1"}
                   dashness={
                     node.outgoing[0] === highlightedNode &&
-                    node.id === prevTraversedNode
+                    node.id === prevTraversedNode &&
+                    nodeState
+                      .get(highlightedNode)
+                      ?.incoming.find((s) => s === node.id)
                       ? true
                       : false
                   }
@@ -240,7 +245,10 @@ export default function DFA() {
                   labels={node.outgoing[0] !== node.outgoing[1] ? "1" : "0,1"}
                   dashness={
                     node.outgoing[1] === highlightedNode &&
-                    node.id === prevTraversedNode
+                    node.id === prevTraversedNode &&
+                    nodeState
+                      .get(highlightedNode)
+                      ?.incoming.find((s) => s === node.id)
                       ? true
                       : false
                   }
