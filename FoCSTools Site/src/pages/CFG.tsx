@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import "./CFG.css";
 
 export default function CFG() {
@@ -25,10 +25,46 @@ export default function CFG() {
   const match = useRef(false);
   const cutRecursion = useRef(false);
   const [valid, setValid] = useState<number>(0);
+  const [shufflingDone, setShufflingDone] = useState(false);
 
   const shuffle = (array: string[]) => {
     return array.sort(() => Math.random() - 0.5);
   };
+
+  useEffect(() => {
+    let shuffleTimer: number | undefined;
+    const shuffleStep = 1000;
+    const shuffleDuration = (maxTime) * 1000;
+
+    const shuffleStrings = () => {
+      let tmpArr = Array.from(CFGOutArray);
+      const first = tmpArr[0];
+      tmpArr = tmpArr.slice(1);
+      tmpArr = shuffle(tmpArr);
+      tmpArr.unshift(first);
+      setCFGOutArray(new Set(tmpArr));
+    };
+
+    if(randomize && generated){
+      shuffleStrings();
+
+      shuffleTimer = setTimeout(() => {
+        setGenerated(false);
+        setShufflingDone(true);
+      }, shuffleDuration);
+
+      const interval = setInterval(shuffleStrings, shuffleStep);
+
+      return () => {
+        clearInterval(interval);
+        clearTimeout(shuffleTimer);
+      };
+    }
+    else {
+      setGenerated(false);
+    }
+
+  }, [generated, randomize]);
 
   // Get index of clicked text box
   function onTextClick(index: number) {
@@ -608,7 +644,7 @@ export default function CFG() {
           </div>
         </div>    
         <div style={{ flexBasis: "25%" }}>
-          {generated && (
+          { (generated || shufflingDone) && (
             <div className="outputBox">
               <div className="progressBar" id="bar"></div>
               {Array.from(CFGOutArray).map((s, ind) => {
