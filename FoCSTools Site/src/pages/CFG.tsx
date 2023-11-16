@@ -140,9 +140,9 @@ export default function CFG() {
     }
   }
 
-  const productionError = (production: string): Boolean => {
+  const productionError = (production: string, whichLang: string): Boolean => {
     //Check if no digits
-    if (production === lang) {
+    if (production === whichLang) {
       return false;
     }
     return true;
@@ -331,12 +331,13 @@ export default function CFG() {
         }
       }
       for (let i = 0; i < stringSoFar.length; i++) {
-        if (stringSoFar[i] === lang) {
+        if (multLang.includes(stringSoFar[i])) {
           //Loop through product rules
-          for (const production of text) {
+          var indexOfLanguage = multLang.indexOf(stringSoFar[i]); 
+          for (const production of langText[indexOfLanguage]) {
             //Apply rule
             //newString.replace(new RegExp(lang, "g"), production);
-            var isValid = productionError(production);
+            var isValid = productionError(production, multLang[indexOfLanguage]);
             if (isValid) {
               var newString = stringSoFar;
               newString =
@@ -349,7 +350,7 @@ export default function CFG() {
       }
     };
 
-    generateStrings(lang, new Set(), 0);
+    generateStrings(multLang[0], new Set(), 0);
 
     //set random values in array
     if (randomize) {
@@ -606,6 +607,9 @@ export default function CFG() {
             </div>
           ))}
           <button onClick={onAddLang}>Add Language or Press 'Enter'</button>
+          <div>
+            { multLang.length }
+          </div>
         </div>
         <div>
           {" "}
