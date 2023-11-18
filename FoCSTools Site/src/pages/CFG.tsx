@@ -34,7 +34,7 @@ export default function CFG() {
   useEffect(() => {
     let shuffleTimer: number | undefined;
     const shuffleStep = 1000;
-    const shuffleDuration = (maxTime) * 1000;
+    const shuffleDuration = maxTime * 1000;
 
     const shuffleStrings = () => {
       let tmpArr = Array.from(CFGOutArray);
@@ -45,7 +45,7 @@ export default function CFG() {
       setCFGOutArray(new Set(tmpArr));
     };
 
-    if(randomize && generated){
+    if (randomize && generated && !settingsUpdated) {
       shuffleStrings();
 
       shuffleTimer = setTimeout(() => {
@@ -59,12 +59,10 @@ export default function CFG() {
         clearInterval(interval);
         clearTimeout(shuffleTimer);
       };
+    } else if (!randomize && generated) {
+      //setGenerated(true);
     }
-    else {
-      setGenerated(false);
-    }
-
-  }, [generated, randomize]);
+  }, [generated, randomize, settingsUpdated]);
 
   // Get index of clicked text box
   function onTextClick(index: number) {
@@ -420,12 +418,12 @@ export default function CFG() {
   function progress() {
     var elem = document.getElementById("bar");
     var durationInSeconds = maxTime; // Set your desired duration in seconds
-    var targetWidth = 100;    // 100% width
+    var targetWidth = 100; // 100% width
     //elem!.style.width = 0 + "%";
 
-    var width = 0;            // Initial width
-    var interval = 10;        // Milliseconds between each frame update
-    var step = (targetWidth / (durationInSeconds * 1000 / interval)); // Calculate the step size
+    var width = 0; // Initial width
+    var interval = 10; // Milliseconds between each frame update
+    var step = targetWidth / ((durationInSeconds * 1000) / interval); // Calculate the step size
 
     var id = setInterval(frame, interval);
 
@@ -587,10 +585,10 @@ export default function CFG() {
               style={{
                 backgroundColor: settingsUpdated ? "darkcyan" : "black",
               }}
-              onClick={ () => {
+              onClick={() => {
                 progress();
                 generate();
-              } }
+              }}
             >
               Generate
             </button>
@@ -604,20 +602,20 @@ export default function CFG() {
               onChange={(e) => handleLang(e)}
             />
             <div className="CFG_Prod_Candidates">
-            {Array.from({ length: count }).map((_, index) => (
-              <input
-                style={{ width: width[index] }}
-                key={index}
-                ref={(element) => (inputRef.current[index] = element)}
-                autoFocus
-                type="text"
-                value={text[index]}
-                placeholder="ε"
-                onChange={(e) => handleChange(index, e)}
-                onKeyDown={(e) => handleKeyPress(index, e)}
-                onClick={() => onTextClick(index)}
-              />
-            ))}
+              {Array.from({ length: count }).map((_, index) => (
+                <input
+                  style={{ width: width[index] }}
+                  key={index}
+                  ref={(element) => (inputRef.current[index] = element)}
+                  autoFocus
+                  type="text"
+                  value={text[index]}
+                  placeholder="ε"
+                  onChange={(e) => handleChange(index, e)}
+                  onKeyDown={(e) => handleKeyPress(index, e)}
+                  onClick={() => onTextClick(index)}
+                />
+              ))}
             </div>
             <button onClick={onRemoveLang} className="xButton">
               <span>&times;</span>
@@ -625,26 +623,29 @@ export default function CFG() {
           </div>
           <button onClick={onAddLang}>Add Language or Press 'Enter'</button>
         </div>
-        <div style={{maxWidth:"30%"}}>
+        <div style={{ maxWidth: "30%" }}>
           <div>
-          {" "}
-          <input
-            type="text"
-            placeholder="Input String"
-            name=""
-            id=""
-            onChange={(e) => (
-              setInputString(e.currentTarget.value), setValid(2)
-            )}
-          />
-          <button onClick={testParser}>{"Check Input String"}</button>
+            {" "}
+            <input
+              type="text"
+              placeholder="Input String"
+              name=""
+              id=""
+              onChange={(e) => (
+                setInputString(e.currentTarget.value), setValid(2)
+              )}
+            />
+            <button onClick={testParser}>{"Check Input String"}</button>
           </div>
-          <div className="inputStringText" style={{maxWidth:"100%", overflow:"scroll"}}>
+          <div
+            className="inputStringText"
+            style={{ maxWidth: "100%", overflow: "scroll" }}
+          >
             <h2>{outputParser()}</h2>
           </div>
-        </div>    
+        </div>
         <div style={{ flexBasis: "25%" }}>
-          { (generated || shufflingDone) && (
+          {(generated || shufflingDone) && (
             <div className="outputBox">
               <div className="progressBar" id="bar"></div>
               {Array.from(CFGOutArray).map((s, ind) => {
