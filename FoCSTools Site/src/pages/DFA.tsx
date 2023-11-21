@@ -112,7 +112,7 @@ export default function DFA() {
   const [highlightedString, setHighlightedString] = useState<string>("");
   const [highlightedNode, setHighlightedNode] = useState<ID | null>(null);
   const startNode = Array.from(nodeState.values()).find((node) => node.start);
-  const timerRef = useRef<number | null>(null);
+  const timerRef = useRef<number | NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     document.body.addEventListener("mousedown", () => {
@@ -192,6 +192,7 @@ export default function DFA() {
       <Xwrapper>
         {Array.from(nodeState.values()).map((node) => (
           <Node
+            key={node.id}
             node={node}
             onClick={() => {
               if (!changing0 && !changing1) return;
