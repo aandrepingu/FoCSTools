@@ -1,42 +1,27 @@
 import "./Navbar.css";
-import { GraphType } from "src/App";
-
-export default function Navbar({
-  graphType,
-  setGraphType,
-}: {
-  graphType: GraphType;
-  setGraphType: (graphType: GraphType) => void;
-}) {
+import { Link } from "react-router-dom";
+export default function Navbar() {
   return (
     <>
       <div className="navbar">
-        <img src="logo.svg" className="logo" style={{ paddingLeft: "5px" }} />
-        <div className="flex" style={{ justifyContent: "center" }}>
-          <button
-            className={graphType === "DFA" ? "button-selected" : undefined}
-            onClick={() => {
-              setGraphType("DFA");
-            }}
-          >
-            DFA
-          </button>
-          <button
-            className={graphType === "CFG" ? "button-selected" : undefined}
-            onClick={() => {
-              setGraphType("CFG");
-            }}
-          >
-            CFG
-          </button>
-          <button
-            className={graphType === "TU" ? "button-selected" : undefined}
-            onClick={() => {
-              setGraphType("TU");
-            }}
-          >
-            Turing
-          </button>
+        <img
+          src="logo.svg"
+          className="logo"
+          style={{ paddingLeft: "5px" }}
+          onClick={() => {
+            window.location.href = "/Home";
+          }}
+        />
+        <div className="flex" style={{ justifyContent: "center", gap: "20px" }}>
+          <Link to="/DFA">
+            <button className="DFA">DFA</button>
+          </Link>
+          <Link to="/CFG">
+            <button className="CFG">CFG</button>
+          </Link>
+          <Link to="/TuringMachine">
+            <button className="TU">Turing</button>
+          </Link>
         </div>
         <div
           className="flex"
