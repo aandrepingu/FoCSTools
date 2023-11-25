@@ -19,9 +19,11 @@ export default function Navbar() {
           <Link to="/CFG">
             <button className="CFG">CFG</button>
           </Link>
-          <Link to="/TuringMachine">
+
+          {/*<Link to="/TuringMachine">
             <button className="TU">Turing</button>
           </Link>
+          */}
         </div>
         <div
           className="flex"
