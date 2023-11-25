@@ -114,12 +114,6 @@ export default function DFA() {
   const startNode = Array.from(nodeState.values()).find((node) => node.start);
   const timerRef = useRef<number | null>(null);
 
-  useEffect(() => {
-    document.body.addEventListener("mousedown", () => {
-      setEditingNode("");
-    });
-  }, []);
-
   function startTraverse() {
     if (inputString.length === 0) {
       alert("No input string");
