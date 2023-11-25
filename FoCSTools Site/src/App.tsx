@@ -5,6 +5,7 @@ import Landing from "./pages/Landing";
 //import TuringMachine from "./pages/TuringMachine";
 import CFG from "./pages/CFG";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 export default function App() {
   return (
     <div>

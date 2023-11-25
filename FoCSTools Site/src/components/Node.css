@@ -1,0 +1,54 @@
+.node {
+  border-width: 4px;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  z-index: 2;
+  left: 50%;
+  bottom: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: move; /* fallback if grab cursor is unsupported */
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+.node:active {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
+
+.edit {
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  z-index: 2;
+  background-color: lightcoral;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.editBox {
+  background-color: #05057f;
+  min-width: 100px;
+  min-height: 250px;
+  position: absolute;
+  left: -107px;
+  top: -75px;
+  color: white;
+  border-radius: 8px;
+  transition: ease-in-out 0.5s;
+}
+.editButton {
+  padding-left: 0px;
+  padding-right: 0px;
+  font-size: 10px;
+  padding-bottom: 3px;
+}
+
+.editButtons {
+  max-width: 100px;
+}

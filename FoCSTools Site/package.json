@@ -11,9 +11,15 @@
   },
   "dependencies": {
     "@types/react-router-dom": "^5.3.3",
+    "@types/uuid": "^9.0.5",
     "react": "^18.2.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.16.0"
+    "react-draggable": "^4.4.6",
+    "react-router-dom": "^6.16.0",
+    "react-xarrows": "^2.0.2",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/node": "^20.8.9",
