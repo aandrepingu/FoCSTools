@@ -113,19 +113,30 @@ export default function CFG() {
   }
 
   function onRemoveLang(indexLang:number) {
-    if (langCount > 0) {
+    if (langCount > 1) {
       console.log(indexLang);
       setLangCount(langCount-1);
       setCurrentLangIndex(indexLang-1);
       langText.splice(indexLang, 1);
       count.splice(indexLang,1);
       width.splice(indexLang,1);
-      if(indexLang>0)
+      if(indexLang==langCount-1)
       {
-        inputRef.current[indexLang-1][count[indexLang-1]-1].focus();
-        inputRef.current[indexLang-1][count[indexLang-1]-1].setSelectionRange(
-          langText[indexLang-1][count[indexLang-1]-1].length,
-          langText[indexLang-1][count[indexLang-1]-1].length
+        if(indexLang>0)
+        {
+          inputRef.current[indexLang-1][count[indexLang-1]-1].focus();
+          inputRef.current[indexLang-1][count[indexLang-1]-1].setSelectionRange(
+            langText[indexLang-1][count[indexLang-1]-1].length,
+            langText[indexLang-1][count[indexLang-1]-1].length
+          );
+        }
+      }
+      else if(indexLang>0)
+      {
+        inputRef.current[indexLang][count[indexLang]-1].focus();
+        inputRef.current[indexLang][count[indexLang]-1].setSelectionRange(
+          langText[indexLang][count[indexLang]-1].length,
+          langText[indexLang][count[indexLang]-1].length
         );
       }
       // if(indexLang===0)
@@ -374,15 +385,15 @@ export default function CFG() {
   };
   // Clear all text boxes and array
   function clear() {
-    const newLangText = [[]];
+    const newLangText = [[""]];
     setLangText(newLangText);
-    const newCount = [0]
+    const newCount = [1]
     setCount(newCount);
-    setLangCount(0);
-    const newWidth = new Array();
+    setLangCount(1);
+    const newWidth = [[1]];
     setWidth(newWidth);
     
-    setCurrentTextIndex(-1);
+    setCurrentTextIndex(0);
     setGenerated(false);
     setSettingsUpdated(true);
   }
