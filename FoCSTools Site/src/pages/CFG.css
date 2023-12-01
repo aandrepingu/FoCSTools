@@ -1,120 +1,121 @@
-.production_button {
-  margin: 2%;
-  height: 50px;
-  width: 50px;
-  background-color: black;
-  text-align: center;
-  text-size-adjust: auto;
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
-.inputStringText {
-  background-color: blue;
-  text-align: center;
-  left: 45%;
-  top: 25%;
-  padding: 1%;
-}
+#CFG {
+  .production_button {
+    margin: 2%;
+    height: 50px;
+    width: 50px;
+    background-color: black;
+    text-align: center;
+    text-size-adjust: auto;
+  }
 
-.CFG_FlexBox_Div {
-  top: 10%;
-  display: flex;
-  flex-direction: column;
-  left: 0;
-  max-width: 25%;
-}
+  .inputStringText {
+    background-color: blue;
+    text-align: center;
+    left: 45%;
+    top: 25%;
+    padding: 1%;
+  }
 
-.outputBox {
-  background-color: green;
-  margin-top: 100px;
-}
+  .CFG_FlexBox_Div {
+    top: 10%;
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    max-width: 25%;
+  }
 
-.settingsBox {
-  background-color: rgba(64, 63, 63, 0.8);
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  padding: 1%;
-  position: absolute;
-  right: 25px;
-  top: 65px;
-  color: white;
-}
+  .outputBox {
+    background-color: green;
+    margin-top: 100px;
+  }
 
-.setting {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
+  .settingsBox {
+    background-color: rgba(64, 63, 63, 0.8);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    padding: 1%;
+    position: absolute;
+    right: 25px;
+    top: 65px;
+    color: white;
+  }
 
-.CFG_Text_Div {
-  margin-top: 25px;
-  padding: 10px;
-  width: 400px;
-  background-color: #145365;
-  color: white;
-  display: inline-block;
-}
+  .setting {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
 
-.CFG_Button_Div {
-  justify-content: center;
-  margin-bottom: 10px;
-  position: relative;
-  display: flex;
-  flex-direction: row;
-}
+  .CFG_Text_Div {
+    margin-top: 25px;
+    padding: 10px;
+    width: 400px;
+    background-color: #145365;
+    color: white;
+    display: inline-block;
+  }
 
-.CFG_Rules {
-  display: flex;
-  flex-direction: row;
-  overflow: visible;
-  margin-bottom: 10px;
-  width: 100%;
-  max-width: 100%;
-}
+  .CFG_Button_Div {
+    justify-content: center;
+    margin-bottom: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+  }
 
-body {
-  flex-direction: column;
-}
+  .CFG_Rules {
+    display: flex;
+    flex-direction: row;
+    overflow: visible;
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 100%;
+  }
 
-.gear {
-  position: absolute;
-  right: 25px;
-  top: 65px;
-  background-color: transparent;
-  font-size: xx-large;
-  padding: 0%;
-}
 
-/* v This changes ALL/Navbar Buttons, should be moved before main branch merge v*/
-button {
-  background-color: black;
-  color: white;
-}
-.CFG_Rules button.xButton {
-  padding: 0;
-  font-size: 1em;
-  height: 1lh;
-}
-.CFG_Rules button.xButton {
-  padding: 0;
-  font-size: 1.3em;
-  height: 1em;
-  font-weight: bolder;
-  white-space: nowrap;
-  line-height: 0px;
-  width: 1em;
-  border-radius: 0.5em;
-  display: inline-block;
-}
-.CFG_Rules button.xButton span {
-  transform: translate(0.3px, -1px);
-  display: block;
-}
-.navbar button {
-  background-color: black;
-  color: white;
-}
+  .gear {
+    position: absolute;
+    right: 25px;
+    top: 65px;
+    background-color: transparent;
+    font-size: xx-large;
+    padding: 0%;
+  }
+  button {
+    background-color: black;
+    color: white;
+  }
+  .CFGcontrols button {
+    font-weight: bold;
+  }
+
+  .CFG_Rules button.xButton {
+    padding: 0;
+    font-size: 1em;
+    height: 1lh;
+  }
+  .CFG_Rules button.xButton {
+    padding: 0;
+    font-size: 1.3em;
+    height: 1em;
+    font-weight: bolder;
+    white-space: nowrap;
+    line-height: 0px;
+    width: 1em;
+    border-radius: 0.5em;
+    display: inline-block;
+  }
+  .CFG_Rules button.xButton span {
+    transform: translate(0.3px, -1px);
+    display: block;
+  }
+
 .CFGcontrols button {
   background-color: black;
   color: white;
@@ -124,82 +125,84 @@ button {
   margin-right: 1px;
   margin-left: 1px;
 }
-.navbar button:hover,
-.CFGcontrols button:hover {
-  border-color: black;
-}
-.CFGcontrols input {
-  background-color: rgb(33, 33, 33);
-  color: white;
-  height: 1.3lh;
-  font-size: 15px;
-}
-.CFGcontrols input::placeholder {
-  color: rgb(195, 195, 195);
-}
-/* ^ This changes ALL/Navbar Buttons, should be moved before main branch merge ^ */
 
-.settingsBox {
-  display: grid;
-  align-items: center;
-  row-gap: 4px;
-}
-.setting {
-  display: contents;
-}
-.setting .setting-name {
-  grid-column: 1/2;
-  margin: 2px;
-  margin-top: -0.2em;
-}
-.settingsBox > .setting:first-child > .setting-name {
-  margin-bottom: 0.2em;
-}
-.gear {
-  background-color: rgba(64, 63, 63, 0.8);
-}
-.gear.open {
-  background-color: rgba(64, 63, 63, 0);
-}
-.setting .setting-val {
-  grid-column: 3/4;
-  width: 3ch;
-  text-align: end;
-  margin-bottom: 2px;
-  margin-top: -0.2em;
-}
-.setting input {
-  grid-column: 2/3;
-  width: 100px;
-}
+  .CFGcontrols button:hover {
+    border-color: black;
+  }
+  .CFGcontrols input {
+    background-color: rgb(33, 33, 33);
+    color: white;
+    height: 1.3lh;
+    font-size: 15px;
+  }
+  .CFGcontrols input::placeholder {
+    color: rgb(195, 195, 195);
+  }
+  /* ^ This changes ALL/Navbar Buttons, should be moved before main branch merge ^ */
 
-.setting button {
-  background-color: black;
-  grid-column: 2/3;
-  width: 50%;
-  align-self: center;
-  justify-self: center;
-  padding: 0;
-}
-.CFGcontrols {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-content: space-around;
-  justify-content: space-between;
-  width: 90vw;
-}
+  .settingsBox {
+    display: grid;
+    align-items: center;
+    row-gap: 4px;
+  }
+  .setting {
+    display: contents;
+  }
+  .setting .setting-name {
+    grid-column: 1/2;
+    margin: 2px;
+    margin-top: -0.2em;
+  }
+  .settingsBox > .setting:first-child > .setting-name {
+    margin-bottom: 0.2em;
+  }
+  .gear {
+    background-color: rgba(64, 63, 63, 0.8);
+  }
+  .gear.open {
+    background-color: rgba(64, 63, 63, 0);
+  }
+  .setting .setting-val {
+    grid-column: 3/4;
+    width: 3ch;
+    text-align: end;
+    margin-bottom: 2px;
+    margin-top: -0.2em;
+  }
+  .setting input {
+    grid-column: 2/3;
+    width: 100px;
+  }
 
-.outputBox > h2 {
-  padding-left: 10px;
-  padding-right: 10px;
-}
+  .setting button {
+    background-color: black;
+    grid-column: 2/3;
+    width: 50%;
+    align-self: center;
+    justify-self: center;
+    padding: 0;
+  }
+  .CFGcontrols {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: space-around;
+    justify-content: space-between;
+    width: 90vw;
+  }
 
-#root {
+  .outputBox > h2 {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+
+  .CFG_Prod_Candidates {
+    max-width: calc(100% - 60px - 2em);
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+#root:has(#CFG) {
   max-width: calc(100vw - 4rem);
-}
-.CFG_Prod_Candidates {
-  max-width: calc(100% - 60px - 2em);
-  display: flex;
-  flex-wrap: wrap;
 }

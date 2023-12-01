@@ -1,7 +1,6 @@
 import Node from "../components/Node";
 import { useEffect, useReducer, useRef, useState } from "react";
 import { v4 as uuid } from "uuid";
-import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import Xarrow, { Xwrapper } from "react-xarrows";
 
@@ -171,8 +170,7 @@ export default function DFA() {
   }, [highlightedNode, highlightedString]);
 
   return (
-    <>
-      <Navbar />
+    <div id="DFA">
       <Sidebar
         dispatch={dispatch}
         inputString={inputString}
@@ -245,6 +243,6 @@ export default function DFA() {
           );
         })}
       </Xwrapper>
-    </>
+    </div>
   );
 }

@@ -41,14 +41,17 @@
   color: white;
   border-radius: 8px;
   transition: ease-in-out 0.5s;
+  input {
+    background-color: rgb(33,33,33);
+    color: white
+  }
 }
 .editButton {
-  padding-left: 0px;
-  padding-right: 0px;
+  margin: 2px;
+  padding-left: 3px;
+  padding-right: 3px;
   font-size: 10px;
-  padding-bottom: 3px;
-}
-
-.editButtons {
+  color: white;
+  background-color: black;
   max-width: 100px;
 }

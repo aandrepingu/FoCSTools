@@ -27,7 +27,7 @@ export default function Sidebar({
 
   return (
     <>
-      <div className="flexBox">
+      <div className="flexBox sidebar">
         {show && (
           // <div className="sidebar" style={{ paddingLeft: "0px" }}>
           // <div style={{ paddingTop: "4px" }}>

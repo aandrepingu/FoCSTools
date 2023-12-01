@@ -39,3 +39,16 @@
 .read-the-docs {
   color: #888;
 }
+
+body {
+  font-weight: bold;
+  flex-direction: column;
+}
+
+.navbar button {
+  background-color: black;
+  color: white;
+}
+.navbar button:hover {
+  border-color: black;
+}

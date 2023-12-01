@@ -3,12 +3,10 @@ import "./CFG.css";
 
 export default function CFG() {
   const [count, setCount] = useState<number>(0);
-  const [langCount, setLangCount] = useState<number>(0);
   const [lang, setLang] = useState<string>("");
-  const [multLang, setMultLang] = useState<string[]>([]);
+  // const [multLang, setMultLang] = useState<string[]>([]);
   const [text, setText] = useState<string[]>([]);
   const [inputString, setInputString] = useState<string>("");
-  const [langText, setLangText] = useState<string[][]>([[]]);
   const [CFGOutArray, setCFGOutArray] = useState<Set<string>>(new Set());
   const [currentTextIndex, setCurrentTextIndex] = useState<number>(count - 1);
   const inputRef = useRef(new Array());
@@ -570,7 +568,7 @@ export default function CFG() {
   }
 
   return (
-    <>
+    <div id="CFG">
       <h2 className="CFG_Text_Div">Create a Context Free Grammar</h2>
       <div className="CFGcontrols">
         <div
@@ -589,6 +587,7 @@ export default function CFG() {
                 progress();
                 generate();
               }}
+              className="generate"
             >
               Generate
             </button>
@@ -720,6 +719,6 @@ export default function CFG() {
           ⚙️
         </button>
       </div>
-    </>
+    </div>
   );
 }
