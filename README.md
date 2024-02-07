@@ -1,2 +1,3 @@
 # FoCSTools
-Website for FoCS students
+Website for FoCS students to visualize models of computation.
+
